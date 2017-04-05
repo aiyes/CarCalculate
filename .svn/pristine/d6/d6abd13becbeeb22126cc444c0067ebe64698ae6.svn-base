@@ -1,0 +1,1671 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>投保询价</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/angularjs-datetime-picker.css"/>
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/ngDialog.css">
+    <link rel="stylesheet" href="css/ngDialog-theme-default.css">
+    <link rel="stylesheet" href="css/ngDialog-theme-plain.css">
+    <link rel="stylesheet" href="css/ngDialog-custom-width.css">
+    <link type="text/css" rel="stylesheet" href="css/pikaday.css"/>
+
+</head>
+<body ng-app="myApp" ng-controller="myController">
+<div id="content">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content tab-content">
+                        <!--快速检索-->
+                        <div class="widget-box">
+                            <div class="widget-title"><span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>快速检索</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post" name="quicklyQuery"
+                                      action="personal-issue.html" novalidate="novalidate">
+
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">车牌号：</label>
+
+                                            <div class="controls">
+                                                <input id="username" type="text" name="licenseNo"
+                                                       ng-model="quick.licenseNo" placeholder="车牌号"
+                                                         required />
+                                               <span style="color:red" ng-show="quicklyQuery.licenseNo.$dirty && quicklyQuery.licenseNo.$invalid">
+                                                <span ng-show="quicklyQuery.licenseNo.$error.required">车牌号不允许为空。</span>
+                                                </span>
+                                                <button type="button" class="btn btn-success" ng-click="query('lg')"
+                                                        ng-disabled="quicklyQuery.licenseNo.$invalid">搜 索
+                                                    </button>
+                                            </div>
+                                        </div>
+
+                                        <!--  //创建一个局部视图，需要的时候引用它， 下面会用到-->
+                                        <script type="text/ng-template" id="myModelContent.html">
+                                            <!--  // modal头部 。body  footer 类推-->
+                                            <div class="modal-header">
+                                                <h3 class="modal-title">最新历史数据保单</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!--<ul>-->
+                                                    <!--<li ng-repeat="item in items">-->
+                                                        <!--<a ng-click="selected.item = item">{{item}}</a>-->
+
+                                                    <!--</li>-->
+                                                    <!--当前选择： <b>{{selected.item}}</b>-->
+                                                <!--</ul>-->
+                                                <table   class="table table-bordered">
+                                                    <thead>
+                                                <tr class="odd gradeX">
+                                                    <th>选择</th>
+                                                    <th>保单号</th>
+                                                    <th>车牌号</th>
+                                                    <th>车架号</th>
+                                                    <th>保险起期</th>
+                                                    <th>保险止期</th>
+                                                </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                <tr class="odd gradeX text-right">
+                                                    <td><input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                                               ng-click="selected = items"/>
+                                                    </td>
+                                                    <th>{{items.policyNo}}</th>
+                                                    <th>{{items.licenseNo}}</th>
+                                                    <th>{{items.frameNo}}</th>
+                                                    <th>{{items.startDate}}</th>
+                                                    <th>{{items.endDate}}</th>
+                                                </tr>
+                                                    </tbody>
+                                                    </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary" ng-click="ok()">
+                                                    确认
+                                                </button>
+                                                <button class="btn btn-warning" ng-click="cancel()">退出</button>
+                                            </div>
+                                        </script>
+                                        <!--<div class="control-group control-group-inline">-->
+                                            <!--<label class="control-label">车架号：</label>-->
+
+                                            <!--<div class="controls">-->
+                                                <!--<input id="password" type="text" ng-model="mainInfo.carInfo.frameNo"-->
+                                                       <!--name="password" placeholder="车架号"/>-->
+                                                <!--<button type="button" class="btn btn-success" ng-click="query()">搜 索-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--被保人信息-->
+                        <div class="widget-box">
+                            <div class="widget-title"><span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>被保人信息</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post"
+                                      action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <!--<div class="control-group control-group-inline">-->
+                                        <!--<label class="control-label">被保人：</label>-->
+
+                                        <!--<div class="controls">-->
+                                        <!--<select ng-model="mainInfo.insuredList[1].insuredName">-->
+                                        <!--<option>&#45;&#45;请选择&#45;&#45;</option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span
+                                                    class="require-tips">*</span>客户类型：</label>
+
+                                            <div class="controls">
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1"
+                                                           value="1" checked
+                                                           ng-model="mainInfo.insuredList[1].insuredType">
+                                                    个人
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2"
+                                                           value="2" ng-model="mainInfo.insuredList[1].insuredType">
+                                                    团体
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>名称：</label>
+
+                                            <div class="controls">
+                                                <input type="text" ng-model="mainInfo.insuredList[1].insuredName"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>证件：</label>
+
+                                            <div class="controls">
+                                                <select ng-model="mainInfo.insuredList[1].identifyType">
+                                                    <option value="01" checked>身份证</option>
+                                                    <option value="02" checked>护照</option>
+                                                    <option value="03" checked>军人证</option>
+                                                    <option value="04" checked>港澳通行证</option>
+                                                    <option value="05" checked>驾驶证</option>
+                                                    <option value="06" checked>港澳回乡证或台胞证</option>
+                                                    <option value="07" checked>临时身份证</option>
+                                                    <option value="99" checked>其他</option>
+                                                </select>
+                                                <input id="idCard" ng-model="mainInfo.insuredList[1].identifyNumber"
+                                                       type="text" name="idCard" placeholder="证件号"/>
+                                                <button type="button" ng-click="insuredQuery()" class="btn btn-success">客户信息检索
+                                                </button>
+                                                <button type="button" class="btn btn-success disabled">修 改</button>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span
+                                                    class="require-tips">*</span>客户代码：</label>
+
+                                            <div class="controls">
+                                                <p ng-bind="mainInfo.insuredList[1].insuredCode"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="control-group"></div>
+
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span
+                                                    class="require-tips">*</span>联系方式：</label>
+
+                                            <div class="controls">
+                                                <!-- <select ng-model="contactSelect"><option value="phone">手机</option><option value="tel">家庭电话</option></select> -->
+                                                <input type="text" ng-model="mainInfo.insuredList[1].mobile"/>
+                                            </div>
+                                        </div>
+                                        <!--<div class="control-group control-group-inline">-->
+                                        <!--<label class="control-label"><span-->
+                                        <!--class="require-tips">*</span>出生日期：</label>-->
+
+                                        <!--<div class="controls">-->
+                                        <!--<div class="input-append date">-->
+                                        <!-- -->
+                                        <!--<input ng-model="mainInfo.insuredList[1].birthDay"-->
+                                        <!--class="datetimepicker"-->
+                                        <!--datetime-picker date-format="yyyy-MM-dd" size="16"-->
+                                        <!--date-only/> <br/> <br/> <br/>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span
+                                                    class="require-tips">*</span>出生日期：</label>
+
+                                            <div class="controls">
+                                                <div class="input-append date">
+
+                                                    <input ng-model="mainInfo.insuredList[1].birthDay" class="w180"
+                                                           datetime-picker date-format="yyyy-MM-dd" size="16"
+                                                           date-only/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>性别：</label>
+
+                                            <div class="controls">
+                                                <label class="radio inline">
+                                                    <input type="radio" name="sexRadios" id="optionsRadios1"
+                                                           value="1" checked ng-model="mainInfo.insuredList[1].sex">
+                                                    男
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" name="sexRadios" id="optionsRadios2"
+                                                           value="2" ng-model="mainInfo.insuredList[1].sex">
+                                                    女
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">联系人email：</label>
+
+                                            <div class="controls">
+                                                <input type="text" ng-model="mainInfo.insuredList[1].email"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">地址：</label>
+                                            <div class="controls">
+                                             <input type="text" class="w120" ng-model="mainInfo.insuredList[1].addressName"/>
+                                       		</div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                        <label class="control-label"> 邮编: <input class="w120" type="text" ng-model="mainInfo.insuredList[1].postCode"/></label>
+										</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                            <!--行驶证车主-->
+                            <div class="widget-box">
+                                <div class="widget-title"><span class="icon"> <i class="icon-list"></i> </span>
+                                    <h5>行驶证车主</h5>
+                                    <label class="checkbox inline"><span class="require-tips">*</span>同被保险人</label>
+                                    <label for="newCarFlag" class="checkbox inline">
+                                        <input type="checkbox" id="newCarFlag"
+                                               ng-model="toInsured" ng-true-value="1"
+                                               ng-false-value="0" ng-click="isSample(toInsured)"
+                                                >
+                                    </label>
+
+                                </div>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post"
+                                      action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>被保险人与车辆的关系：</label>
+
+                                            <div class="controls">
+                                                <select ng-model="mainInfo.carInfo.carInsureRelation">
+                                                    <option value="1">所有</option>
+                                                    <option value="2">使用</option>
+                                                    <option value="3">管理</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>名称：</label>
+
+                                            <div class="controls">
+                                                <input id="username" ng-model="mainInfo.insuredList[0].insuredName"
+                                                       type="text" name="username" placeholder="名称"/>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span
+                                                    class="require-tips">*</span>客户类型：</label>
+
+                                            <div class="controls">
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1"
+                                                           value="1" checked
+                                                           ng-model="mainInfo.insuredList[0].insuredType">
+                                                    个人
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2"
+                                                           value="2" ng-model="mainInfo.insuredList[0].insuredType">
+                                                    团体
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>证件：</label>
+
+                                            <div class="controls">
+                                                <select ng-model="mainInfo.insuredList[0].identifyType">
+                                                    <option value="01" checked>身份证</option>
+                                                    <option value="02" checked>护照</option>
+                                                    <option value="03" checked>军人证</option>
+                                                    <option value="04" checked>港澳通行证</option>
+                                                    <option value="05" checked>驾驶证</option>
+                                                    <option value="06" checked>港澳回乡证或台胞证</option>
+                                                    <option value="07" checked>临时身份证</option>
+                                                    <option value="99" checked>其他</option>
+                                                </select>
+                                                <input id="idCard" type="text" name="idCard" placeholder="证件号"
+                                                       ng-model="mainInfo.insuredList[0].identifyNumber"/>
+<!--                                                 <button type="button" ng-click="carOwnerQuery()"
+                                                        class="btn btn-success">客户信息检索
+                                                </button>
+                                                <button type="button" class="btn btn-success disabled">修 改</button> -->
+                                            </div>
+                                        </div>
+
+                                        <!--<div class="control-group control-group-inline">-->
+                                            <!--<label class="control-label"><span-->
+                                                    <!--class="require-tips">*</span>客户代码：</label>-->
+
+                                            <!--<div class="controls">-->
+                                                <!--<p ng-bind="mainInfo.insuredList[0].insuredCode"/>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span
+                                                    class="require-tips">*</span>出生日期：</label>
+
+                                            <div class="controls">
+                                                <div class="input-append date">
+                                                    <input ng-model="mainInfo.insuredList[0].birthDay"
+                                                           class="w180"
+                                                           datetime-picker date-format="yyyy-MM-dd" size="16"
+                                                           date-only/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>性别：</label>
+
+                                            <div class="controls">
+                                                <label class="radio inline">
+                                                    <input type="radio"
+                                                           value="1" checked ng-model="mainInfo.insuredList[0].sex">
+                                                    男
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio"
+                                                           value="2" ng-model="mainInfo.insuredList[0].sex">
+                                                    女
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+                    <!--其他定价信息-->
+                    <div class="widget-box">
+                        <div class="widget-title"><span class="icon"> <i class="icon-list"></i> </span>
+                            <h5>保险期限</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <form id="form-wizard" class="form-horizontal" method="post"
+                                  action="personal-issue.html">
+                                <div id="form-wizard-1" class="step">
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>交强险保险期限：</label>
+
+                                        <div class="controls">
+
+
+                                            <div class="input-append date">
+                                                <input ng-model="mainInfo.main.bzStartDate" class="datetimepicker"
+                                                       datetime-picker date-format="yyyy-MM-dd" size="16"
+                                                       date-only/>
+                                                <!--<span class="add-on"><i class="icon-calendar"></i></span>-->
+                                            </div>
+
+                                            <label class="help-inline"  > - </label>
+
+                                            <div class="input-append date" data-date="2016-07-22"
+                                                 data-date-format="yyyy-mm-dd">
+
+                                                <input ng-model="mainInfo.main.bzEndDate" class="datetimepicker"
+                                                       datetime-picker date-format="yyyy-MM-dd" size="16"
+                                                       date-only/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>商业险保险期限：</label>
+
+                                        <div class="controls">
+                                            <div class="input-append date" data-date="2016-07-22"
+                                                 data-date-format="yyyy-mm-dd">
+
+                                                <input ng-model="mainInfo.main.startDate" class="datetimepicker"
+                                                       datetime-picker date-format="yyyy-MM-dd" size="16"
+                                                       date-only/>
+                                            </div>
+                                            <label class="help-inline"> - </label>
+
+                                            <div class="input-append date" data-date="2016-07-22"
+                                                 data-date-format="yyyy-mm-dd">
+
+                                                <input ng-model="mainInfo.main.endDate" class="datetimepicker"
+                                                       datetime-picker date-format="yyyy-MM-dd" size="16"
+                                                       date-only/>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="control-group" ng-hide="true"> </div>
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label" style="width:200px;">跨省首年投保未出险证明年数：</label>
+
+                                        <div class="controls">
+                                            <label class="help-inline">交强险</label>
+                                            <input class="w120" id="password" type="text" name="password"
+                                                   ng-model="mainInfo.carInfo.noDamageYears"/>
+                                            <label class="help-inline">商业险</label>
+                                            <input class="w120" id="password" type="text" name="password"
+                                                   ng-model="mainInfo.carInfo.noDamageYears"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"  >是否投贷多年:</label>
+                                        <div class="controls">
+                                            <label for="creditFlag" class="checkbox inline">
+                                                <input type="checkbox" id="creditFlag"
+                                                       ng-model="mainInfo.carInfo.creditFlag" ng-true-value="1"
+                                                       ng-false-value="0"
+                                                        >
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--车辆信息-->
+                    <div class="widget-box">
+                        <div class="widget-title"><span class="icon"> <i class="icon-list"></i> </span>
+                            <h5>车辆信息</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <form id="form-wizard" class="form-horizontal" method="post"
+                                  action="personal-issue.html">
+                                <div id="form-wizard-1" class="step">
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>行驶证车辆类型：</label>
+
+                                        <div class="controls">
+                                            <select ng-model="mainInfo.carInfo.carType"
+                                                    ng-init="mainInfo.carInfo.carType=''">
+                                                <option>--请选择--</option>
+                                                <option value="K33">轿车</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>号牌种类：</label>
+
+                                        <div class="controls">
+                                            <select ng-model="mainInfo.carInfo.licenseType"
+                                                    ng-init="mainInfo.carInfo.licenseType=''">
+                                                <option>--请选择--</option>
+                                                <option value="01">大型汽车号牌</option>
+                                                <option value="02">小型汽车号牌</option>
+                                                <option value="03">使馆汽车号牌</option>
+                                                <option value="04">领馆汽车号牌</option>
+                                                <option value="05">境外汽车号牌</option>
+                                                <option value="06">外籍汽车号牌</option>
+                                                <option value="07">两、三轮摩托车号牌</option>
+                                                <option value="08">轻便摩托车号牌</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>使用性质：</label>
+
+                                        <div class="controls">
+                                            <select ng-model="mainInfo.carInfo.useNatureCode"
+                                                    ng-init="mainInfo.carInfo.useNatureCode=''">
+                                                <option value="">--请选择--</option>
+                                                <option value="8A">家庭自用</option>
+                                                <option value="8B">非营业企业</option>
+                                                <option value="8C">非营业党政机关，事业团体</option>
+                                                <option value="8D">非营业个人</option>
+                                                <option value="9A">营业出租租赁</option>
+                                                <option value="9B">营业城市公交</option>
+                                                <option value="9C">营业公路客运</option>
+                                                <option value="9D">营业货运</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>初次登记日期：</label>
+
+                                        <div class="controls">
+                                            <div class="input-append date">
+
+                                                <input ng-model="mainInfo.carInfo.enrollDate" class="w180"
+                                                       datetime-picker date-format="yyyy-MM-dd" size="16"
+                                                       date-only/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>厂牌型号：</label>
+
+                                        <div class="controls">
+                                            <input id="password" type="text" name="password"
+                                                   ng-model="mainInfo.carInfo.brandName"/>
+                                            <button type="button" ng-click="getVehicleModelQuery()"
+                                                    class="btn btn-success">车型查询
+                                            </button>
+                                            <select class="w642" ng-model="carInfo"
+                                                    ng-options="x.brandName+' '+x.marketDate for x in carInfoList"></select>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="control-group ">
+                                        <div class="controls">
+                                            <label
+                                                    class="help-inline"> 本地车型代码：</label>
+                                            <input id="password" class="w300" type="text" name="password" disabled="disabled"
+                                                   ng-model="carInfo.rbcode"/>
+                                            <label
+                                                    class="help-inline"> 平台车型代码：</label>
+                                            <input id="password" class="w300" type="text" name="password" disabled="disabled"
+                                                   ng-model="carInfo.platModelCode"/>
+                                            <label
+                                                    class="help-inline"> 平台车型名称：</label>
+                                            <input id="password" class="w300" type="text" name="password" disabled="disabled"
+                                                   ng-model="carInfo.platModelName"/>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span class="require-tips">*</span>车牌号：</label>
+
+                                        <div class="controls">
+                                            <input id="username" type="text" name="username" placeholder="车牌号"
+                                                   ng-model="mainInfo.carInfo.licenseNo"/>
+                                              新车：
+                                            <input type="checkbox" id="newCarFlag"
+                                            ng-model="mainInfo.carInfo.newCarFlag" ng-true-value="1"
+                                            ng-false-value="0"
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>发动机号：</label>
+
+                                        <div class="controls">
+                                            <input id="password" type="text" name="password" placeholder="发动机号"
+                                                   ng-model="mainInfo.carInfo.engineNo"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span class="require-tips">*</span>车架号：</label>
+
+                                        <div class="controls">
+                                            <input id="password" type="text" name="password" placeholder="车架号"
+                                                   ng-model="mainInfo.carInfo.frameNo"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group control-group-inline">
+                                        <label class="control-label"><span
+                                                class="require-tips">*</span>新车购置价：</label>
+
+                                        <div class="controls">
+                                            <input id="password" type="text" name="password" placeholder="新车购置价"
+                                                   ng-model="carInfo.purchasePrice"/>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label"><span
+                                            class="require-tips">*</span>车辆实际价值：</label>
+
+                                    <div class="controls">
+                                        <input id="password" type="text" name="password" placeholder="车辆实际价值"
+                                               ng-model="carInfo.actualValue" ng-change="changeAmount()" />
+                                    </div>
+                                </div>
+                                <div class="control-group" ng-hide="true"></div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label"><span
+                                            class="require-tips">*</span>车辆种类：</label>
+
+                                    <div class="controls">
+                                        <input id="password" type="text" name="password" class="w70"/>
+                                        <select class="w80" ng-model="mainInfo.carInfo.carKindCode"
+                                                id="CarKindCode" ng-init="mainInfo.carInfo.carKindCode='A0'">
+                                            <option value="?" selected="selected" title=""></option>
+                                            <option value="A0">客车</option>
+                                            <option value="G0">挂车</option>
+                                            <option value="H0">货车</option>
+                                            <option value="H1">低速载货汽车</option>
+                                        </select>
+                                        <!--<input id="password" type="text" class="w120" name="password"/>-->
+                                        <!--<select title="" class="w340">-->
+                                            <!--<option value="?" selected="selected" title=""></option>-->
+                                        <!--</select>-->
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label"><span
+                                            class="require-tips">*</span>能量类型：</label>
+
+                                    <div class="controls">
+                                        <select class="w160" ng-model="mainInfo.carInfo.fuleType"
+                                                ng-init="mainInfo.carInfo.fuleType='0'">
+                                            <option value="0">燃油</option>
+                                            <option value="1">纯电动</option>
+                                            <option value="2">燃气电池</option>
+                                            <option value="3">插电式混合动力</option>
+                                            <option value="4">其他混合动力</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label"><span
+                                            class="require-tips">*</span>核定座位数：</label>
+
+                                    <div class="controls">
+                                        <label class="help-inline">/</label>
+                                        <input id="password" type="text" name="password" class="w70"
+                                               ng-model="carInfo.seatCount"/>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label"><span
+                                            class="require-tips">*</span>核定载重量(吨)：</label>
+
+                                    <div class="controls">
+                                        <label class="help-inline">/</label>
+                                        <input id="password" type="text" name="password"
+                                               ng-model="carInfo.tonCount" ng-value="mainInfo.carInfo.vehicleTonnage"/>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">整备质量(吨)：</label>
+
+                                    <div class="controls">
+                                        <input id="password" type="text" name="password" class="w70"
+                                               ng-model="carInfo.vehicleWeight"/>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">功率(KW)：</label>
+
+                                    <div class="controls">
+                                        <input id="password" type="text" name="password" class="w70"/>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label"><span
+                                            class="require-tips">*</span>排气量(升)：</label>
+
+                                    <div class="controls">
+                                        <label class="help-inline">/</label>
+                                        <input id="password" type="text" name="password" class="w70"
+                                               ng-model="carInfo.exhaustCapacity"/>
+                                    </div>
+                                </div>
+
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">特殊车投保标志：</label>
+
+                                    <div class="controls">
+                                        <select ng-model="mainInfo.carInfo.specialCarFlag"
+                                                ng-init="mainInfo.carInfo.specialCarFlag='0'">
+                                            <option value="0">空</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--选择保障-->
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"> <i class="icon-list"></i> </span>
+                        <h5>选择保障</h5>
+                    </div>
+                    <div class="widget-content">
+                        <form id="form-wizard" class="form-horizontal" method="post"
+                              action="personal-issue.html">
+
+
+                            <div id="form-wizard-1" class="step">
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label"></label>
+
+                                    <div class="controls">
+                                        <label for="option1" class="checkbox">
+                                            <input id="isCompulsoryInsurance" type="checkbox" value="option1">交强险
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">保费(元):</label>
+
+                                    <div class="controls">
+                                        <input id="username" type="text" name="username"
+                                               ng-model="mainInfo.main.bzPremium"/>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">税款合计（元）:</label>
+
+                                    <div class="controls">
+                                        <input id="username" type="text" name="username"/>
+                                    </div>
+                                </div>
+                                <div id="compulsoryInsuranceInfo" class="control-group hide">
+                                    <div class="section">
+                                        <div class="h30" style="margin-top:-35px;">
+                                            <div class="fr w180">
+                               <span id="ctrl_isShowForceFactor"><span class="toggle plus"><i class="upright"></i><i
+                                       class="crossband"></i></span>
+                                  <label>
+                                      <span>交强险费率系数及险别</span>
+                                  </label>
+                               </span>
+                                            </div>
+                                        </div>
+                                        <div id="addInsuranceTypeInfo" class="panel-heading hide">
+                                            <div class="h30 bdb_d_888 mb10 mt5">
+                                                <div class="f12 fl fwb p5">交强险险别</div>
+                                            </div>
+                                            <div class="form-horizontal">
+                                                <div class="control-group control-group-inline">
+                                                    <label class="control-label">基准保费(元):</label>
+
+                                                    <div class="controls">
+                                                        <input type="text"
+                                                               ng-model="mainInfo.main.bzBenchmarkPremium"
+                                                               class="warn ng-pristine ng-valid" disabled="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="control-group control-group-inline">
+                                                    <label class="control-label">合计折扣:</label>
+
+                                                    <div class="controls">
+                                                        <input type="text" ng-model="mainInfo.main.bzDiscount"
+                                                               class="warn ng-pristine ng-valid" disabled="">
+                                                    </div>
+                                                </div>
+                                                <!--<div class="clearfix"></div>-->
+                                                <div class="control-group control-group-inline">
+                                                    <label class="control-label">有责事故记录:</label>
+
+                                                    <div class="controls">
+                                                        <select class="w120">
+                                                            <option></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group control-group-inline">
+                                                    <label class="control-label">有责事故记录系数:</label>
+
+                                                    <div class="controls">
+                                                        <input type="text" class="w120" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group control-group-inline">
+                                                    <label class="control-label">交通违法行为:</label>
+
+                                                    <div class="controls">
+                                                        <select class="w120" disabled="disabled">
+                                                            <option></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group control-group-inline">
+                                                    <label class="control-label">交通违法行为系数:</label>
+
+                                                    <div class="controls">
+                                                        <input type="text" class="w120" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-horizontal">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <tr class="odd gradeX">
+                                                            <th>险别</th>
+                                                            <th>赔偿限额(元)</th>
+                                                            <th>(无过错)赔偿限额(元)</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td style="text-align:center">死亡伤残</td>
+                                                            <td style="text-align:center"><input type="text"
+                                                                                                 disabled/></td>
+                                                            <td style="text-align:center"><input type="text"
+                                                                                                 disabled/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="text-align:center">医疗费用</td>
+                                                            <td style="text-align:center"><input type="text"
+                                                                                                 disabled/></td>
+                                                            <td style="text-align:center"><input type="text"
+                                                                                                 disabled/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="text-align:center">财产损失</td>
+                                                            <td style="text-align:center"><input type="text"
+                                                                                                 disabled/></td>
+                                                            <td style="text-align:center"><input type="text"
+                                                                                                 disabled/></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="compulsoryInsuranceType" class="panel-heading">
+                                            <div class="h30 bdb_d_888 mb10 mt5">
+                                                <div class="f12 fl fwb p5">车船税信息</div>
+                                                <div class="fr w120 p5">
+                                  <span id="ctrl_isShowTaxInfo"><span class="toggle plus"><i class="upright"></i><i
+                                          class="crossband"></i></span>
+                                  <label>
+                                      <span>车船税详细信息</span>
+                                  </label>
+                                  </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-horizontal">
+                                                <!-- 纳税类型-->
+                                                <div class="control-group" id="taxTypeTitle">
+                                                    <label class="control-label">纳税类型：</label>
+
+                                                    <div class="controls" id="taxType">
+                                                        <label class="radio inline">
+                                                            <input type="radio" name="optionsRadios"
+                                                                   id="optionsRadios1" value="3M" checked
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxItemCode">
+                                                            免税
+                                                        </label>
+                                                        <label class="radio inline">
+                                                            <input type="radio" name="optionsRadios"
+                                                                   id="optionsRadios2" value="1N"
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxItemCode">
+                                                            缴税
+                                                        </label>
+                                                        <label class="radio inline">
+                                                            <input type="radio" name="optionsRadios"
+                                                                   id="optionsRadios1" value="2W"
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxItemCode">
+                                                            已完税
+                                                        </label>
+                                                        <label class="radio inline">
+                                                            <input type="radio" name="optionsRadios"
+                                                                   id="optionsRadios2" value="4J"
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxItemCode">
+                                                            减税
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                                <!--
+                                                <div class="fr w120 p5 ng-hide" ng-show="ctrl.isLastYearVehicleTaxShow">
+                                                    <button class="btn btn-mini btn-primary" ng-click="quoteEvent.getLastYearVehicleTex()">上年缴税情况</button>
+                                                </div>
+                                                -->
+                                                <div class="control-group control-group-inline w642">
+                                                    <label class="control-label"
+                                                           style="width:200px;">完税凭证号（减免税证明号）：</label>
+
+                                                    <div class="controls">
+                                                        <input type="text" class="w160"
+                                                               ng-model="mainInfo.carShipTaxInfo.freeNo">
+                                                    </div>
+                                                </div>
+                                                <div class="control-group control-group-inline">
+                                                    <label class="control-label">开具税务机关：</label>
+
+                                                    <div class="controls">
+                                                        <input type="text" class="w160"
+                                                               ng-model="mainInfo.carShipTaxInfo.taxComName">
+                                                    </div>
+                                                </div>
+                                                <div id="addTaxInfo" class="hide">
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">年单位税额：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxDue">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">应缴税月份数：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">计税单位：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxUnit">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">前次纳税年度：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.payLastYear">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">前次交强险止期：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.hisPolicyEndDate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">纳税人识别号：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxPayerIdentifier">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">当年应缴（元）：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.taxActual">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">往年补缴（元）：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.previousPay">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group control-group-inline">
+                                                        <label class="control-label">滞纳金（元）：</label>
+
+                                                        <div class="controls">
+                                                            <input type="text" class="w160"
+                                                                   ng-model="mainInfo.carShipTaxInfo.lateFee">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="control-group">
+                                <div class="controls">
+                                    <label for="option1" class="checkbox">
+                                        <input id="isCommercialInsurance" type="checkbox" value="option1">商业险
+                                    </label>
+                                    <!--
+                                    <select><option>--请选择--</option><option>基本型</option><option>保障型</option><option>全面型</option>
+                                    <option>本田标配</option></select>
+                                    <label class="help-inline"> 当前选择套餐为：<span class="text-info">本田标配</span></label>
+                                    <span class="fwb help-block" style="color:red;">温馨提示：套餐推荐险别，为当前根据信息推荐。如录单信息发生变化，可能引起推荐险别套餐的变化，请重新选择推荐套餐</span>
+                                    -->
+                                </div>
+                            </div>
+                            <!--
+                            <div class="control-group" style="margin-top:-15px;">
+                              <div class="controls">
+                                <button type="button" class="btn btn-success">套餐设置</button>
+                                <button type="button" class="btn btn-success">另存为新套餐</button>
+                                <button type="button" class="btn btn-success">覆盖本套餐</button>
+                                <button type="button" class="btn btn-success">删除本套餐</button>
+                                <button type="button" class="btn btn-success">重置</button>
+                              </div>
+                            </div>
+                            -->
+                            <div id="commercialInsuranceInfo" class="control-group hide">
+                                <div class="section">
+
+                                    <div class="h30" style="margin-top:-35px;">
+                                        <div class="fr w120" ng-show="true">
+                               <span id="ctrl_isSYShowForceFactor"><span class="toggle plus" ng-class="extStates"><i
+                                       class="upright"></i><i class="crossband"></i></span>
+                                  <label>
+                                      <span>商业险费率因子</span>
+                                  </label>
+                               </span>
+                                        </div>
+                                    </div>
+
+                                    <div id="addSYRateInfo" class="panel-heading hide">
+                                        <div class="h30 bdb_d_888 mb10 mt5">
+                                            <div class="f12 fl fwb p5 mb5">商业险费率因子</div>
+                                        </div>
+                                        <div class="form-horizontal">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr class="odd gradeX">
+                                                    <th>因子</th>
+                                                    <th>档次</th>
+                                                    <th>数值</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td style="text-align:center">自主核保系数</td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:center">车损险绝对免赔额系数</td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:center">渠道系数</td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:center">无赔款优待系数</td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:center">交通违法系数</td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                    <td style="text-align:center"><input type="text" disabled/>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="h30 bdb_d_888 mb10 mt5">
+                                        <div class="f12 fl fwb p5 mb5">商业险险别</div>
+                                        <!--
+                                        <div class="fr w160 p5">
+                                            <span><span class="toggle plus" ng-class="extStates"><i class="upright"></i><i class="crossband"></i></span>
+                                              <label>
+                                                  <span>显示费率/基准保费</span>
+                                              </label>
+                                            </span>
+                                        </div>
+                                        -->
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <table id="tabInsSYType" class="table table-bordered">
+                                            <thead>
+                                            <tr class="odd gradeX">
+                                                <th>选择</th>
+                                                <th>险别</th>
+                                                <th>保险金额/赔偿限额</th>
+                                                <th>不计免赔</th>
+                                                <th>费率浮动系数</th>
+                                                <th>纯风险费率</th>
+                                                <th>基准保费</th>
+                                                <th>基准纯风险保费</th>
+                                                <th>保费</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr class="odd gradeX text-right">
+
+                                                        <td><input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                                                   ng-model="kind[0]"
+                                                                   />
+                                                        </td>
+                                                        <!--<td ng-hide="true"ng-bind="temp[0].itemKindList[0].KindCode" />-->
+                                                        <td class="text-center">机动车损失保险</td>
+                                                        <td>
+                                                            <table class="table">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>参考实际价值</td>
+                                                                    <td><input type="text" value=""
+                                                                               ng-model="temp[0].itemKindList[0].amount"
+                                                                               ng-value="mainInfo.carInfo.actualValue">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>协商实际价值</td>
+                                                                    <td><input type="text" value=""
+                                                                               ng-model="temp[0].itemKindList[0].amount1">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>车损险绝对免赔额</td>
+                                                                    <td><select
+                                                                            ng-model="temp[0].itemKindList[0].m1Value">
+                                                                        <option value="0">0</option>
+                                                                        <option value="300">300</option>
+                                                                        <option value="500">500</option>
+                                                                        <option value="1000">1000</option>
+                                                                        <option value="2000">2000</option>
+                                                                    </select></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td class="text-center"><input type="checkbox"
+                                                                                       ng-model="temp[0].itemKindList[0].deductableFlag"
+                                                                                       ng-true-value="1"
+                                                                                       ng-false-value="0"
+                                                                                       />
+                                                        </td>
+                                                        
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[0].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[0].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class="even gradeC">
+                                                        <td><input type="checkbox" value="002" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[1]"
+                                                                />
+                                                        </td>
+                                                        <td>机动车第三者责任保险</td>
+                                                        <td>赔偿限额(万)<select
+                                                                ng-model="temp[0].itemKindList[1].amount">
+                                                            <option value="50000">5</option>
+                                                            <option value="100000">10</option>
+                                                            <option value="150000">15</option>
+                                                            <option value="200000">20</option>
+                                                            <option value="300000">30</option>
+                                                            <option value="500000">50</option>
+                                                            <option value="1000000">100</option>
+                                                            <option value="1000000+">100+</option>
+                                                            <!--<option>5</option>-->
+                                                        </select></td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[1].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text"
+                                                                                  ng-model="temp[0].itemKindList[1].rateFactor"
+                                                                                  class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[1].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class="odd gradeA">
+                                                         <td><input type="checkbox" value="007" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[2]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td class="text-center">机动车全车盗抢保险</td>
+                                                        <td><label class="help-inline"> / </label><input type="text"
+                                                                                                         ng-model="temp[0].itemKindList[2].amount">
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[2].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[2].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[2].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class="even gradeA">
+                                                        <td><input type="checkbox" value="003" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[3]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td>机动车车上人员责任保险（司机）</td>
+                                                        <td><input type="text"
+                                                                   ng-model="temp[0].itemKindList[3].amount">
+                                                            元
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[3].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[3].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[3].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class="even gradeA">
+                                                        <td><input type="checkbox" value="006" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[4]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td>机动车车上人员责任保险（乘客）<br>
+                                                            <input type="text" class="w40 disabled" id="passengerCount"
+                                                                   ng-model="temp[0].itemKindList[4].quantity"/> 座* <input type="text"
+                                                                                                         class="w70"
+                                                                                                         id="passengerPer"
+                                                                                                         ng-model="passengerPer"
+                                                                                                         ng-init="passengerPer=10000"/>
+                                                            元/座
+                                                        </td>
+                                                        <td><input type="text" id="passengerAmount"
+                                                                   ng-model="temp[0].itemKindList[4].amount">
+                                                            元
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[4].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[4].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[4].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+
+                                                    <tr class=" " ng-show="kind[0]=='1'">
+                                                        <td><input type="checkbox" value="205" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[5]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td>机动车划痕损失险</td>
+                                                        <td><label class="help-inline">/</label><input type="text"
+                                                                                                       class="w40 disabled"
+                                                                                                       ng-model="temp[0].itemKindList[5].amount"/>
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[5].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[5].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[5].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class="" ng-show="kind[0]=='1'">
+                                                        <td><input type="checkbox" value="202" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[6]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td>自燃损失险</td>
+                                                        <td>元<label class="help-inline">/</label><input type="text"
+                                                                                                        class="w40 disabled"
+                                                                                                        ng-model="temp[0].itemKindList[6].amount"/>
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[6].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[6].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[6].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class=" " ng-show="kind[0]=='1'">
+                                                        <td><input type="checkbox" value="206" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[7]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td>发动机涉水损失险</td>
+                                                        <td></td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[7].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[7].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       g-model="temp[0].itemKindList[7].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class=" " ng-show="kind[0]=='1'">
+                                                        <td><input type="checkbox" value="210" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[8]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td>机动车损失保险无法找到第三方特约险</td>
+                                                        <td></td>
+                                                        <td class="center"></td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[8].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       g-model="temp[0].itemKindList[8].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="h30 bdb_d_888 mb10 mt5">
+                                                <div class="f12 fl fwb p5">
+                                <span id="ctrl_isShowOtherInfo"><span class="toggle plus"><i class="upright"></i><i
+                                        class="crossband"></i></span>
+                                  <label>
+                                      <span>其他附加险</span>
+                                  </label>
+                                </span>
+                                                </div>
+                                            </div>
+                                            <div id="addOtherInsInfo" class="form-horizontal hide">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <tr class="odd gradeX">
+                                                        <th>选择</th>
+                                                        <th>险别</th>
+                                                        <th>保险金额/赔偿限额</th>
+                                                        <th>不计免赔</th>
+                                                        <th>费率浮动系数</th>
+                                                        <th>纯风险费率</th>
+                                                        <th>基准保费</th>
+                                                        <th>基准纯风险保费</th>
+                                                        <th>保费</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class=" " ng-show="kind[0]=='1'">
+                                                        <td><input type="checkbox" value="211" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[9]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td class="text-center">指定修理厂险</td>
+                                                        <td></td>
+                                                        <td class="text-center"><input type="checkbox"
+                                                                                       ng-model="temp[0].itemKindList[9].deductableFlag"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[9].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[9].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class=" " ng-show="kind[0]=='1'">
+                                                        <td><input type="checkbox" value="203" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[10]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td>新增加设备损失险</td>
+                                                        <td>赔偿限额(万)<select
+                                                                ng-model="temp[0].itemKindList[10].amount">
+                                                            <option></option>
+                                                        </select></td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[10].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[10].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[10].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class="" ng-show="kind[1]=='1'">
+                                                        <td><input type="checkbox" value="208" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[11]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td class="text-center">车上货物责任险</td>
+                                                        <td><label class="help-inline"> / </label><input type="text"
+                                                                                                         ng-model="temp[0].itemKindList[11].amount">
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[11].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[11].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[11].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class="" ng-show="kind[1]=='1'">
+                                                        <td><input type="checkbox" value="215" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[12]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td> 精神损害抚慰金责任险</td>
+                                                        <td><input type="text"
+                                                                   ng-model="temp[0].itemKindList[12].amount">元
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[12].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[12].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[12].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    <tr class=" " ng-show="kind[0]=='1'">
+                                                        <td><input type="checkbox" value="207" ng-true-value="1"
+                                                                   ng-false-value="0" ng-model="kind[13]"
+                                                                  
+                                                                />
+                                                        </td>
+                                                        <td ng-hide="true"
+                                                            ng-bind="temp[0].itemKindList[13].KindCode"/>
+                                                        <td>修理期间费用补偿险<br><input type="text" class="w40 disabled"
+                                                                                id="seatCount"/> 座* <input type="text"
+                                                                                                           class="w70"
+                                                                                                           value="10000"
+                                                                                                           id="perAmount"/>
+                                                            元/座
+                                                        </td>
+                                                        <td><input type="text" id="fixAmount"
+                                                                   ng-model="temp[0].itemKindList[13].amount">
+                                                            元
+                                                        </td>
+                                                        <td class="center"><input type="checkbox"
+                                                                                  ng-model="temp[0].itemKindList[13].deductableFlag"/>
+                                                        </td>
+                                                        <td class="center"><input type="text" class="w70"
+                                                                                  ng-model="temp[0].itemKindList[13].rateFactor"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"
+                                                                                       ng-model="temp[0].itemKindList[13].benchMarkPremium"/>
+                                                        </td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                        <td class="text-center"><input type="text" class="w70"/></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <div id="addPremiumInfo" class="form-horizontal hide">
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">商业险基准保费（合计）：</label>
+
+                                    <div class="controls">
+                                        <input type="text" class="w70"/>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">合计折扣：</label>
+
+                                    <div class="controls">
+                                        <input type="text" class="w70"/>
+                                    </div>
+                                </div>
+                                <div class="control-group control-group-inline">
+                                    <label class="control-label">商业险保费（合计）：</label>
+
+                                    <div class="controls">
+                                        <input type="text" class="w70"/>
+                                    </div>
+                                </div>
+                                <div class="control-group w text-center">
+                                    <div class="bdb_d_888 mb10 mb5"></div>
+                                    <label class="help-inline">总合计保费(含税)：</label>
+                                    <strong class="cal-sum w120">0</strong>
+
+                                    <div id="status"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--特约及争议解决方式
+                <div class="widget-box">
+                  <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                    <h5>特约及争议解决方式</h5>
+                  </div>
+                  <div class="widget-content nopadding">
+                    <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                      <div id="form-wizard-1" class="step">
+                        <div class="control-group control-group-inline">
+                          <label class="control-label">争议解决方式：</label>
+                          <div class="controls">
+                            <label class="radio inline">
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="2" checked>
+                            诉讼
+                            </label>
+                            <label class="radio inline">
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                            仲裁
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+<div>
+    <div class="h30">
+        <div class="w h30 wrapper-bottom-buttons wrapper-bottom-buttons-bg"></div>
+        <div class="w tac wrapper-bottom-buttons fs0">
+            <button class="btn btn-success mt10">保存</button>
+
+            <div id="div-scope-watch-quotation" ext-trigger-bridge="{emit: true}" style="display: none;"></div>
+            <!-- 监听连平台数据对比回写 -->
+            <div id="div-scope-watch-compareDetail" ext-trigger-bridge="{emit: true}" style="display: none;"></div>
+            <!-- 监听缴税续保选择回写 -->
+            <div id="div-scope-watch-renewalAndC51DisTax" ext-trigger-bridge="{emit: true}"
+                 style="display: none;"></div>
+
+            <button type="button" ng-click="baojia()" class="btn btn-success mt10 ml5">申请报价</button>
+            <!--
+            <button class="btn btn-success mt10 ml5" disabled="disabled">发送报价单</button>
+            <button class="btn btn-success mt10 ml5" disabled="disabled">打印报价单</button>
+            <button class="btn btn-success mt10 ml5" disabled="disabled">通融申请</button>
+            <button class="btn btn-success mt10 ml5" disabled="disabled">查询告知单</button>
+            <button class="btn btn-success mt10 ml5">查看审核信息</button>
+            <button class="btn btn-success mt10 ml5 ng-scope">查看规则应用</button>
+            <button class="btn btn-success mt10 ml5">上传资料</button>
+            <button class="btn btn-success mt10 ml5 ng-hide" disabled="disabled">调节</button>
+            <button class="btn btn-success mt10 ml5 ng-hide" disabled="disabled">平台风险信息提示</button>
+            <div id="div-scope-watch-quoteUpload" ext-trigger-bridge="{emit: true}" style="display: none;"></div>
+            -->
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/personal-issue.js"></script>
+<!-- <script src="js/carModel.js"></script> -->
+<!--Picker-->
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<!-- pikaday -->
+<script type="text/javascript" src="js/pikaday.js"></script>
+<script type="text/javascript" src="js/pikaday.jquery.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/angularjs-datetime-picker.js"></script>
+<script src="js/ngDialog.js"></script>
+<script src="js/ui-bootstrap-tpls.js"></script>
+<script src="js/calculate.js"></script>
+
+</body>

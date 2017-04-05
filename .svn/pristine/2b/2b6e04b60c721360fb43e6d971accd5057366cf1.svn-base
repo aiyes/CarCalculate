@@ -1,0 +1,101 @@
+/**
+ * @author MarsCheng
+ * @email chengjie@sz.chinalife-p.com.cn
+ * 2016年8月25日
+ */
+package com.chinalife.sz.carcalculate.controller;
+
+
+import javax.mail.Session;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * @author MarsCheng
+ * @email chengjie@sz.chinalife-p.com.cn
+ * 2016年8月25日
+ */
+public class AdminInterceptor implements HandlerInterceptor {
+
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.HandlerInterceptor#preHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object)
+	 */
+	private static final String[] IGNORE_URI = {"/login.html","/js/","/css/","/img/","/favicon.ico","/images/","/font-awesome/","/user.login.action","/captcha.verifycode.action"};
+	
+	private static final String[] OUT_URI = {"/user-add.html","/user-manager.html"};
+	@Override
+	public boolean preHandle(HttpServletRequest request,
+			HttpServletResponse response, Object handler) throws Exception {
+		 String applicationName = "/"
+	                + request.getContextPath().split("/")[request.getContextPath().split("/").length - 1] + "/";
+	        String requestUrl = request.getRequestURL().toString();
+	        if (requestUrl.endsWith(applicationName)) {
+	            return true;
+	        }
+	        boolean flag = false;
+	        String url = request.getRequestURL().toString();
+	        for (String s : IGNORE_URI) {
+	            if (url.contains(s)) {
+	                flag = true;
+	                break;
+	            }
+	        }
+	        HttpSession session = request.getSession();
+	        
+	        if(session!=null){
+	        	String loginFlag = (String)session.getAttribute("login");
+	        	String userType = (String)session.getAttribute("userType");
+	        	if(loginFlag!=null&&userType!=null){
+	        	if(loginFlag.equals("success")){
+	        		if(userType.equals("1"))
+	        			flag=true;
+	        		else{
+	        			flag=true;
+	        			for (String s : OUT_URI) {
+	        				if (url.contains(s)) {
+	        	                flag = false;
+	        	                break;
+	        			}
+	        		}
+	        	}
+	        	}
+	        }
+	        }
+	        
+	        if (!flag) {
+	           response.sendRedirect("login.html");
+	           
+	        }
+	        return flag;
+	       
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.HandlerInterceptor#postHandle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.web.servlet.ModelAndView)
+	 */
+	@Override
+	public void postHandle(HttpServletRequest request,
+			HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.HandlerInterceptor#afterCompletion(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, java.lang.Exception)
+	 */
+	@Override
+	public void afterCompletion(HttpServletRequest request,
+			HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+}

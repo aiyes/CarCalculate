@@ -1,0 +1,21 @@
+package com.chinalife.sz.cc.combos.service.impl;
+
+import com.chinalife.sz.cc.combos.mapper.CombosSchemaMapper;
+import com.chinalife.sz.cc.combos.service.CombosSchemaService;
+import com.chinalife.sz.cc.model.combos.CombosSchemaDTO;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+/**
+ * Created by tianwei on 2016/12/23.
+ */
+@Service
+public class CombosSchemaServiceImpl implements CombosSchemaService {
+    @Resource
+    private CombosSchemaMapper combosSchemaMapper;
+    @Override
+    public void saveCombosSchema(CombosSchemaDTO combosSchemaDTO) {
+        combosSchemaMapper.saveCombosSchema(combosSchemaDTO);
+    }
+}

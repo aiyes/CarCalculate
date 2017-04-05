@@ -1,0 +1,70 @@
+package com.chinalife.sz.cc.domain;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Created by tianwei on 2016/7/20.
+ */
+public class VehicleModelResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1991308971802746228L;
+	private String RequestType;
+	private String carBlackFlag;
+	private String carGrayFlag;
+	private TMBVehicleInfoResponse TMBVehicleInfoEhm;
+	private List<VehicleModelDataResponse> VehicleModelDateEhmArr;
+
+	public String getRequestType() {
+		return RequestType;
+	}
+
+	@Override
+	public String toString() {
+		return "VehicleModelResponse{" +
+				"RequestType='" + RequestType + '\'' +
+				", carBlackFlag='" + carBlackFlag + '\'' +
+				", carGrayFlag='" + carGrayFlag + '\'' +
+				", TMBVehicleInfoEhm=" + TMBVehicleInfoEhm +
+				", VehicleModelDateEhmArr=" + VehicleModelDateEhmArr +
+				'}';
+	}
+
+	public void setRequestType(String requestType) {
+		RequestType = requestType;
+	}
+
+	public String getCarBlackFlag() {
+		return carBlackFlag;
+	}
+
+	public void setCarBlackFlag(String carBlackFlag) {
+		this.carBlackFlag = carBlackFlag;
+	}
+
+	public String getCarGrayFlag() {
+		return carGrayFlag;
+	}
+
+	public void setCarGrayFlag(String carGrayFlag) {
+		this.carGrayFlag = carGrayFlag;
+	}
+
+	public TMBVehicleInfoResponse getTMBVehicleInfoEhm() {
+		return TMBVehicleInfoEhm;
+	}
+
+	public void setTMBVehicleInfoEhm(TMBVehicleInfoResponse TMBVehicleInfoEhm) {
+		this.TMBVehicleInfoEhm = TMBVehicleInfoEhm;
+	}
+
+	public List<VehicleModelDataResponse> getVehicleModelDateEhmArr() {
+		return VehicleModelDateEhmArr;
+	}
+
+	public void setVehicleModelDateEhmArr(List<VehicleModelDataResponse> vehicleModelDateEhmArr) {
+		VehicleModelDateEhmArr = vehicleModelDateEhmArr;
+	}
+}

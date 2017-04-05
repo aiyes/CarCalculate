@@ -1,0 +1,78 @@
+package com.chinalife.sz.carcalculate.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.common.ServiceRequestID;
+import com.chinalife.sz.cc.model.user.UserInfoDTO;
+import com.prs.framework.core.exception.WebControllerException;
+import com.prs.framework.core.web.controller.util.WebUtils;
+
+/**
+ * 
+ * <p>Title: MainPageDispatcherController</p>
+ * <p>Description: controller </p>
+ * <p>Company: 紫川软件有限公司</p>
+ * @author sutanwei@purple-river.com
+ * @date 2016年1月16日
+ * @version 1.0
+ */
+@Controller
+public class UserManagerController {
+
+	/**
+	 * 日志管理
+	 */
+	private static Log logger = LogFactory.getLog(UserManagerController.class);
+	
+	/**
+	 * @Title: 登陆页面
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="user.login.action", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> userLogin (HttpServletRequest request, HttpServletResponse response) throws WebControllerException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userName = request.getParameter(Constants.USER_NAME);
+		String passWord = request.getParameter(Constants.PASS_WORD);
+		String verifycode = request.getParameter("verifycode");
+		logger.info("===============" + verifycode);
+		try {
+			String validateC = (String) request.getSession().getAttribute("validateCode");
+//			logger.info(verifycode + "=============" + validateC);
+			if(StringUtils.isNotEmpty(userName) && StringUtils.isNotEmpty(verifycode) 
+					&& validateC.equals(verifycode.toUpperCase())) {
+				model.put(Constants.USER_NAME, userName);
+				model = WebUtils.getResponseModel(model, ServiceRequestID.USER_LOGIN);	// 登陆返回结果
+				int message = (Integer)model.get(Constants.MESSAGE);
+				if(message == 0){					// 登陆成功
+					// 登陆信息需脱敏处理
+					UserInfoDTO dto = (UserInfoDTO)model.get(Constants.PARAM_DTO);
+					request.getSession(false).setAttribute(Constants.SESSION_USER_INFO, dto);
+				}
+			} else {								// 验证失败
+				logger.info("===============VALIDATE_CODE == " + verifycode + "=============" + validateC);
+				model.put(Constants.MESSAGE, 4);	
+			}
+		} catch (Exception e) {
+			throw new WebControllerException();
+		}
+		return model;
+	}	
+	
+}

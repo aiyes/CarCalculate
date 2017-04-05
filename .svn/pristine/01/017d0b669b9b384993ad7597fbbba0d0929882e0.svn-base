@@ -1,0 +1,99 @@
+package com.chinalife.sz.cc.model.common;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 
+ * <p>Title: Constants</p>
+ * <p>Description: TODO </p>
+ * <p>Company: 紫川软件有限公司</p>
+ * @author sutanwei@purple-river.com
+ * @date 2015年5月28日
+ * @version 1.0
+ */
+public interface Constants {
+	
+	public static final Map<String, Object> CACHE = new HashMap<String, Object>();
+	
+	public static final String ERROR = "ERROR";
+
+	public static final String PARAM_DTO = "dto";
+	
+	public static final String PARAM_MAIN_DTO = "maindto";
+	
+	public static final String PARAM_DTO_LIST = "dtoList";
+	
+	public static final String PARAM_DTO_MAP = "dtoMap";
+	
+	public static final String PARAM_RESULTLIST = "pagingDTO.resultList";
+	
+	public static final String PARAM_ID = "id";
+	
+	public static final String PARAM_ID2 = "id2";
+	
+	public static final String PARAM_PAGING = "pagingDTO";
+	
+	public static final String SESSION_USER_INFO = "sessionInfo";
+	
+	public static final String SESSION_CLIENT_USER = "sessionClentUser";
+	
+	public static final String SESSION_CLIENT_DEPT = "sessionClentDEPT";
+	
+	public static final String CODING = "coding"; 
+	
+	public static final String USER_NAME = "userName";
+	//用户代码
+	public static final String USER_CODE = "userCode";
+	
+	public static final String PASS_WORD = "passWord";
+	
+	//用户创建开始时间--用于用户信息查询
+	public static final String CREATE_BEGIN = "createBegin";
+	//用户创建结束时间--用于用户信息查询
+	public  static final String CREATE_END = "createEnd";
+	
+	public static final String DEPT = "dept";
+	
+	public static final String HANDLERCDE = "handlerCde";
+	
+	public static final String HANDLERNME = "handlerNme";
+	
+	
+	public static final String OLD_PASSWORD = "old_password";
+	
+	public static final String NEW_PASSWORD = "new_password";
+	
+	public static final String MESSAGE = "message";
+	
+	public static final int USER_PAGE_SIZE = 5;
+	
+	//登陆成功标志
+	public static final String STATUS = "status";
+	
+	//最大连接次数
+	public static final int  PERMITLOGINCOUNT = 5;
+	
+	//再次登录间隔时间
+	public static final long INTERVALMINUTE = 120;
+	//添加用户
+	public static final String ADD_USER = "carCalculate.add.user";
+	//更新用户
+	public static final String UPDATE_USER = "carCalculate.update.user";
+	//添加日志主表
+	public static final String ADD_LOG_MAIN = "carCalculate.log.main";
+	//获取菜单信息
+	public static final String MENU_LIST = "carCalculate.menu.list";
+
+	public static final String CURRENT_PAGE = "page";
+
+	//总页数
+	public static final String TOTAL_PAGES = "totalPages";
+
+
+
+	
+
+	
+	
+}

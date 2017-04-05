@@ -1,0 +1,9 @@
+#Ω”ø⁄≈‰÷√
+01=com.chinalife.sz.carcalculate.service.impl.SalesAgentInfoQueryService
+02=com.chinalife.sz.carcalculate.service.impl.CarPolicyQueryService
+03=com.chinalife.sz.carcalculate.service.impl.PolicyDataReuseService
+04=com.chinalife.sz.carcalculate.service.impl.VehicleModelQueryService
+05=com.chinalife.sz.carcalculate.service.impl.CardeviceRealPriceService
+06=com.chinalife.sz.carcalculate.service.impl.PremiumCalculateService
+07=com.chinalife.sz.carcalculate.service.impl.CustomerQueryService
+08=com.chinalife.sz.carcalculate.service.impl.GeneratePDFService

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- org.mybatis.generator:mybatis-generator-maven-plugin:1.3.1:generate 
+		-Dmybatis.generator.overwrite=true -->
+	<classPathEntry
+		location="E:/ThirdPartPlat_jar/oracle/oracle-jdbc-driver/11.0.2/oracle-jdbc-driver-11.0.2.jar" />
+	<context id="cyGenerator" targetRuntime="MyBatis3">
+		<!-- <plugin type="com.lycheepay.clearing.ms.app.common.util.RenameFileNamePlugin"> 
+			<property name="searchString" value="TBL_" /> <property name="replaceString" 
+			value="" /> <property name="prefix" value="" /> <property name="suffix" value="_SqlMap.xml" 
+			/> <property name="suffix" value="_SqlMap.xml" /> </plugin> -->
+		<!-- <plugin type="org.mybatis.generator.plugins.ToStringPlugin" /> -->
+		<!-- <plugin type="com.lycheepay.crs.common.plugin.AddAnnotationsAndImportsPlugin"> 
+			<property name="imports" value="org.soofa.mybatis.stereotype.SoofaMapper" 
+			/> <property name="annotations" value="@SoofaMapper" /> </plugin> -->
+
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@9.236.5.41:1521/tjfxdb" userId="clsz_test"
+			password="123456">
+			<!-- <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@dm01-scan.qirong.com.cn:1521/kftdb" 
+				userId="kftcl" password="kftpasswd"> -->
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- <javaModelGenerator targetPackage="com.chinalife.sz.cc.model.singleCert"
+			targetProject="CarCalculate-model/src/main/java">
+			<property name="enableSubPackages" value="false" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator> -->
+
+		<!-- <sqlMapGenerator targetPackage="biz"
+			targetProject="CarCalculate-app/src/main/resources">
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator> -->
+
+		<!-- <javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.chinalife.sz.cc.singleCert.mapper"
+			targetProject="CarCalculate-app/src/main/java">
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator> -->
+
+		<!-- Todo: add table here -->
+		<!-- <table tableName="TBL_PROVISIONS_ACC_DAY" domainObjectName="ProvisionsAccDay" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> </table> <table 
+			tableName="tbl_in_trans_day" domainObjectName="InTransDay" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false"> </table> <table tableName="tbl_balance_day" 
+			domainObjectName="BalanceDT" enableCountByExample="false" enableUpdateByExample="false" 
+			enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"> 
+			</table> <table tableName="TBL_LOCAL_NETT_CHECK" domainObjectName="LocalNettCheck" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> </table> <table 
+			tableName="TBL_OP_DAY_RECORD" domainObjectName="OpDayRecord" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false"> </table> <table tableName="TBL_CONFIG" domainObjectName="Config" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> </table> <table 
+			tableName="TBL_TRAN_FUNDS_LOG" domainObjectName="TranFundsLog" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false"> </table> -->
+		<!-- <table tableName="TBL_BANK_IDENTIFY_NUM" domainObjectName="BankIdentifyNum" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> </table> <table 
+			tableName="TBL_BANK_IDENTIFY_NUM_REVIEW" domainObjectName="BankIdentifyNumReview" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> </table> -->
+		<!-- <table tableName="SINGLE_CERT_USER" domainObjectName="SingleCertUser"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table> -->
+		 <table tableName="SINGLE_CERT_REV" domainObjectName="TttestSingleCertRev"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table> 
+	<!-- 	<table tableName="CHARGE_RULE" domainObjectName="chargeRoute"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table> -->
+		<!-- <table tableName="TBL_BANK_IDENTIFY_NUM_RECORD" domainObjectName="BankIdentifyNumRecord" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> </table> -->
+	</context>
+</generatorConfiguration>

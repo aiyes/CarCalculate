@@ -1,0 +1,225 @@
+package com.chinalife.sz.cc.user.service.impl;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.chinalife.sz.carcalculate.service.impl.SalesAgentInfoQueryService;
+import com.chinalife.sz.carcalculate.webservice.SalesAgentInfoQueryServiceStub.AgentEhm;
+import com.chinalife.sz.cc.menu.service.MenuService;
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.menu.MenuDTO;
+import com.chinalife.sz.cc.model.user.UserInfoDTO;
+import com.chinalife.sz.cc.user.action.impl.UserInfoActionImpl;
+import com.chinalife.sz.cc.user.mapper.UserInfoMapper;
+import com.chinalife.sz.cc.user.service.UserInfoService;
+import com.prs.framework.core.exception.BusinessException;
+import com.prs.framework.core.exception.BusinessServiceException;
+import com.prs.framework.util.DateUtil;
+
+/**
+ * <p>Title: AccidentFormService</p>
+ * <p>Description: 车险报价系统 </p>
+ * <p>Company: 中国人寿财产保险股份有限公司深圳市分公司</p>
+ * @author liangjihong@sz.chinalife-p.com.cn
+ * @date 2016年8月1日
+ * @version 1.0
+ */
+@Service
+@Transactional(rollbackFor = Exception.class)
+public class UserInfoServiceImpl implements UserInfoService{
+	
+	private static Log logger = LogFactory.getLog(UserInfoActionImpl.class);
+	@Resource
+	private UserInfoMapper userInfoMapper;
+	@Resource
+	private SalesAgentInfoQueryService salesService;
+
+	@Override
+	public int addUserInfo(UserInfoDTO dto)   throws BusinessException {
+		return userInfoMapper.addUserInfo(dto);
+	}
+
+	
+
+	
+
+	
+
+	@Override
+	public UserInfoDTO findUserInfoByUserCde(String userCde) {
+		return userInfoMapper.findUserInfoByUserCde(userCde);
+	}
+
+
+
+
+
+
+
+	@Override
+	public List<UserInfoDTO> findUserInfo(String userCde, String userNme,
+			String createBegin, String createEnd, String dept,
+			String handlerCde, String handlerNme, int startIndex, int endIndex)
+			throws BusinessException {
+		return userInfoMapper.findUserInfo(userCde, userNme, createBegin, createEnd, dept, handlerCde, handlerNme, startIndex, endIndex);
+	}
+
+
+
+
+
+
+
+	@Override
+	public int pageCounts(String userCde, String userNme, String createBegin,
+			String createEnd, String dept, String handlerCde, String handlerNme)
+			throws BusinessException {
+		return userInfoMapper.pageCounts(userCde, userNme, createBegin, createEnd, dept, handlerCde, handlerNme);
+	}
+
+
+
+	@Override
+	public int updateUserInfo(UserInfoDTO dto)  throws BusinessException {
+		return userInfoMapper.updateUserInfo(dto);
+	}
+
+	@Override
+	public int delUserInfoByUserCde(String userCde,String updMan)  throws BusinessException {
+		return userInfoMapper.delUserInfoByUserCde(userCde,updMan);
+	}
+	
+	@Override
+	public Map<String, Object> userLogin(String userName, String password) throws BusinessServiceException {
+		/*
+		 * 0、登陆成功/1、登陆失败/2、用户信息校验失败/3、其它错误 LAST_LOGIN_ERRDATE,LOGIN_ERR_COUNT
+		 */
+		Map<String, Object> model = new HashMap<String, Object>();
+		try{
+			if(StringUtils.isEmpty(userName)){
+				model.put(Constants.STATUS, 1);
+				return model;
+			}
+			
+			UserInfoDTO dto = userInfoMapper.userNameLogin(userName, password);
+			
+			if(dto != null){
+				if(dto.getUserStatus().equals("1")){//验证用户是否已失效
+				if(dto.getUserType()=='0'){
+				//校验业务员信息
+				String HandlerCode = dto.getHandlerCde();
+				String businessNature = dto.getBusinessNatureCde();
+				String temp[]=businessNature.split(":");
+				String businessNatureCode = temp[0];
+				String businessNatureName = temp[1];
+				model = salesService.SalesAgentInfoTest(HandlerCode,businessNatureCode,businessNatureName);
+				
+				String checkFlag = (String)model.get(Constants.SALESAGENTINFO_CHECK);
+				boolean flag = false;
+				
+				if(checkFlag.equals("success")){
+					
+					AgentEhm[] agentEhmList = (AgentEhm[])model.get(Constants.AGENT_INFO_LIST);
+					if(agentEhmList!=null){
+					for(AgentEhm agentEhm : agentEhmList ){
+						if(agentEhm.getAgentCode().equals(dto.getAgentCde())&&agentEhm.getAgentName().equals(dto.getAgentNme())&&
+								agentEhm.getPermitNo().equals(dto.getPermitNo())&&agentEhm.getAgreementNo().equals(dto.getAgreementNo())){
+							flag=true;
+							break;	
+						}
+					}
+					}
+					if(!flag){
+						model.clear();
+						model.put(Constants.SALESAGENTINFO_CHECK, "fail");
+						model.put(Constants.STATUS, 2);
+						return model;
+					}
+					logger.info("==========校验成功==========");
+					
+				}
+				else{
+					model.put(Constants.STATUS, 2);
+					return model;
+				} 
+				}
+				model.put(Constants.PARAM_DTO, dto);
+				model.put(Constants.STATUS, 0);
+				}
+				else{
+					model.put(Constants.STATUS, 4);
+				}
+			}
+			else {
+				model.put(Constants.STATUS, 1);
+			}
+		}catch (Exception e) {
+		// 其它错误，例如查询用户返回多条
+			model.put(Constants.STATUS, 3);
+			throw new BusinessServiceException(e);
+		}
+		return model;
+		/*int num = 1;
+		String polOrder = null;
+		try {
+			if(StringUtils.isEmpty(userName)) 
+				return num;
+		
+		    List<UserInfoDTO> list = userInfoMapper.userNameLogin(userName,password);
+		    if(list != null && !list.isEmpty()) {
+		    	for (UserInfoDTO dto : list) {
+			    	// 获取用户登录失败次数
+			    	int loginErrCount = dto.getLoginErrCount();
+
+			    	
+			    	// 已经达到允许登录失败的最大次数
+			    	if(Constants.PERMITLOGINCOUNT == loginErrCount) {
+			    		// 获取用户达到最大登陆次数的时间
+			    		Date lastLoginErrDate = dto.getLastLoginErrDate();
+			    		long minusDate = DateUtil.minusEndDateToStartDate(new Date(), lastLoginErrDate);
+			    		// 登陆间隔时间小于规定时间
+			    		if(minusDate < Constants.INTERVALMINUTE) {	
+			    			System.out.println("请" + Constants.INTERVALMINUTE + "分钟后再登陆!");
+			    			num = 2;
+			    		} else {	// 达到间隔时间后，登陆失败次数清0，视为第一次登陆
+			    			// 此处用户密码处理，该系统无密码
+			    			num = 0;
+			    			dto.setLoginErrCount(0);
+			    			userInfoMapper.updateInsuranceFormDTO(dto);
+			    		}
+			    	} else {		// 登陆失败次数小于最大的登陆次数,更新最后次登陆时间
+			    		// 此处用户密码处理，该系统无密码   == 您已经连续登陆失败1次，你还有4次登陆机会
+			    		num = 0;
+			    		dto.setLastLoginErrDate(new Date());
+			    		userInfoMapper.updateInsuranceFormDTO(dto);
+			    	}
+			    
+				}
+		    } else {			// 用户不存在
+		    	return num;
+		    }
+		} catch (Exception e) {
+			num = 3;			// 其它错误，例如查询用户返回多条
+			throw new BusinessServiceException(e);
+		}
+		return 0;*/
+	}
+
+	@Override
+	public int updatePassword(String userCode,
+			String md5oldPassword, String md5newPassword) {
+		return userInfoMapper.updatePassword(userCode,md5oldPassword,md5newPassword);
+	}	
+
+}

@@ -1,0 +1,17 @@
+
+import com.chinalife.sz.cc.service.ErrorResult;
+
+import java.util.concurrent.BlockingQueue;
+
+/**
+ * Created by tianwei on 2016/8/16.
+ */
+public class ThreadLocalTest {
+    public static void main(String[] args) {
+        ThreadLocal<BlockingQueue<String>> errorResult1 = ErrorResult.getErrorResult();
+        ThreadLocal<BlockingQueue<String>> errorResult2 = ErrorResult.getErrorResult();
+        System.out.println(errorResult1);
+        System.out.println(errorResult2);
+
+    }
+}

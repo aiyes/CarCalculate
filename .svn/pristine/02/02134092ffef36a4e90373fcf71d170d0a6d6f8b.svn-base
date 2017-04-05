@@ -1,0 +1,336 @@
+package com.chinalife.sz.cc.domain;
+
+import java.io.Serializable;
+
+/**
+ * Created by tianwei on 2016/7/20.
+ * 手续费计算
+ */
+public class PoundageCalculateResponse implements Serializable {
+	private double  constantExpenseRatio;
+	private double  constantExpense;
+	private double  nonSalesLaborRatio;
+	private double  nonSalesLabor;
+	private double  salesLaborRatio;
+	private double  salesLabor;
+	private double  branchReserveFeeRatio;
+	private double  branchReserveFee;
+	private double  variableExpenseRatio;
+	private double  variableExpense;
+	private double  salesExpenseHigh;
+	private double  poundageRatio;
+	private double  poundageFee;
+	private String  poundageType;
+	private double  runPoundageFee;
+	private double  runPoundageRatio;
+	private double  paymentRatio;
+	private double  poundagePool;
+	private double  totalCostRatio;
+	private double  totalCost;
+	private double  profitPremium;
+	private double  businessClaimRate;
+	private double  businessClaimRatePremium;
+	private String  isPoundageFlag;
+	private String  PolicySort;
+	private double  DefaultPremium;
+	private double  Benechmarkpremium;
+	private double  FinalPremium;
+	private double  businessTaxRatio;
+	private double  businessTax;
+	private double  businessExpenseRate;
+	private double  claimExpensePremium;
+
+	@Override
+	public String toString() {
+		return "PoundageCalculateResponse{" +
+				"constantExpenseRatio=" + constantExpenseRatio +
+				", constantExpense=" + constantExpense +
+				", nonSalesLaborRatio=" + nonSalesLaborRatio +
+				", nonSalesLabor=" + nonSalesLabor +
+				", salesLaborRatio=" + salesLaborRatio +
+				", salesLabor=" + salesLabor +
+				", branchReserveFeeRatio=" + branchReserveFeeRatio +
+				", branchReserveFee=" + branchReserveFee +
+				", variableExpenseRatio=" + variableExpenseRatio +
+				", variableExpense=" + variableExpense +
+				", salesExpenseHigh=" + salesExpenseHigh +
+				", poundageRatio=" + poundageRatio +
+				", poundageFee=" + poundageFee +
+				", poundageType='" + poundageType + '\'' +
+				", runPoundageFee=" + runPoundageFee +
+				", runPoundageRatio=" + runPoundageRatio +
+				", paymentRatio=" + paymentRatio +
+				", poundagePool=" + poundagePool +
+				", totalCostRatio=" + totalCostRatio +
+				", totalCost=" + totalCost +
+				", profitPremium=" + profitPremium +
+				", businessClaimRate=" + businessClaimRate +
+				", businessClaimRatePremium=" + businessClaimRatePremium +
+				", isPoundageFlag='" + isPoundageFlag + '\'' +
+				", PolicySort='" + PolicySort + '\'' +
+				", DefaultPremium=" + DefaultPremium +
+				", Benechmarkpremium=" + Benechmarkpremium +
+				", FinalPremium=" + FinalPremium +
+				", businessTaxRatio=" + businessTaxRatio +
+				", businessTax=" + businessTax +
+				", businessExpenseRate=" + businessExpenseRate +
+				", claimExpensePremium=" + claimExpensePremium +
+				'}';
+	}
+
+	public double getConstantExpenseRatio() {
+		return constantExpenseRatio;
+	}
+
+	public void setConstantExpenseRatio(double constantExpenseRatio) {
+		this.constantExpenseRatio = constantExpenseRatio;
+	}
+
+	public double getConstantExpense() {
+		return constantExpense;
+	}
+
+	public void setConstantExpense(double constantExpense) {
+		this.constantExpense = constantExpense;
+	}
+
+	public double getNonSalesLaborRatio() {
+		return nonSalesLaborRatio;
+	}
+
+	public void setNonSalesLaborRatio(double nonSalesLaborRatio) {
+		this.nonSalesLaborRatio = nonSalesLaborRatio;
+	}
+
+	public double getNonSalesLabor() {
+		return nonSalesLabor;
+	}
+
+	public void setNonSalesLabor(double nonSalesLabor) {
+		this.nonSalesLabor = nonSalesLabor;
+	}
+
+	public double getSalesLaborRatio() {
+		return salesLaborRatio;
+	}
+
+	public void setSalesLaborRatio(double salesLaborRatio) {
+		this.salesLaborRatio = salesLaborRatio;
+	}
+
+	public double getSalesLabor() {
+		return salesLabor;
+	}
+
+	public void setSalesLabor(double salesLabor) {
+		this.salesLabor = salesLabor;
+	}
+
+	public double getBranchReserveFeeRatio() {
+		return branchReserveFeeRatio;
+	}
+
+	public void setBranchReserveFeeRatio(double branchReserveFeeRatio) {
+		this.branchReserveFeeRatio = branchReserveFeeRatio;
+	}
+
+	public double getBranchReserveFee() {
+		return branchReserveFee;
+	}
+
+	public void setBranchReserveFee(double branchReserveFee) {
+		this.branchReserveFee = branchReserveFee;
+	}
+
+	public double getVariableExpenseRatio() {
+		return variableExpenseRatio;
+	}
+
+	public void setVariableExpenseRatio(double variableExpenseRatio) {
+		this.variableExpenseRatio = variableExpenseRatio;
+	}
+
+	public double getVariableExpense() {
+		return variableExpense;
+	}
+
+	public void setVariableExpense(double variableExpense) {
+		this.variableExpense = variableExpense;
+	}
+
+	public double getSalesExpenseHigh() {
+		return salesExpenseHigh;
+	}
+
+	public void setSalesExpenseHigh(double salesExpenseHigh) {
+		this.salesExpenseHigh = salesExpenseHigh;
+	}
+
+	public double getPoundageRatio() {
+		return poundageRatio;
+	}
+
+	public void setPoundageRatio(double poundageRatio) {
+		this.poundageRatio = poundageRatio;
+	}
+
+	public double getPoundageFee() {
+		return poundageFee;
+	}
+
+	public void setPoundageFee(double poundageFee) {
+		this.poundageFee = poundageFee;
+	}
+
+	public String getPoundageType() {
+		return poundageType;
+	}
+
+	public void setPoundageType(String poundageType) {
+		this.poundageType = poundageType;
+	}
+
+	public double getRunPoundageFee() {
+		return runPoundageFee;
+	}
+
+	public void setRunPoundageFee(double runPoundageFee) {
+		this.runPoundageFee = runPoundageFee;
+	}
+
+	public double getRunPoundageRatio() {
+		return runPoundageRatio;
+	}
+
+	public void setRunPoundageRatio(double runPoundageRatio) {
+		this.runPoundageRatio = runPoundageRatio;
+	}
+
+	public double getPaymentRatio() {
+		return paymentRatio;
+	}
+
+	public void setPaymentRatio(double paymentRatio) {
+		this.paymentRatio = paymentRatio;
+	}
+
+	public double getPoundagePool() {
+		return poundagePool;
+	}
+
+	public void setPoundagePool(double poundagePool) {
+		this.poundagePool = poundagePool;
+	}
+
+	public double getTotalCostRatio() {
+		return totalCostRatio;
+	}
+
+	public void setTotalCostRatio(double totalCostRatio) {
+		this.totalCostRatio = totalCostRatio;
+	}
+
+	public double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public double getProfitPremium() {
+		return profitPremium;
+	}
+
+	public void setProfitPremium(double profitPremium) {
+		this.profitPremium = profitPremium;
+	}
+
+	public double getBusinessClaimRate() {
+		return businessClaimRate;
+	}
+
+	public void setBusinessClaimRate(double businessClaimRate) {
+		this.businessClaimRate = businessClaimRate;
+	}
+
+	public double getBusinessClaimRatePremium() {
+		return businessClaimRatePremium;
+	}
+
+	public void setBusinessClaimRatePremium(double businessClaimRatePremium) {
+		this.businessClaimRatePremium = businessClaimRatePremium;
+	}
+
+	public String getIsPoundageFlag() {
+		return isPoundageFlag;
+	}
+
+	public void setIsPoundageFlag(String isPoundageFlag) {
+		this.isPoundageFlag = isPoundageFlag;
+	}
+
+	public String getPolicySort() {
+		return PolicySort;
+	}
+
+	public void setPolicySort(String policySort) {
+		PolicySort = policySort;
+	}
+
+	public double getDefaultPremium() {
+		return DefaultPremium;
+	}
+
+	public void setDefaultPremium(double defaultPremium) {
+		DefaultPremium = defaultPremium;
+	}
+
+	public double getBenechmarkpremium() {
+		return Benechmarkpremium;
+	}
+
+	public void setBenechmarkpremium(double benechmarkpremium) {
+		Benechmarkpremium = benechmarkpremium;
+	}
+
+	public double getFinalPremium() {
+		return FinalPremium;
+	}
+
+	public void setFinalPremium(double finalPremium) {
+		FinalPremium = finalPremium;
+	}
+
+	public double getBusinessTaxRatio() {
+		return businessTaxRatio;
+	}
+
+	public void setBusinessTaxRatio(double businessTaxRatio) {
+		this.businessTaxRatio = businessTaxRatio;
+	}
+
+	public double getBusinessTax() {
+		return businessTax;
+	}
+
+	public void setBusinessTax(double businessTax) {
+		this.businessTax = businessTax;
+	}
+
+	public double getBusinessExpenseRate() {
+		return businessExpenseRate;
+	}
+
+	public void setBusinessExpenseRate(double businessExpenseRate) {
+		this.businessExpenseRate = businessExpenseRate;
+	}
+
+	public double getClaimExpensePremium() {
+		return claimExpensePremium;
+	}
+
+	public void setClaimExpensePremium(double claimExpensePremium) {
+		this.claimExpensePremium = claimExpensePremium;
+	}
+}

@@ -1,0 +1,149 @@
+package com.chinalife.sz.carcalculate.controller;
+
+import com.chinalife.sz.cc.domain.*;
+import com.chinalife.sz.cc.service.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Created by tianwei on 2016/7/21.
+ */
+@Controller
+public class JSONController {
+	//	private static ThreadLocal<BlockingQueue<String>>  errorResult= new ThreadLocal<BlockingQueue<String>>();
+	@Autowired
+	private WebUtils webUtils;
+	public static ConcurrentHashMap<String,byte[]> concurrentHashMap=new ConcurrentHashMap<String,byte[]>();
+
+	//	下载pdf
+	@RequestMapping(value = "/download/{demandNo}", method = RequestMethod.GET)
+	public void downLoadFile(@PathVariable("demandNo")  String  demandNo,
+							 HttpServletResponse response) {
+		try {
+			// get your file as InputStream
+//			InputStream is = new FileInputStream(new File("D:/pdf/V0101GPIC440316001472782560503.pdf"));
+			ByteArrayInputStream is = new ByteArrayInputStream(concurrentHashMap.get(demandNo));
+			// copy it to response's OutputStream
+			org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+			concurrentHashMap.remove(demandNo);
+			response.flushBuffer();
+		} catch (IOException ex) {
+//			log.info("Error writing file to output stream. Filename was '{}'", fileName, ex);
+			throw new RuntimeException("IOError writing file to output stream");
+		}
+
+	}
+	//	生成pdf
+	@RequestMapping(value = "/car/generatePDF/{demandNo}/{id}", method = RequestMethod.POST)
+	public void generatePDF(@RequestBody PremiumCalculateRequest mainInfo,  @PathVariable("demandNo")  String  demandNo,@PathVariable("id") String id,HttpServletResponse response){
+//		ByteArrayInputStream bis ;
+		Map<String,byte[]> map=new HashMap<String,byte[]>();
+
+		map=webUtils.submit(mainInfo,id,map);
+		byte[] byteses = map.get(demandNo);
+		map.clear();
+		concurrentHashMap.put(demandNo,byteses);
+	}
+
+
+
+	//信息查询  已废弃
+	@RequestMapping(value = "/car/getCustomerInfo/{id}", method = RequestMethod.POST,produces = "application/json;charset:utf-8")
+	@ResponseBody
+	public PrpDcustomerIdvSchemaResponse getCustomerInfo(@RequestBody CustomerRequest customer, @PathVariable("id") String id,HttpServletResponse response) throws IOException {
+		org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(this.getClass());
+//		logger.info("***********************************************************:" + customer.getCustomerCName());
+		customer.setRequestType("5");
+		customer.setComCode("44030000");
+		PrpDcustomerIdvSchemaResponse customerResponse = new PrpDcustomerIdvSchemaResponse();
+		customerResponse=webUtils.submit(customer, id, customerResponse);
+		System.out.println(customerResponse);
+		return customerResponse;
+	}
+	//保单查询
+	@ResponseBody
+	@RequestMapping(value="/car/getCarPolicyInfo/{id}",method = RequestMethod.POST)
+	public CarPolicyQueryResponse getCarPolicyInfo(@RequestBody CarPolicyRequest carPolicyRequest,@PathVariable("id") String id ){
+
+		carPolicyRequest.setRequestType("5");
+
+		CarPolicyQueryResponse  carPolicyResponse =  new CarPolicyQueryResponse();
+
+		carPolicyResponse=webUtils.submit(carPolicyRequest,id,carPolicyResponse);
+		System.out.println(carPolicyResponse);
+		return carPolicyResponse;
+	}
+	//保费计算
+	@RequestMapping(value="/car/premiumCalculate/{id}",method = RequestMethod.POST)
+	public @ResponseBody PremiumCalculateResponse premiumCalculate(@RequestBody PremiumCalculateRequest mainInfo, @PathVariable("id") String id,HttpServletResponse resp)  {
+		int i = new Double(Double.parseDouble(mainInfo.getCarInfo().getCompleteKerbMass())).intValue();
+		mainInfo.getCarInfo().setCompleteKerbMass(Integer.toString(i));
+		System.out.println(mainInfo);
+		PremiumCalculateResponse premiumCalculate= new PremiumCalculateResponse();
+//		CombosDataResponse combosDataResponse = new CombosDataResponse();
+
+		premiumCalculate=webUtils.submit(mainInfo,id,premiumCalculate);
+
+		if(premiumCalculate==null){
+			resp.setStatus(406);
+		}
+		else{
+			if(premiumCalculate.getErrorMessage()!=null){
+				resp.setStatus(405);
+			}
+		}
+
+
+		//resp.setStatus(404);
+		//resp.sendError();
+		return premiumCalculate;
+	}
+	//车型查询
+	@RequestMapping(value="/car/getVehicleModelList/{id}",method = RequestMethod.POST)
+	public @ResponseBody VehicleModelResponse getVehicleModelList(@RequestBody VehicleModelRequest vehicelModel,@PathVariable("id") String id,HttpServletResponse response){
+		System.out.println(vehicelModel);
+		VehicleModelResponse vehicleModelResponse = new VehicleModelResponse();
+		vehicleModelResponse = webUtils.submit(vehicelModel, id, vehicleModelResponse);
+		System.out.println(vehicleModelResponse);
+		if(vehicleModelResponse==null){
+			response.setStatus(406);
+		}
+		return vehicleModelResponse;
+	}
+	//历史数据复用
+	@RequestMapping(value="/car/policyReuse/{id}",method = RequestMethod.POST)
+	public @ResponseBody PolicyDataReuseResponse policyReuse(@RequestBody PolicyDataReuseRequest policy,@PathVariable("id") String id,HttpServletResponse resp){
+		System.out.println(policy);
+		PolicyDataReuseResponse  response = new PolicyDataReuseResponse();
+		response=webUtils.submit(policy,id,response);
+//		ItemKindDataRequest[] itemKindDataEhmArr = response.getItemKindDataEhmArr();
+//		for(ItemKindDataRequest item:itemKindDataEhmArr){
+//			System.out.println(item.getKindCode()+":"+item.getKindName());
+//		}
+		if(response==null){
+			resp.setStatus(406);
+		}
+		return response;
+	}
+	//	销售信息
+	@RequestMapping(value = "/car/getMarketInfo/{id}",method = RequestMethod.POST)
+	public @ResponseBody MainResponse getMarketInfo(@RequestBody MainInfoRequest mainInfo,@PathVariable("id") String id){
+		System.out.println(mainInfo);
+		MainResponse response = new MainResponse();
+		response=webUtils.submit(mainInfo,id,response);
+		System.out.println(response);
+		return  response;
+	}
+
+/*	public static ThreadLocal<BlockingQueue<String>> getErrorResult() {
+		return null;
+	}*/
+}

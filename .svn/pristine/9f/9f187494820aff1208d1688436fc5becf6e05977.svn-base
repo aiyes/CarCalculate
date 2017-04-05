@@ -1,0 +1,404 @@
+package com.chinalife.sz.cc.user.action.impl;
+
+
+import com.chinalife.sz.carcalculate.service.impl.SalesAgentInfoQueryService;
+import com.chinalife.sz.carcalculate.webservice.SalesAgentInfoQueryServiceStub.AgentEhm;
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.common.ResponseCode;
+import com.chinalife.sz.cc.model.common.ServiceRequestID;
+import com.chinalife.sz.cc.model.user.UserInfoDTO;
+import com.chinalife.sz.cc.user.action.UserInfoAction;
+import com.chinalife.sz.cc.user.service.UserInfoService;
+import com.prs.framework.core.biz.action.support.annotation.ActionHandler;
+import com.prs.framework.core.biz.action.support.annotation.HandleRquest;
+import com.prs.framework.core.common.model.ServiceRequest;
+import com.prs.framework.core.common.model.ServiceResponse;
+import com.prs.framework.core.exception.BusinessServiceException;
+import com.prs.framework.util.MD5Util;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+//import com.chinalife.sz.carcalculate.webservice.SalesAgentInfoQueryServiceStub.AgentEhm;
+
+@ActionHandler
+public class UserInfoActionImpl implements UserInfoAction {
+	private static Log logger = LogFactory.getLog(UserInfoActionImpl.class);
+
+	@Resource
+	private UserInfoService userInfoService;
+	@Resource
+	private SalesAgentInfoQueryService salesService;
+
+	
+	/*
+	 * 添加用户信息
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#addUserInfo(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@HandleRquest(ServiceRequestID.USER_ADD)
+	public ServiceResponse addUserInfo(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		UserInfoDTO dto = (UserInfoDTO) model.get(Constants.ADD_USER);
+//		logger.info("===>dto:" + dto);
+		char userType = dto.getUserType();
+		String businessNature = dto.getBusinessNatureCde();
+		String temp[]=businessNature.split(":");
+		String businessNatureCode = temp[0];
+		String businessNatureName = temp[1];
+		
+		dto.setBusinessNatureCde(businessNatureCode);
+		dto.setBusinessNatureNme(businessNatureName);
+		String channel[]=dto.getChannelType().split(":");
+		dto.setChannelType(channel[0]);
+		dto.setChannelName(channel[1]);
+		
+		if(userType=='0'){
+		//校验业务员信息
+		String HandlerCode = dto.getHandler1Cde();
+		model = salesService.SalesAgentInfoTest(HandlerCode,businessNatureCode,businessNatureName);
+		
+		String checkFlag = (String)model.get(Constants.SALESAGENTINFO_CHECK);
+		boolean flag = false;
+		
+		if(checkFlag.equals("success")){
+			
+			AgentEhm[] agentEhmList = (AgentEhm[])model.get(Constants.AGENT_INFO_LIST);
+			if(agentEhmList!=null){
+			for(AgentEhm agentEhm : agentEhmList ){
+				if(agentEhm.getAgentCode().equals(dto.getAgentCde())&&agentEhm.getAgentName().equals(dto.getAgentNme())&&
+						agentEhm.getPermitNo().equals(dto.getPermitNo())&&agentEhm.getAgreementNo().equals(dto.getAgreementNo())){
+					flag=true;
+					break;	
+				}
+			}
+			}
+			else{
+				if(businessNatureCode.equals("0")){
+					flag=true;
+				}
+			}
+			if(!flag){
+				model.clear();
+				model.put(Constants.SALESAGENTINFO_CHECK, "fail");
+				serviceResponse.setModel(model);
+				return serviceResponse;
+			}
+			logger.info("==========校验成功==========");
+			
+		}
+		else{
+			logger.info("==========校验失败==========");
+			serviceResponse.setModel(model);
+			return serviceResponse;
+		}
+		}
+		
+		
+		//密码做md5加密处理
+		String md5Password = MD5Util.getMd5Str(dto.getPassword());
+		dto.setPassword(md5Password);
+//		logger.info("===>password:" + md5Password);
+
+		if (dto == null)
+			throw new BusinessServiceException("用户信息为空，添加用户信息出错");
+
+		try {
+			userInfoService.addUserInfo(dto);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_SUCCESS);
+			serviceResponse.setSuccess(true);
+		} catch (Exception ex) {
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_FAILURE);
+			throw new BusinessServiceException(ex.getMessage());
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+	
+	/*
+	 * 查找用户信息
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#findUserInfoByUserCde(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	@HandleRquest(ServiceRequestID.USERINFO_FIND)
+	public ServiceResponse findUserInfo(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		String userCde = (String) model.get(Constants.USER_CODE);
+		String userNme = (String) model.get(Constants.USER_NAME);
+		String createBegin = (String) model.get(Constants.CREATE_BEGIN);
+		String createEnd = (String)model.get(Constants.CREATE_END);
+		String dept = (String)model.get(Constants.DEPT);
+		String handler1Cde =(String)model.get(Constants.HANDLER1CDE);
+		String handler1Nme = (String)model.get(Constants.HANDLER1NME);
+		
+//		logger.info("===>createBegin:" + createBegin);
+//		logger.info("===>createEnd"+createEnd);
+		
+//		if (StringUtils.isEmpty(userCde)) {
+//			throw new BusinessServiceException("用户代码为空，查找用户信息出错");
+//		}
+		//当前页数
+		int page = (Integer)model.get(Constants.CURRENT_PAGE);
+				
+		//分页起始条数
+		int startIndex;
+		//分页终止条数
+		int endIndex=0;
+		
+		try{
+			model.clear();
+			int pageAllCounts = userInfoService.pageCounts(userCde, userNme, createBegin, createEnd, dept, handler1Cde, handler1Nme);
+			//总页数
+			double size = (double)pageAllCounts/Constants.USER_PAGE_SIZE;
+			int pageSize = (int)Math.ceil(size);
+			model.put(Constants.TOTAL_PAGES, pageSize);
+			
+			if(page!=pageSize){ //判断是否是最后一页
+				startIndex = (page-1)*Constants.USER_PAGE_SIZE;
+				endIndex  = page*Constants.USER_PAGE_SIZE-1;
+			}
+			else
+				startIndex = (page-1)*Constants.USER_PAGE_SIZE; 
+			List<UserInfoDTO> dtos=userInfoService.findUserInfo(userCde,userNme,createBegin,createEnd,dept,handler1Cde,handler1Nme,startIndex,endIndex);
+			SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
+			for(int i=0;i<dtos.size();i++){
+				Date crtTM = dtos.get(i).getCrtTM();
+				Date updTM = dtos.get(i).getUpdTM();
+				String crtTMString = sFormat.format(crtTM);
+				String updTMString = sFormat.format(updTM);
+				dtos.get(i).setCrtTime(crtTMString);
+				dtos.get(i).setUpdTime(updTMString);
+			}
+			
+			
+			model.put(Constants.PARAM_DTO_LIST, dtos);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_SUCCESS);
+			serviceResponse.setModel(model);
+			
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_FAILURE);
+			throw new BusinessServiceException("=====》》查找客户信息出错");
+		}
+		logger.info("===>model:" + model);
+		return serviceResponse;
+	}
+	
+	/**
+	 * 根据用户ID查找用户信息
+	 */
+	@Override
+	@HandleRquest(ServiceRequestID.USERINFO_FIND_BY_USERCDE)
+	public ServiceResponse findUserInfoByUserCde(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		String userCde = (String) model.get(Constants.USER_CODE);
+		
+		try{
+			model.clear();
+			UserInfoDTO dto=userInfoService.findUserInfoByUserCde(userCde);
+			dto.setBusinessNatureCde(dto.getBusinessNatureCde()+":"+dto.getBusinessNatureNme());
+			dto.setChannelType(dto.getChannelType()+":"+dto.getChannelName());
+			
+			
+			model.put(Constants.PARAM_DTO, dto);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_SUCCESS);
+			serviceResponse.setModel(model);
+			
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_FAILURE);
+			throw new BusinessServiceException("=====》》查找客户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+		
+	}
+
+	/*
+	 * 更新客户信息
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#updateUserInfo(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	@HandleRquest(ServiceRequestID.USERINFO_UPDATE)
+	public ServiceResponse updateUserInfo(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		UserInfoDTO dto = (UserInfoDTO) model.get(Constants.UPDATE_USER);
+		String businessNature = dto.getBusinessNatureCde();
+		String temp[]=businessNature.split(":");
+		String businessNatureCode = temp[0];
+		String businessNatureName = temp[1];
+		dto.setBusinessNatureCde(businessNatureCode);
+		dto.setBusinessNatureNme(businessNatureName);
+		
+		String channel[]=dto.getChannelType().split(":");
+		dto.setChannelType(channel[0]);
+		dto.setChannelName(channel[1]);
+		
+		try{
+			char userType = dto.getUserType();
+			model.clear();
+			if(userType=='0'){
+			//校验业务员信息
+			String HandlerCode = dto.getHandler1Cde();
+
+			model = salesService.SalesAgentInfoTest(HandlerCode,businessNatureCode,businessNatureName);
+			
+			String checkFlag = (String)model.get(Constants.SALESAGENTINFO_CHECK);
+			boolean flag = false;
+			
+			if(checkFlag.equals("success")){
+				
+				AgentEhm[] agentEhmList = (AgentEhm[])model.get(Constants.AGENT_INFO_LIST);
+				if(agentEhmList!=null){
+				for(AgentEhm agentEhm : agentEhmList ){
+					if(agentEhm.getAgentCode().equals(dto.getAgentCde())&&agentEhm.getAgentName().equals(dto.getAgentNme())&&
+							agentEhm.getPermitNo().equals(dto.getPermitNo())&&agentEhm.getAgreementNo().equals(dto.getAgreementNo())){
+						flag=true;
+						break;	
+					}
+				}
+				}
+				else{
+					if(businessNatureCode.equals("0")){
+						flag=true;
+					}
+				}
+				if(!flag){
+					model.clear();
+					model.put(Constants.SALESAGENTINFO_CHECK, "fail");
+					serviceResponse.setModel(model);
+					return serviceResponse;
+				}
+				logger.info("==========校验成功==========");
+				
+			}
+			else{
+				logger.info("==========校验失败==========");
+				serviceResponse.setModel(model);
+				return serviceResponse;
+			}
+			}
+			
+			
+			userInfoService.updateUserInfo(dto);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_SUCCESS);
+			serviceResponse.setModel(model);
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_FAILURE);
+			throw new BusinessServiceException("=====》》更新客户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+	/*
+	 * 删除用户（仅将状态改为失效状态）
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#delUserInfoByUserCde(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	public ServiceResponse delUserInfoByUserCde(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		String userCde = (String) model.get(Constants.PARAM_ID);
+		String updMan = (String) model.get(Constants.PARAM_ID2);
+		logger.info("===>userCde:" + userCde);
+		logger.info("===>updMan:" + updMan);
+		
+		try{
+			model.clear();
+			userInfoService.delUserInfoByUserCde(userCde, updMan);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.DELETE_SUCCESS);
+			serviceResponse.setModel(model);
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.DELETE_FAILURE);
+			throw new BusinessServiceException("=====》》更新客户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+	
+	/*
+	 * 用户登录
+	 */
+	@Override
+	@HandleRquest(ServiceRequestID.USER_LOGIN)
+	public ServiceResponse userName(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		String userName = (String) model.get(Constants.USER_NAME);
+		String passWord = (String) model.get(Constants.PASS_WORD);
+		
+		//md5加密
+	    String md5PassWord = MD5Util.getMd5Str(passWord);		
+		
+		try{
+			model.clear();
+			model = userInfoService.userLogin(userName, md5PassWord);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_SUCCESS);
+			serviceResponse.setModel(model);
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_FAILURE);
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+	/**
+	 * 修改密码
+	 */
+	@Override
+	@HandleRquest(ServiceRequestID.PASSWORD_EDIT)
+	public ServiceResponse updatePassword(ServiceRequest serviceRequest)
+			throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		String userCode = (String) model.get(Constants.USER_CODE);
+		String oldPassword = (String) model.get(Constants.OLD_PASSWORD);
+		String newPassword = (String) model.get(Constants.NEW_PASSWORD);
+		
+		String md5oldPassword = MD5Util.getMd5Str(oldPassword);
+		String md5newPassword = MD5Util.getMd5Str(newPassword);
+		
+		try {
+			model.clear();
+			userInfoService.updatePassword(userCode,md5oldPassword,md5newPassword);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_SUCCESS);
+			serviceResponse.setModel(model);
+		} catch (Exception e) {
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_FAILURE);
+		}
+		
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}	
+	
+	
+
+}

@@ -1,0 +1,308 @@
+package com.chinalife.sz.carcalculate.service.impl;
+
+import com.alibaba.fastjson.JSON;
+import com.chinalife.sz.carcalculate.service.WebService;
+import com.chinalife.sz.carcalculate.utils.ConfigUtils;
+import com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub;
+import com.chinalife.sz.cc.domain.PremiumCalculateResponse;
+import org.apache.axis2.AxisFault;
+import org.apache.log4j.Logger;
+
+import java.math.BigDecimal;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * Created by tianwei on 2016/7/31.
+ * 保费计算
+ */
+public class PremiumCalculateService implements WebService{
+	private Logger logger= Logger.getLogger(this.getClass());
+
+	private PremiumCaculateServiceV3XStub stub;
+	@Override
+	public <T> boolean checkData(T object) {
+   if(object instanceof PremiumCaculateServiceV3XStub.PremiumCaculateRequest ){
+	   PremiumCaculateServiceV3XStub.PremiumCaculateRequest request =( PremiumCaculateServiceV3XStub.PremiumCaculateRequest) object;
+	   PremiumCaculateServiceV3XStub.Main mainEhm = request.getMain();
+	   PremiumCaculateServiceV3XStub.CombosData[] combosList = request.getCombosList();
+	   mainEhm.setOperateType("SAVE");
+
+	   mainEhm.setPolicySort("EM2");
+	   // 是否关联,1-关联单、2-单商业、3-单交强
+	   if(combosList.length==2){
+		   mainEhm.setRelationFlag("1");
+	   }
+	   else {
+		   mainEhm.setRelationFlag("2");
+	   }
+
+	   // 电销标识
+	   mainEhm.setTmkFlag("1");
+	   // 险类标识，默认"05"
+	   mainEhm.setClassCode("05");
+	   // 业务来源
+	   mainEhm.setBusinessNature("0");//j 车行
+
+	   // 是否同步投保交强险,0 否 1是
+	   mainEhm.setBZRealationFlag("0");
+	   //mainEhm.setRelationFlag("0");
+	   // 选中自选及套餐列表，自由套餐，需要再确认************************
+	   mainEhm.setCombosFlag("GP00000000");
+	   // 是否重新计算保费标志,0 否 1 是
+	   mainEhm.setPremiumCalAgain("1");
+	   // 计算方式，传统产品CalculateMode传1；电销CalculateMode传3；门店产品CalculateMode传2
+	   mainEhm.setCalculateMode("1");// 由3修改为1
+	   mainEhm.setStartHour("0");
+       // 终保小时，默认24时
+	   mainEhm.setEndHour("24");
+	   // 录单时间
+	   mainEhm.setInputDate("2016-07-18");
+	   // 录单日期
+	   mainEhm.setOperateDate("2016-07-18");
+	   // 险种代码
+	   mainEhm.setRiskCode("0511");
+	   mainEhm.setComCode("4403861015");//罗湖支公司车行业务部
+	   // 销售渠道代码
+	   mainEhm.setChannelCode("01");
+	   // 销售渠道名称
+	   mainEhm.setChannelName("营销");
+	   // 操作人员代码
+	   mainEhm.setOperatorCode("362323198707191025");
+	   mainEhm.setOperatorName("童图娟");
+	   // 地域代码
+	   mainEhm.setAreaCode("4403061003");
+	   // 保存类型,Save保存【正常保费计算或试算单修改进行保费计算】
+	   // AdditionalSave 附加保存【单商业保费计算后选择“继续投保交强险”
+	   // 或单交强保费计算后选择“继续投保商业险”】ConfirmCombos确定套餐类型
+	   mainEhm.setSaveType("Save");
+	   // 是否保存套餐0 否 1 是
+	   mainEhm.setIsSaveCombo("1");
+	   // 是否保存试算单0 否 1 是
+	   mainEhm.setIsSaveSSProposal("1");
+	   // 归属寿险业务员
+	   // mainEhm.setHandlerCode("564738890304650");
+	   // mainEhm.setHandlerName("丽丽");
+	   //
+	   mainEhm.setHandler1Code("362323198707191025");
+	   mainEhm.setHandler1Name("童图娟");
+	   // 商业险即时生效标识
+	   mainEhm.setIsEffectFlag("N");
+	   // 制单机构代码
+	   mainEhm.setMakeCom("44039980");
+	   mainEhm.setMakeComName("深圳市分公司出单中心");
+
+	   mainEhm.setIlogRequestFlag("OY");// 是否规则引擎交互标示：N否，OY 是
+	   System.out.println(request.getMain());
+	   request.setMain(mainEhm);
+	   
+
+	//   车辆信息
+	   PremiumCaculateServiceV3XStub.CarInfo carInfoEhm = request.getCarInfo();
+//	   carInfoEhm.setOriginCarPrice("135900.0");// 新车购置价原数据
+//	   //carInfoEhm.setActualValue("124484.40");// 车辆实际价值
+//	   carInfoEhm.setFairMarketValue("135900.0");// 市场公允价值
+//	   carInfoEhm.setCarPriceType("1");// 车辆价值确认方式
+//	   carInfoEhm.setPlatmodelCode("BCAAFLUG0001");// 行业车型编码
+//	   carInfoEhm.setPlatmodelname("福克斯CAF7201N41 SVP限量版");// 行业车型名称
+//	   carInfoEhm.setEnrollDate("2015-05-01");// 初次登记日期
+	   carInfoEhm.setLicenseColorCode("01");// 号牌底色
+
+	   carInfoEhm.setAreaCode("04");
+	   // 行驶区域名称，固定填入
+	   carInfoEhm.setAreaName("中国境内(不含港澳台)");
+//	   // 车辆所有关系(1-所有 2-使用 3-管理)
+//	   carInfoEhm.setCarInsureRelation("1");
+	   carInfoEhm.setClauseType("0511M0000001");//固定填0511M0000001
+       carInfoEhm.setAgreeDriverFlag("0"); //费改地区不允许投保指定驾驶人，车辆信息中指定驾驶人标示只能为：0！
+	   carInfoEhm.setTransferFlag("0"); //过户车标志
+	   //carInfoEhm.setTransferDate("2016-07-01");//过户日期
+// 车贷标识,默认为0
+//	   carInfoEhm.setCreditFlag("0");
+	   // 外地车标志，默认为0
+	   carInfoEhm.setEcdemicFlag("0");
+       carInfoEhm.setLoanVehicleFlag("0"); //车贷多年标志
+	   // 产地种类
+//	   carInfoEhm.setImportFlag("C");
+// 行业平台车辆种类
+	   carInfoEhm.setVehicleStyle(carInfoEhm.getCarType());
+//	   // 公告型号
+//	   carInfoEhm.setFcvehicle("CAF7201N41");
+//	   carInfoEhm.setCarOwner("田伟");//车主名称
+//	   carInfoEhm.setCarOwnerNature("7");//车主性质：7-个人 8-企业 10-机关
+//	   carInfoEhm.setCarOwnerIdentifyType("01");
+//	   carInfoEhm.setCarOwnerIdentifyNumber("420683198809066118");
+	   request.setCarInfo(carInfoEhm);
+	//   险种信息
+//	   PremiumCaculateServiceV3XStub.CarShipTaxInfo csti = request.getCarShipTaxInfo();
+//	   csti.setTaxFlag2008("1");
+//	   csti.setTaxPayerName("程杰");
+//	   request.setCarShipTaxInfo(csti);
+
+//	   设置商业险信息
+	   PremiumCaculateServiceV3XStub.CombosData combosDataEhm = combosList[0];
+	   combosDataEhm.setCombosCode("GP00000000");
+	   combosDataEhm.setSerialNo("1");
+	   combosDataEhm.setRiskCode("0511");
+
+	   combosDataEhm.setClauseType("0511M0000001");//条款版本固定传0511M0000001
+	   combosDataEhm.setComboNature("1"); // 保险方案来源:0-网销 1-电销
+	   PremiumCaculateServiceV3XStub.ItemKindData[] itemKindList = combosDataEhm.getItemKindList();
+	   for(int i=0;i<itemKindList.length;i++){
+		   itemKindList[i].setStartDate(request.getMain().getStartDate());
+		   itemKindList[i].setEndDate(request.getMain().getEndDate());
+		   //itemKindList[i].setPremium(0.0);
+		   //itemKindList[i].setBenchMarkPremium(0.0);
+		   //itemKindList[i].setDiscount(0.0);
+	   }
+
+
+//	   PremiumCaculateServiceV3XStub.CombosData combosData = request.getCombosList()[1];
+	   if(combosList.length==2){
+//		   //	   设置交强险信息
+		   PremiumCaculateServiceV3XStub.CombosData combosDataEhmJQ = combosList[1];
+		   PremiumCaculateServiceV3XStub.ItemKindData[] itemKindDataEhmJQ = combosDataEhmJQ.getItemKindList();
+		   itemKindDataEhmJQ[0].setStartDate(mainEhm.getBzStartDate());
+		   itemKindDataEhmJQ[0].setEndDate(mainEhm.getBzEndDate());
+		   itemKindDataEhmJQ[0].setKindName("机动车交通事故责任强制险");
+//		   设置关联信息
+		   PremiumCaculateServiceV3XStub.BzRelationMain bzRelationMain = new PremiumCaculateServiceV3XStub.BzRelationMain();
+		   bzRelationMain.setStartDate_bz(mainEhm.getBzStartDate());
+		   bzRelationMain.setEndDate_bz(mainEhm.getBzEndDate());
+		   bzRelationMain.setIsEffectFlag("N");
+		   bzRelationMain.setCarShipTaxFlag("1");
+		   bzRelationMain.setPremium_bz("0");
+		   request.setBZRelationMain(bzRelationMain);
+	   }
+	   //ConfigUtils.setRequest(stub,request);
+		   PremiumCaculateServiceV3XStub.TXInsuranceRequestExtension extensionEhm= new PremiumCaculateServiceV3XStub.TXInsuranceRequestExtension();
+		   extensionEhm.setOperator("ehm_user");
+		   extensionEhm.setOperatorKey("Gpic_EM");
+		   PremiumCaculateServiceV3XStub.TXInsuranceRequest ehm =new PremiumCaculateServiceV3XStub.TXInsuranceRequest();
+		   // 交易类型
+		   //ehm.setTransType("00011001");
+		   ehm.setTransType("request");
+		   // 交易日期
+		   ehm.setTransExeDate("2016-7-25");
+		   // 交易时间
+		   ehm.setTransExeTime("10:25:30");
+		   ehm.setTransSubType("");
+
+		   PremiumCaculateServiceV3XStub.IInsuranceExtension Iehm = new PremiumCaculateServiceV3XStub.IInsuranceExtension();
+		   Iehm.setPageFlag("0");
+		   Iehm.setRowNumStart("1");
+		   Iehm.setPageRowNum("200");
+
+		   ehm.setIInsuranceExtension(Iehm);
+		   request.setTXInsuranceRequest(ehm);
+		   request.setTXInsuranceRequestExtension(extensionEhm);
+
+	   return true;
+   }
+		return false;
+	}
+
+	@Override
+	public <T> T dealData(Object domain, T response) {
+		PremiumCaculateServiceV3XStub.PremiumCaculateRequest request = new PremiumCaculateServiceV3XStub.PremiumCaculateRequest();
+
+		String domainJson = JSON.toJSONString(domain);
+		System.out.println(domainJson);
+		request = JSON.parseObject(domainJson, request.getClass());
+		try {
+			stub=new PremiumCaculateServiceV3XStub();
+		} catch (AxisFault e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//request = ConfigUtils.simpleBeanConvert(domain, request.getClass());
+		if(checkData(request)){
+			System.out.println(request);
+			PremiumCaculateServiceV3XStub.PremiumCaculate query = new PremiumCaculateServiceV3XStub.PremiumCaculate();
+
+			query.setRequest(request);
+			ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+			PremiumCaculateServiceV3XStub.PremiumCaculateResponse  premiumCaculateResponse= null;
+			try {
+				
+				premiumCaculateResponse = stub.premiumCaculate(query).get_return();
+				if(premiumCaculateResponse.getResultCode().equals("1")){
+//					premiumCaculateResponse.get
+					PremiumCaculateServiceV3XStub.CombosData[] combosList = premiumCaculateResponse.getCombosList();
+
+					System.out.println("基准保费:"+combosList[0].getSumBenchMarkPremium());
+					System.out.println("保费:"+combosList[0].getSumPremium());
+					PremiumCaculateServiceV3XStub.ItemKindData[] itemKindList = combosList[0].getItemKindList();
+					List<PremiumCaculateServiceV3XStub.ItemKindData> totalItemKindList = getTotalItemKindList(itemKindList);
+					PremiumCaculateServiceV3XStub.ItemKindData[] totalItemKindData = totalItemKindList.toArray(new PremiumCaculateServiceV3XStub.ItemKindData[totalItemKindList.size()]);
+
+					combosList[0].setItemKindList(totalItemKindData);
+
+					response= (T) ConfigUtils.simpleBeanConvert(premiumCaculateResponse,response.getClass());
+
+					return response;
+
+
+
+				}
+				else {
+					if(response instanceof PremiumCalculateResponse){
+						PremiumCalculateResponse pResponse=(PremiumCalculateResponse) response;
+						pResponse.setErrorMessage(premiumCaculateResponse.getResultCodeDesc());
+						return  response;
+					}
+				}
+
+
+			} catch (RemoteException e) {
+				e.printStackTrace();
+				return null;
+			}
+
+				//premiumCaculateResponse.get
+
+		}
+		return null;
+	}
+private List<PremiumCaculateServiceV3XStub.ItemKindData> getTotalItemKindList(PremiumCaculateServiceV3XStub.ItemKindData[] itemKindList){
+	List<PremiumCaculateServiceV3XStub.ItemKindData> itemKindDatas = new ArrayList<PremiumCaculateServiceV3XStub.ItemKindData>();
+	for(int i=0;i<itemKindList.length;i++){
+		if(itemKindList[i].getDeductableFlag().equals("1")&&(!itemKindList[i].getKindCode().substring(0,1).equals("3"))){
+			//System.out.println(itemKindList[i].getKindCode());
+			String deductablekindCode = ConfigUtils.getValue(itemKindList[i].getKindCode());
+			double benchMarkPremium = itemKindList[i].getBenchMarkPremium();
+			double premium = itemKindList[i].getPremium();
+			for(int j=0;j<itemKindList.length;j++){
+				if(itemKindList[j].getKindCode().equals(deductablekindCode)){
+					BigDecimal newBenchMarkPremiumBigDecimal = new BigDecimal(Double.toString(benchMarkPremium)).add(new BigDecimal(Double.toString(itemKindList[j].getBenchMarkPremium())));
+					benchMarkPremium=newBenchMarkPremiumBigDecimal.doubleValue();
+					BigDecimal newPremiumBigDecimal = new BigDecimal(Double.toString(premium)).add(new BigDecimal(Double.toString(itemKindList[j].getPremium())));
+
+					premium=newPremiumBigDecimal.doubleValue();
+				}
+			}
+			itemKindList[i].setBenchMarkPremium(benchMarkPremium);
+			itemKindList[i].setPremium(premium);
+			itemKindDatas.add(itemKindList[i]);
+		}
+		else {
+//			if(!itemKindList[i].getKindCode().substring(0,1).equals("3")){
+//				itemKindDatas.add(itemKindList[i]);
+//			}
+			itemKindDatas.add(itemKindList[i]);
+		}
+	}
+	return itemKindDatas;
+}
+	public PremiumCaculateServiceV3XStub getStub() {
+		return stub;
+	}
+
+	public void setStub(PremiumCaculateServiceV3XStub stub) {
+		this.stub = stub;
+	}
+}

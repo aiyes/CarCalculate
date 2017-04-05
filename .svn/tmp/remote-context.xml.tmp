@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	
+	<!-- spring的扫描机制配置 ,com.chinalife.sz.cc -->
+	<!-- 使用UM组件 增加 com.prs.framework.um -->
+	<!-- 使用Util组件 增加 com.prs.framework.util -->
+<!--	<context:component-scan base-package="com.chinalife.sz.cc,com.prs.framework.util" > -->
+	<context:component-scan base-package="com.chinalife.sz.cc,com.prs.framework.um,com.prs.framework.util" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	
+	<bean
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+
+	<bean id="remoteAppService"
+		class="com.prs.framework.core.biz.action.ApplicationControllerHandlerSupport">
+	</bean>
+
+	<bean name="/remoteAppService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="remoteAppService" />
+		<property name="serviceInterface"
+			value="com.prs.framework.core.web.controller.ApplicationControllerHandler" />
+	</bean>
+<<<<<<< .mine
+<!--webutils 远程调用-->
+<!-- 	<bean name="/webutils" class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service"  ref="remoteWebUtils"/>
+		<property name="serviceInterface" value="com.chinalife.sz.cc.service.WebUtils"/>
+	</bean> -->
+	
+
+=======
+
+>>>>>>> .r95
+</beans>

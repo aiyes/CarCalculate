@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>新增管理员</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/sweet-alert.css" />
+  <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" />
+</head>
+<body>
+<div id="content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-content tab-content">
+            <!--新增管理员-->
+            <div class="widget-box">
+              <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                <h5>新增管理员</h5>
+              </div>
+              <div class="widget-content nopadding">
+                <form id="form-wizard" name="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                  <div id="form-wizard-1" class="step">
+                  <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户类型：</label>
+                      <div class="controls">
+                        <select name="roleCode" id="roleCode">
+                          <option value="001" checked="checked">分公司管理用户</option>
+                          <option value="002" >分公司渠道业管用户</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户代码：</label>
+                      <div class="controls">
+                        <input type="text" id="userCde" name="userCde" placeholder="用户代码" '/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户名称：</label>
+                      <div class="controls">
+                        <input  type="text" id="userNme" name="userNme" placeholder="用户名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户状态：</label>
+                      <div class="controls">
+                        <select name="userStatus" id="userStatus">
+                          <option value="1" checked>有效</option>
+                          <option value="0" checked>失效</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>密码：</label>
+                      <div class="controls">
+                        <input  type="text" id="password" name="password" placeholder="密码"/>
+                      </div>
+                    </div>
+      
+                    <div class="control-group">
+                      <label class="control-label"><span class="require-tips">*</span>所属分公司：</label>
+                      <div class="controls">
+                        <input id="comcode" type="text" name="comcode" placeholder="分公司代码"/>
+                        <input id="comcodeNme" type="text" name="comcodeNme" placeholder="分公司名称"/>
+                      </div>
+                    </div>
+                    
+                    <div class="control-group" style="display:none" id="ChannelType">
+                      <label class="control-label"><span class="require-tips">*</span>管理渠道范围：</label>
+                      <div class="controls">
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList" value="01"/>01 营销</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="02"/>02 银邮</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="03"/>03 互动</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="04"/>04 电子</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="05"/>05 非车/重客/综拓</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="06"/>06 车商</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="07"/>07 银保</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="08"/>08 个代</label>
+                        <label class="checkbox"><input  type="checkbox" name="channelTypeList"  value="09"/>09 普通中介</label>
+                      </div>
+                    </div>
+                    
+                    
+                     <div class="control-group">
+                      <label class="control-label">备注：</label>
+                      <div class="controls">
+                        <input class="w642" id="remark" type="text" name="remark" placeholder="备注信息"/>
+                      </div>
+                    </div>
+                    <!--<div class="form-actions" style="text-align:center">
+                        <input id="back" class="btn btn-success span1" value="保 存" type="submit">
+                        <input id="next" class="btn btn-success span1" value="返 回" type="reset">
+                        <div id="status"></div>
+                      </div>-->
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="h30">
+  <div class="w h30 wrapper-bottom-buttons wrapper-bottom-buttons-bg"></div>
+  <div class="w tac wrapper-bottom-buttons fs0">
+    <button class="btn btn-success mt10" id="saveUser">保 存</button>
+    <button class="btn btn-success mt10 ml5" id="back">返 回</button>
+  </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/personal-issue.js"></script>
+<!--Picker-->
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/jquery.validate.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/sweet-alert.min.js"></script>
+<script src="js/plugin/jquery.blockui.js"></script>
+<script src="js/common/LoaderMask.js"></script>
+<script src="js/manager-add.js"></script>
+</body>
+</html>

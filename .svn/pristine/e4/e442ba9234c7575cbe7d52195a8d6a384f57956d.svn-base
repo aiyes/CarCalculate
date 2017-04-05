@@ -1,0 +1,45 @@
+/**
+ * @author MarsCheng
+ * @email chengjie@sz.chinalife-p.com.cn
+ * 2016年9月6日
+ */
+package com.chinalife.sz.carcalculate.utils;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.annotation.Resource;
+import javax.xml.namespace.QName;
+
+import org.apache.axiom.om.OMElement;
+import org.apache.axis2.databinding.utils.BeanUtil;
+
+import com.chinalife.sz.cc.log.service.LogService;
+import com.chinalife.sz.cc.model.log.LogDTO;
+
+/**
+ * 日志工具类
+ * @author MarsCheng
+ * @email chengjie@sz.chinalife-p.com.cn
+ * 2016年9月6日
+ */
+public class LogUtils {
+	
+
+	public static ExecutorService executorService  = Executors.newSingleThreadExecutor();
+	
+	public static String writeObject2String(Object object){
+		OMElement element = null;
+		//将对象序列化转为xml(OMElement)
+		if (object.getClass().isArray()) {
+			//数组对象区分处理
+			String className = object.getClass().getComponentType().getSimpleName();
+			element = BeanUtil.getOMElement(new QName("root"), (Object[]) object, new QName(className), false, null);
+		} else {//一般对象
+			element = BeanUtil.getOMElement(new QName("root"), new Object[] {object}, new QName(object.getClass().getSimpleName()), false, null).getFirstElement();
+		}
+		System.out.println(element.toString());
+		return element.toString();
+	}
+
+}

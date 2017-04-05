@@ -1,0 +1,10 @@
+package com.chinalife.sz.carcalculate.service;
+
+/**
+ * Created by tianwei on 2016/7/22.
+ */
+public interface WebService {
+	public <T>  boolean checkData(T object);
+	public <T> T dealData(Object domain,T response);
+
+}

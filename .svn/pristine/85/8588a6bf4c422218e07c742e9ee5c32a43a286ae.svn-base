@@ -1,0 +1,142 @@
+package com.chinalife.sz.cc.user.action.impl;
+
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.common.ResponseCode;
+import com.chinalife.sz.cc.model.user.UserInfoDTO;
+import com.chinalife.sz.cc.user.action.UserInfoAction;
+import com.chinalife.sz.cc.user.service.UserInfoService;
+import com.prs.framework.core.common.model.ServiceRequest;
+import com.prs.framework.core.common.model.ServiceResponse;
+import com.prs.framework.core.exception.BusinessServiceException;
+
+public class UserInfoActionImpl implements UserInfoAction {
+	private static Log logger = LogFactory.getLog(UserInfoActionImpl.class);
+
+	@Resource
+	private UserInfoService userInfoService;
+
+	/*
+	 * 添加用户信息
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#addUserInfo(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	public ServiceResponse addUserInfo(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		UserInfoDTO dto = (UserInfoDTO) model.get(Constants.ADD_USER);
+		logger.info("===>dto:" + dto);
+
+		if (dto == null)
+			throw new BusinessServiceException("用户信息为空，添加用户信息出错");
+
+		try {
+			userInfoService.addUserInfo(dto);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_SUCCESS);
+			serviceResponse.setSuccess(true);
+		} catch (Exception ex) {
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_FAILURE);
+			throw new BusinessServiceException("用户信息为空，添加用户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+	
+	/*
+	 * 查找用户信息
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#findUserInfoByUserCde(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	public ServiceResponse findUserInfoByUserCde(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		String userCde = (String) model.get(Constants.PARAM_ID);
+		logger.info("===>userCde:" + userCde);
+		
+		if (StringUtils.isEmpty(userCde)) {
+			throw new BusinessServiceException("用户代码为空，查找用户信息出错");
+		}
+		
+		try{
+			model.clear();
+			UserInfoDTO dto=userInfoService.findUserInfoByUserCde(userCde);
+			model.put(Constants.PARAM_DTO, dto);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_SUCCESS);
+			serviceResponse.setModel(model);
+			
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_FAILURE);
+			throw new BusinessServiceException("=====》》查找客户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+	/*
+	 * 更新客户信息
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#updateUserInfo(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	public ServiceResponse updateUserInfo(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		UserInfoDTO dto = (UserInfoDTO) model.get(Constants.UPDATE_USER);
+		
+		try{
+			model.clear();
+			userInfoService.updateUserInfo(dto);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_SUCCESS);
+			serviceResponse.setModel(model);
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_FAILURE);
+			throw new BusinessServiceException("=====》》更新客户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+	/*
+	 * 删除用户（仅将状态改为失效状态）
+	 * @see com.chinalife.sz.carcalculate.user.action.UserInfoAction#delUserInfoByUserCde(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	public ServiceResponse delUserInfoByUserCde(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		String userCde = (String) model.get(Constants.PARAM_ID);
+		String updMan = (String) model.get(Constants.PARAM_ID2);
+		logger.info("===>userCde:" + userCde);
+		logger.info("===>updMan:" + updMan);
+		
+		try{
+			model.clear();
+			userInfoService.delUserInfoByUserCde(userCde, updMan);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.DELETE_SUCCESS);
+			serviceResponse.setModel(model);
+		}catch(Exception ex){
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.DELETE_FAILURE);
+			throw new BusinessServiceException("=====》》更新客户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+}

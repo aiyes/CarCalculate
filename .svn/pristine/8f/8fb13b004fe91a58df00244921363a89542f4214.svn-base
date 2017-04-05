@@ -1,0 +1,302 @@
+{
+  "carInfo": {
+    "carKindCode": "A0",
+    "newCarFlag": "0",
+    "carPriceType": "1",
+    "useNatureCode": "8A",
+    "carType": "K33",
+    "licenseType": "02",
+    "fuleType": "0",
+    "specialCarFlag": "0",
+    "carInsureRelation": "1",
+    "enrollDate": "2014-01-01",
+    "brandName": "帕萨特PASSAT B5 1.8T",
+    "licenseNo": "粤BA7465",
+    "engineNo": "84848484",
+    "frameNo": "84848494848484848",
+    "completeKerbMass": "0.0",
+    "wholeWeight": "0.0",
+    "tonCount": "0.0",
+    "exhaustScale": "1.8",
+    "purchasePrice": "280000.0",
+    "actualValue": "221200.0",
+    "rbCode": "DZAAAI0013",
+    "platmodelCode": "BDZAPTUA0002",
+    "platmodelname": "帕萨特PASSAT B5 1.8T",
+    "importFlag": "A",
+    "seatCount": "5",
+    "carOwner": "田伟",
+    "carOwnerNature": "7",
+    "carOwnerIdentifyType": "01",
+    "carOwnerIdentifyNumber": "420683198809066118"
+  },
+  "applicant": {
+    "insuredNature": "3",
+    "insuredType": "1",
+    "identifyType": "01",
+    "identifyNumber": "420683198809066118",
+    "appliName": "田伟",
+    "sex": 1
+  },
+  "insuredList": [
+    {
+      "insuredName": "田伟",
+      "identifyType": "01",
+      "identifyNumber": "420683198809066118",
+      "insuredType": "7",
+      "insuredNature": "carOwner"
+    },
+    {
+      "insuredName": "田伟",
+      "insuredType": "1",
+      "identifyType": "01",
+      "identifyNumber": "420683198809066118",
+      "mobile": "",
+      "sex": 1,
+      "email": "",
+      "postCode": "",
+      "addressName": "",
+      "linkerName": "",
+      "customerCName": "",
+      "insuredNature": "3"
+    }
+  ],
+  "main": {
+    "accidentOccurredNum": null,
+    "agentCode": "279484806",
+    "agentName": "深圳市新大兴工贸发展有限公司",
+    "agreementNo": "279484806-01",
+    "arbitBoardName": null,
+    "areaCode": "4403061003",
+    "argueSolution": null,
+    "bZPolicyNo": null,
+    "billDate": null,
+    "botDiscount": null,
+    "botDiscountTemp": null,
+    "busChangeCheckCodeFlag": null,
+    "busCheckCode": null,
+    "busDiscount": null,
+    "busRenewalFlag": null,
+    "busiLastPolicyNo": null,
+    "businessNature": "j",
+    "businessNatureName": "车行业务",
+    "businessSortRate": null,
+    "businessType": null,
+    "bzBenchmarkPremium": null,
+    "bzChangeCheckCodeFlag": null,
+    "bzCheckCode": null,
+    "bzDemandNo": null,
+    "bzDiscount": null,
+    "bzEndDate": "2017-12-23",
+    "bzPremium": null,
+    "bzRenewalFlag": null,
+    "bzSortRate": null,
+    "bzStartDate": "2016-12-24",
+    "calculateMode": null,
+    "channelCode": "06",
+    "channelName": "车商",
+    "ciInsuredFlag": null,
+    "claimInfo": null,
+    "classCode": "05",
+    "comCode": "4403866002",
+    "comName": null,
+    "combosFlag": "GP00000000",
+    "contractNo": null,
+    "currency": null,
+    "demandNo": null,
+    "endDate": "2017-12-23",
+    "endHour": "24",
+    "flag": null,
+    "handler1Code": "420112198506012734",
+    "handler1Name": "李奡嵩",
+    "handlerCode": null,
+    "handlerName": null,
+    "ilogRequestFlag": "OY",
+    "inputDate": "2016-12-23",
+    "ipAddress": null,
+    "isEffectFlag": "N",
+    "isSaveCombo": "1",
+    "isSaveSSProposal": "1",
+    "mainPolicyNo": null,
+    "mainSubRemark": null,
+    "makeCom": "44039980",
+    "makeComName": "深圳市分公司出单中心",
+    "newDiscount": null,
+    "newPremium": null,
+    "notion": null,
+    "operateDate": "2016-12-23",
+    "operateEndDate": null,
+    "operateStartDate": null,
+    "operateType": "SAVE",
+    "operatorCode": "420112198506012734",
+    "operatorName": "李奡嵩",
+    "platReturnMessage": null,
+    "platformICRemark": null,
+    "policyNo": null,
+    "policySort": "SZ0",
+    "premiumCalAgain": "1",
+    "premiumCalFirst": null,
+    "productCode": null,
+    "proposalNo": null,
+    "relationFlag": null,
+    "remark": null,
+    "renewalNo": null,
+    "riskCode": "0511",
+    "riskName": null,
+    "sSproposalNo": null,
+    "saveType": "Save",
+    "serviceCode": null,
+    "serviceName": null,
+    "servicePhone": null,
+    "serviceRemark": null,
+    "ssExpireDate": null,
+    "startDate": "2016-12-24",
+    "startHour": "0",
+    "status": null,
+    "sumPremium": null,
+    "sumPremiumCNY": null,
+    "taobaoCalCarShipTaxFlag": null,
+    "tmkFlag": "1",
+    "totalAmount": null,
+    "totalAmountCNY": null,
+    "underwriteFlag": null
+  },
+  "combosList": [
+    {
+      "itemKindList": [
+        {
+          "kindCode": "001",
+          "kindName": "机动车损失保险",
+          "deductableFlag": 1,
+          "m1Value": "0",
+          "amount": "221200.0",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null
+        },
+        {
+          "kindCode": "301",
+          "kindName": "不计免赔率险（机动车损失保险）",
+          "deductableFlag": "0",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null,
+          "amount": "0"
+        },
+        {
+          "kindCode": "002",
+          "kindName": "机动车第三者责任保险",
+          "deductableFlag": 1,
+          "amount": "1000000",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null
+        },
+        {
+          "kindCode": "302",
+          "kindName": "不计免赔率险（第三者责任保险）",
+          "deductableFlag": "0",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null,
+          "amount": "0"
+        },
+        {
+          "kindCode": "007",
+          "kindName": "机动车全车盗抢保险",
+          "deductableFlag": 1,
+          "amount": "221200.0",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null
+        },
+        {
+          "kindCode": "306",
+          "kindName": "不计免赔率险（全车盗抢保险）",
+          "deductableFlag": "0",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null,
+          "amount": "0"
+        },
+        {
+          "kindCode": "003",
+          "kindName": "机动车车上人员责任保险（司机）",
+          "deductableFlag": 1,
+          "amount": "50000",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null
+        },
+        {
+          "kindCode": "303",
+          "kindName": "不计免赔率险（机动车车上人员责任保险（司机））",
+          "deductableFlag": "0",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null,
+          "amount": "0"
+        },
+        {
+          "kindCode": "203",
+          "kindName": "新增设备损失保险",
+          "deductableFlag": 1,
+          "amount": 0,
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null
+        },
+        {
+          "kindCode": "308",
+          "kindName": "不计免赔率险（新增设备损失保险）",
+          "deductableFlag": "0",
+          "benchMarkPremium": null,
+          "discount": null,
+          "premium": null,
+          "amount": "0"
+        }
+      ]
+    },
+    {
+      "combosCode": "PACK000000",
+      "serialNo": "0",
+      "riskCode": "0507",
+      "comboNature": "3",
+      "itemKindList": [
+        {
+          "riskcode": "0507",
+          "kindCode": "BZ",
+          "deductableFlag": "0"
+        }
+      ]
+    }
+  ],
+  "carShipTaxInfo": {
+    "taxFlag": "1N",
+    "taxPayerName": "田伟",
+    "taxPayerCertiCode": "420683198809066118",
+    "relifReason": null,
+    "deductionDueType": null,
+    "kTaxComCode": null,
+    "kTaxComName": null,
+    "freeNo": null
+  },
+  "carDeviceList": [
+    {
+      "deviceName": "",
+      "actualValue": ""
+    },
+    {
+      "deviceName": "",
+      "actualValue": ""
+    },
+    {
+      "deviceName": "",
+      "actualValue": ""
+    },
+    {
+      "deviceName": "",
+      "actualValue": ""
+    }
+  ]
+}

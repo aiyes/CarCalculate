@@ -1,0 +1,231 @@
+package com.chinalife.sz.cc.domain;
+
+import java.io.Serializable;
+
+/**
+ * Created by tianwei on 2016/7/20.
+ * 风险系数
+ */
+public class RiskItemDataResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3385383744741057350L;
+	private String DemandNo;
+	private double PeccancyAdjustValue;
+	private double ClaimAdjustValue;
+	private String AdjustStart;
+	private String AdjustEnd;
+	private double LoyaltyAdjustValue;
+	private String IsContinuousPolicy;
+	private double VehicleModelAdjustUpper;
+	private double VehicleModelAdjustLower;
+	private double ManagementAdjustUpper;
+	private double ManagementAdjustLower;
+	private double ExperienceAdjustUpper;
+	private double ExperienceAdjustLower;
+	private double KindAdjustValue;
+	private double ClaimAmountValue;
+	private double InsureInDoorValue;
+	private String noClaimAdjustReasonCode;
+	private String noClaimAdjustReasonName;
+	private String vehicleOwnerMessage;
+	private String driverAdjustValue;
+	private String NoPeccancyAdjustReason;
+
+
+	@Override
+	public String toString() {
+		return "RiskItemDataResponse{" +
+				"DemandNo='" + DemandNo + '\'' +
+				", PeccancyAdjustValue=" + PeccancyAdjustValue +
+				", ClaimAdjustValue=" + ClaimAdjustValue +
+				", AdjustStart='" + AdjustStart + '\'' +
+				", AdjustEnd='" + AdjustEnd + '\'' +
+				", LoyaltyAdjustValue=" + LoyaltyAdjustValue +
+				", IsContinuousPolicy='" + IsContinuousPolicy + '\'' +
+				", VehicleModelAdjustUpper=" + VehicleModelAdjustUpper +
+				", VehicleModelAdjustLower=" + VehicleModelAdjustLower +
+				", ManagementAdjustUpper=" + ManagementAdjustUpper +
+				", ManagementAdjustLower=" + ManagementAdjustLower +
+				", ExperienceAdjustUpper=" + ExperienceAdjustUpper +
+				", ExperienceAdjustLower=" + ExperienceAdjustLower +
+				", KindAdjustValue=" + KindAdjustValue +
+				", ClaimAmountValue=" + ClaimAmountValue +
+				", InsureInDoorValue=" + InsureInDoorValue +
+				", noClaimAdjustReasonCode='" + noClaimAdjustReasonCode + '\'' +
+				", noClaimAdjustReasonName='" + noClaimAdjustReasonName + '\'' +
+				", vehicleOwnerMessage='" + vehicleOwnerMessage + '\'' +
+				", driverAdjustValue='" + driverAdjustValue + '\'' +
+				", NoPeccancyAdjustReason='" + NoPeccancyAdjustReason + '\'' +
+				'}';
+	}
+
+	public String getDemandNo() {
+		return DemandNo;
+	}
+
+	public void setDemandNo(String demandNo) {
+		DemandNo = demandNo;
+	}
+
+	public double getPeccancyAdjustValue() {
+		return PeccancyAdjustValue;
+	}
+
+	public void setPeccancyAdjustValue(double peccancyAdjustValue) {
+		PeccancyAdjustValue = peccancyAdjustValue;
+	}
+
+	public double getClaimAdjustValue() {
+		return ClaimAdjustValue;
+	}
+
+	public void setClaimAdjustValue(double claimAdjustValue) {
+		ClaimAdjustValue = claimAdjustValue;
+	}
+
+	public String getAdjustStart() {
+		return AdjustStart;
+	}
+
+	public void setAdjustStart(String adjustStart) {
+		AdjustStart = adjustStart;
+	}
+
+	public String getAdjustEnd() {
+		return AdjustEnd;
+	}
+
+	public void setAdjustEnd(String adjustEnd) {
+		AdjustEnd = adjustEnd;
+	}
+
+	public double getLoyaltyAdjustValue() {
+		return LoyaltyAdjustValue;
+	}
+
+	public void setLoyaltyAdjustValue(double loyaltyAdjustValue) {
+		LoyaltyAdjustValue = loyaltyAdjustValue;
+	}
+
+	public String getIsContinuousPolicy() {
+		return IsContinuousPolicy;
+	}
+
+	public void setIsContinuousPolicy(String isContinuousPolicy) {
+		IsContinuousPolicy = isContinuousPolicy;
+	}
+
+	public double getVehicleModelAdjustUpper() {
+		return VehicleModelAdjustUpper;
+	}
+
+	public void setVehicleModelAdjustUpper(double vehicleModelAdjustUpper) {
+		VehicleModelAdjustUpper = vehicleModelAdjustUpper;
+	}
+
+	public double getVehicleModelAdjustLower() {
+		return VehicleModelAdjustLower;
+	}
+
+	public void setVehicleModelAdjustLower(double vehicleModelAdjustLower) {
+		VehicleModelAdjustLower = vehicleModelAdjustLower;
+	}
+
+	public double getManagementAdjustUpper() {
+		return ManagementAdjustUpper;
+	}
+
+	public void setManagementAdjustUpper(double managementAdjustUpper) {
+		ManagementAdjustUpper = managementAdjustUpper;
+	}
+
+	public double getManagementAdjustLower() {
+		return ManagementAdjustLower;
+	}
+
+	public void setManagementAdjustLower(double managementAdjustLower) {
+		ManagementAdjustLower = managementAdjustLower;
+	}
+
+	public double getExperienceAdjustUpper() {
+		return ExperienceAdjustUpper;
+	}
+
+	public void setExperienceAdjustUpper(double experienceAdjustUpper) {
+		ExperienceAdjustUpper = experienceAdjustUpper;
+	}
+
+	public double getExperienceAdjustLower() {
+		return ExperienceAdjustLower;
+	}
+
+	public void setExperienceAdjustLower(double experienceAdjustLower) {
+		ExperienceAdjustLower = experienceAdjustLower;
+	}
+
+	public double getKindAdjustValue() {
+		return KindAdjustValue;
+	}
+
+	public void setKindAdjustValue(double kindAdjustValue) {
+		KindAdjustValue = kindAdjustValue;
+	}
+
+	public double getClaimAmountValue() {
+		return ClaimAmountValue;
+	}
+
+	public void setClaimAmountValue(double claimAmountValue) {
+		ClaimAmountValue = claimAmountValue;
+	}
+
+	public double getInsureInDoorValue() {
+		return InsureInDoorValue;
+	}
+
+	public void setInsureInDoorValue(double insureInDoorValue) {
+		InsureInDoorValue = insureInDoorValue;
+	}
+
+	public String getNoClaimAdjustReasonCode() {
+		return noClaimAdjustReasonCode;
+	}
+
+	public void setNoClaimAdjustReasonCode(String noClaimAdjustReasonCode) {
+		this.noClaimAdjustReasonCode = noClaimAdjustReasonCode;
+	}
+
+	public String getNoClaimAdjustReasonName() {
+		return noClaimAdjustReasonName;
+	}
+
+	public void setNoClaimAdjustReasonName(String noClaimAdjustReasonName) {
+		this.noClaimAdjustReasonName = noClaimAdjustReasonName;
+	}
+
+	public String getVehicleOwnerMessage() {
+		return vehicleOwnerMessage;
+	}
+
+	public void setVehicleOwnerMessage(String vehicleOwnerMessage) {
+		this.vehicleOwnerMessage = vehicleOwnerMessage;
+	}
+
+	public String getDriverAdjustValue() {
+		return driverAdjustValue;
+	}
+
+	public void setDriverAdjustValue(String driverAdjustValue) {
+		this.driverAdjustValue = driverAdjustValue;
+	}
+
+	public String getNoPeccancyAdjustReason() {
+		return NoPeccancyAdjustReason;
+	}
+
+	public void setNoPeccancyAdjustReason(String noPeccancyAdjustReason) {
+		NoPeccancyAdjustReason = noPeccancyAdjustReason;
+	}
+}

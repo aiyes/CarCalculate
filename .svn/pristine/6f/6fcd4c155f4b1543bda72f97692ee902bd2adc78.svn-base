@@ -1,0 +1,153 @@
+package com.chinalife.sz.carcalculate.security;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.chinalife.sz.cc.domain.User;
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.common.ServiceRequestID;
+import com.chinalife.sz.cc.model.user.PermissionModel;
+import com.chinalife.sz.cc.model.user.RoleModel;
+import com.chinalife.sz.cc.model.user.UserInfoDTO;
+import com.prs.framework.core.exception.WebControllerException;
+import com.prs.framework.core.web.controller.util.WebUtils;
+
+/**
+ * 自定义的指定Shiro验证用户登录的类
+ * @author abel.lin
+ */
+public class SystemAuthorizingRealm extends AuthorizingRealm {
+	
+	/**
+	 * 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用
+	 */
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
+		//获取当前登录的用户名,等价于(String)principals.fromRealm(this.getName()).iterator().next()
+		Map<String, Object> model = new HashMap<String, Object>();
+		String currentUsername = (String)super.getAvailablePrincipal(principals);
+		model.put(Constants.USER_NAME, currentUsername);
+		try {
+			model = WebUtils.getResponseModel(model, ServiceRequestID.ROLE);
+		} catch (WebControllerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SimpleAuthorizationInfo simpleAuthorInfo = new SimpleAuthorizationInfo();
+		
+		List<RoleModel> roleList = (List<RoleModel>)model.get(Constants.ROLE_MODLE); 
+		List<PermissionModel> permList = (List<PermissionModel>)model.get(Constants.PERMISSION_MODEL);
+		
+		if(roleList != null && roleList.size() > 0){
+			for(RoleModel role : roleList){
+				if(role.getRoleCode() != null){
+					simpleAuthorInfo.addRole(role.getRoleCode());
+				}
+			}
+		}
+		
+		if(permList != null && permList.size() > 0){
+			for(PermissionModel perm : permList){
+				if(perm.getModelCode() != null){
+					simpleAuthorInfo.addStringPermission(perm.getModelCode());
+				}
+			}
+		}
+		return simpleAuthorInfo;
+		
+	}
+
+	
+	/**
+	 * 认证回调函数, 登录时调用
+	 */
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+		//获取基于用户名和密码的令牌
+		//实际上这个authcToken是从LoginController里面currentUser.login(token)传过来的
+		UsernamePasswordToken token = (UsernamePasswordToken)authcToken;
+		
+		Session session = getSession();
+		String code = (String)session.getAttribute(Constants.VALIDATE_CODE);
+		if (token.getCaptcha() == null || !token.getCaptcha().toUpperCase().equals(code)){
+			throw new AuthenticationException("验证码错误, 请重试.");
+		}
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put(Constants.USER_NAME, token.getUsername());
+		try {
+			model=WebUtils.getResponseModel(model, ServiceRequestID.LOGIN);
+		} catch (WebControllerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		UserInfoDTO userInfoDTO=(UserInfoDTO)model.get(Constants.USER_INFO);
+		String error = (String)model.get(Constants.ERROR);
+		if(userInfoDTO != null){
+			if(userInfoDTO.getUserStatus() !=null && userInfoDTO.getUserStatus().equals("0")){
+				throw new AuthenticationException("该已帐号禁止登录.");
+			}
+			AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(userInfoDTO.getUserCde(), userInfoDTO.getPassword(), this.getName());
+			this.setSession(Constants.CURRENT_USER, userInfoDTO.getUserNme());
+			this.setSession(Constants.USER_CODE, userInfoDTO.getUserCde());
+			this.setSession(Constants.COM_CODE, userInfoDTO.getComcode());
+			this.setSession(Constants.COM_CODE_NME, userInfoDTO.getComcodeNme());
+			String [] channelTypeList = null;
+			if(userInfoDTO.getChannelTypeList()!=null){
+				 channelTypeList = userInfoDTO.getChannelTypeList().split(":");
+			}
+			this.setSession(Constants.CHANNEL_TYPE_LIST, channelTypeList);	
+			return authcInfo;
+		}
+		else{
+			if(error != null){
+				throw new AuthenticationException(error);
+			}else{
+				return null;
+			}
+		}
+		
+		
+	}
+	
+	/**
+	 * 保存登录名
+	 */
+	private void setSession(Object key, Object value){
+		Session session = getSession();
+//		System.out.println("Session默认超时时间为[" + session.getTimeout() + "]毫秒");
+		if(null != session){
+			session.setAttribute(key, value);
+		}
+	}
+	
+	private Session getSession(){
+		try{
+			Subject subject = SecurityUtils.getSubject();
+			Session session = subject.getSession(false);
+			if (session == null){
+				session = subject.getSession();
+			}
+			if (session != null){
+				return session;
+			}
+		}catch (InvalidSessionException e){
+			
+		}
+		return null;
+	}
+}

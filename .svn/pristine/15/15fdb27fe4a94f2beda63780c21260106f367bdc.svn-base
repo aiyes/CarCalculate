@@ -1,0 +1,141 @@
+;$(function(){
+	
+	/**
+	 * 新增用户js
+	 */
+
+	$("#saveUser").click(function(){
+//		console.log($("#userType").val());
+		
+		if($("#userCde").val()==""){
+			swal("消息提示","用户名不能为空","warning");
+			return;
+		}
+		if($("#password").val()==""){
+			swal("消息提示","密码不能为空","warning");
+			return;
+		}
+		if($("#dept").val()==""){
+			swal("消息提示","机构代码不能为空","warning");
+			return;
+		}
+		if($("#deptNme").val()==""){
+			swal("消息提示","机构名称不能为空","warning");
+			return;
+		}
+		if($("#handlerCde").val()==""){
+			swal("消息提示","业务员代码不能为空","warning");
+			return;
+		}
+		if($("#handlerNme").val()==""){
+			swal("消息提示","业务员名称不能为空","warning");
+			return;
+		}
+		if($("#agentCde").val()==""){
+			swal("消息提示","代理人代码不能为空","warning");
+			return;
+		}
+		if($("#agentNme").val()==""){
+			swal("消息提示","代理人名称不能为空","warning");
+			return;
+		}
+		if($("#permitNo").val()==""){
+			swal("消息提示","代理许可证不能为空","warning");
+			return;
+		}
+		if($("#agreementNo").val()==""){
+			swal("消息提示","代理协议号不能为空","warning");
+			return;
+		}
+		
+		$.LoaderMask.loading({title:"信息校验中...",isFlag:true});
+		$.ajax({
+			type:'post',
+			url:'user.add.action',
+			dataType:'json',
+			data:{
+				userCde:$("#userCde").val(),
+				userNme:$("#userNme").val(),
+				userType:$("#userType").val(),
+				userStatus:$("#userStatus").val(),
+				password:$("#password").val(),
+				dept:$("#dept").val(),
+				deptNme:$("#deptNme").val(),
+				handlerCde:$("#handlerCde").val(),
+				handlerNme:$("#handlerNme").val(),
+				businessNatureCde:$("#businessNatureCde").val(),
+				agentCde:$("#agentCde").val(),
+				agentNme:$("#agentNme").val(),
+				permitNo:$("#permitNo").val(),
+				agreementNo:$("#agreementNo").val(),
+				crtMan:$.cookie('userCode')	
+			},
+			success:function(data){
+//				console.log(data.responseCode);
+				$.LoaderMask.loading({title:"信息校验中...",isFlag:false});
+				if(data.salesAgentInfo_check=="success"){
+				if(data.responseCode=="S0001"){
+//					var username = data.carCalculate.add.user.userNme
+					swal("消息提示","新增用户成功","success");
+				}else{
+					swal("消息提示","新增用户失败","error");
+				}
+				}
+				else{
+					swal("消息提示","销售人员信息校验失败，请重新录入","error");
+				}
+				$("#form-wizard")[0].reset();
+				
+			},
+			error:function(msg){
+				$.LoaderMask.loading({title:"信息校验中...",isFlag:false});
+				swal("消息提示","新增用户失败","error");
+			}
+			
+		});
+	});
+
+	$("#back").click(function(){
+		$("#form-wizard")[0].reset();
+	});
+
+
+
+	if(!placeholderSupport()){   // 判断浏览器是否支持 placeholder 
+
+	    $('[placeholder]').focus(function() { 
+
+	        var input = $(this); 
+
+	        if (input.val() == input.attr('placeholder')) { 
+
+	            input.val(''); 
+
+	            input.removeClass('placeholder'); 
+
+	        } 
+
+	    }).blur(function() { 
+
+	        var input = $(this); 
+
+	        if (input.val() == '' || input.val() == input.attr('placeholder')) { 
+
+	            input.addClass('placeholder'); 
+
+	            input.val(input.attr('placeholder')); 
+
+	        } 
+
+	    }).blur(); 
+
+	};
+	
+	function placeholderSupport() { 
+ 		
+	    return 'placeholder' in document.createElement('input'); 
+
+	} 
+	
+
+});

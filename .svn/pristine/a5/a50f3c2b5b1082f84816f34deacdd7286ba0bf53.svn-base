@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>用户信息管理</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+   <link rel="stylesheet" href="css/sweet-alert.css" />
+  <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" />
+  <!-- pikaday -->
+  <link type="text/css" rel="stylesheet" href="css/pikaday.css"/>
+</head>
+<body>
+<div id="content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-content tab-content">
+            <!--用户信息管理-->
+            <div class="widget-box">
+              <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                <h5>用户信息管理</h5>
+              </div>
+              <div class="widget-content nopadding">
+                <form id="form-wizard" class="form-horizontal" >
+                  <div id="form-wizard-1" class="step">
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">用户代码：</label>
+                      <div class="controls">
+                        <input type="text" name="userCode" id="userCode" placeholder="用户代码"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">用户名称：</label>
+                      <div class="controls">
+                        <input type="text" name="userName" id="userName"  placeholder="用户名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">用户创建日期区间：</label>
+                      <div class="controls">
+                        <div class="input-append date">
+                          <input class="w180" size="16" id="createBegin" type="text" class="datetimepicker" readonly>
+                          <span class="add-on"><i class="icon-calendar"></i></span>
+                        </div>  至
+                        <div class="input-append date">
+                          <input class="w180" size="16" id="createEnd" type="text" class="datetimepicker" readonly>
+                          <span class="add-on"><i class="icon-calendar"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">报价机构代码：</label>
+                      <div class="controls">
+                        <input  type="text" name="dept" id="dept" />
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">归属业务员代码：</label>
+                      <div class="controls">
+                        <input  type="text" name="handlerCde" id="handlerCde"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">归属业务员名称：</label>
+                      <div class="controls">
+                        <input id="handlerNme" type="text" name="handlerNme"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <div class="controls">
+                        <input id="userInfoDele" class="btn btn-success span1" value="重 置" type="reset">
+                        <input id="userInfoFind" class="btn btn-success span1" value="查 询" type="button">
+                      </div>
+                    </div>
+                    <ul class="nav nav-list"><li class="divider"></li></ul>
+                    <div class="form-horizontal">
+                      
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                          <th>用户代码</th>
+                          <th>用户名称</th>
+                          <th>报价机构</th>
+                          <th>归属业务员</th>
+                          <th>用户创建日期</th>
+                          <th>用户状态</th>
+                          <th style="width:150px;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userInfoList">
+                        <!-- <tr>
+                          <td style="text-align:center">SZ0000000001</td>
+                          <td style="text-align:center">深圳市同兴汽车贸易有限公司</td>
+                          <td style="text-align:center">4403756001-深圳市分公司营业四部车商业务一部</td>
+                          <td style="text-align:center">360104198501041046-龙希希</td>
+                          <td style="text-align:center">2016-07-27</td>
+                          <td style="text-align:center">有效</td>
+                          <td style="text-align:center"><input id="next" class="btn btn-success span1" style="width:80px;" value="查 询" type="button"></td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:center">SZ0000000001</td>
+                          <td style="text-align:center">深圳市同兴汽车贸易有限公司</td>
+                          <td style="text-align:center">4403756001-深圳市分公司营业四部车商业务一部</td>
+                          <td style="text-align:center">360104198501041046-龙希希</td>
+                          <td style="text-align:center">2016-07-27</td>
+                          <td style="text-align:center">有效</td>
+                          <td style="text-align:center"><input id="next" class="btn btn-success span1" style="width:80px;" value="查 询" type="button"></td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:center">SZ0000000001</td>
+                          <td style="text-align:center">深圳市同兴汽车贸易有限公司</td>
+                          <td style="text-align:center">4403756001-深圳市分公司营业四部车商业务一部</td>
+                          <td style="text-align:center">360104198501041046-龙希希</td>
+                          <td style="text-align:center">2016-07-27</td>
+                          <td style="text-align:center">有效</td>
+                          <td style="text-align:center"><input id="next" class="btn btn-success span1" style="width:80px;" value="查 询" type="button"></td>
+                        </tr> -->
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix">
+                    	<div class="dataTables_paginate fg-buttonset ui-buttonset fg-buttonset-multi ui-buttonset-multi paging_full_numbers" id="DataTables_Table_0_paginate">
+                    	<a tabindex="0" class="first ui-corner-tl ui-corner-bl fg-button ui-button ui-state-default ui-state-disabled" id="DataTables_Table_0_first">首页</a>
+                    	<a tabindex="0" class="previous fg-button ui-button ui-state-default ui-state-disabled" id="DataTables_Table_0_previous">上一页</a>
+                    	<span>
+                    	<a tabindex="0" class="fg-button ui-button ui-state-default ui-state-disabled">1</a>
+                    	<a tabindex="0" class="fg-button ui-button ui-state-default">2</a>
+                    	<a tabindex="0" class="fg-button ui-button ui-state-default">3</a>
+                    	<a tabindex="0" class="fg-button ui-button ui-state-default">4</a>
+                    	<a tabindex="0" class="fg-button ui-button ui-state-default">5</a>
+                    	</span>
+                    	<a tabindex="0" class="next fg-button ui-button ui-state-default" id="DataTables_Table_0_next">下一页</a>
+                    	<a tabindex="0" class="last ui-corner-tr ui-corner-br fg-button ui-button ui-state-default" id="DataTables_Table_0_last">尾页</a>
+                    	</div>
+                    </div> -->
+                    <div id="userPaginator"></div>
+                  </div>
+                </form>
+              </div>
+              
+              <div id="edit" class="modal hide fade in" style="display:none;">
+              	<div class="modal-header">
+              		<a class="close" data-dismiss="modal">x</a>
+              		<h3>编辑</h3>
+              	</div>
+              	<div class="modal-body">
+              		 <div class="widget-content nopadding">
+                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                  <div id="form-wizard-1" class="step">
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户代码：</label>
+                      <div class="controls">
+                        <input type="text" id="userCde1" name="userCde1" placeholder="用户代码" disabled="disabled"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户名称：</label>
+                      <div class="controls">
+                        <input  type="text" id="userNme1" name="userNme1" placeholder="用户名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户状态：</label>
+                      <div class="controls">
+                        <select name="userStatus1" id="userStatus1">
+                          <option value="1" checked>有效</option>
+                          <option value="0" checked>失效</option>
+                        </select>
+                      </div>
+                    </div>
+              	
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户类型：</label>
+                      <div class="controls">
+                        <select name="userType1" id="userType1">
+                          <option value="0" checked>外部人员</option>
+                          <option value="1" checked>内部销管人员</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label"><span class="require-tips">*</span>报价机构：</label>
+                      <div class="controls">
+                        <input id="dept1" type="text" name="dept1"/>
+                        <input class="w442" id="deptNme1" type="text" name="deptNme1"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label"><span class="require-tips">*</span>归属业务员：</label>
+                      <div class="controls">
+                        <input id="handlerCde1" type="text" name="handlerCde1"/>
+                        <input id="handlerNme1" type="text" name="handlerNme1"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>业务来源：</label>
+                      <div class="controls">
+                        <select id="businessNatureCde1" name="businessNatureCde1">
+                          <option value="0:直接业务" selected="selected">直接业务</option>
+                          <option value="1:个人代理" >个人代理</option>
+                          <option value="2:专业代理" >专业代理</option>
+                          <option value="3:普通兼业代理" >普通兼业代理</option>
+                          <option value="4:经纪—境内业务" >经纪—境内业务</option>
+                          <option value="5:经纪—境外业务" >经纪—境外业务</option>
+                          <option value="6:电话直销" >电话直销</option>
+                          <option value="7:柜台业务" >柜台业务</option>
+                          <option value="8:网络直销" >网络直销</option>
+                          <option value="9:互动业务" >互动业务</option>
+                          <option value="a:其他业务" >其他业务</option>
+                          <option value="b:寿代产-个险" >寿代产-个险</option>
+                          <option value="c:寿代产-团险" >寿代产-团险</option>
+                          <option value="d:寿代产-银保" >寿代产-银保</option>
+                          <option value="e:寿代产-其他" >寿代产-其他</option>
+                          <option value="f:互直" >互直</option>
+                          <option value="g:互代" >互代</option>
+                          <option value="h:分入业务" >分入业务</option>
+                          <option value="i:银行邮政代理" >银行邮政代理</option>
+                          <option value="j:车行业务" >车行业务</option>
+                          <option value="k:寿代产-收展" >寿代产-收展</option>
+                          <option value="l:门店业务" >门店业务</option>
+                          <option value="m:寿代产-养老" >寿代产-养老</option>
+                          <option value="n:投代产" >投代产</option>
+                          <option value="o:资代产" >资代产</option>
+                          <option value="p:养老代产" >养老代产</option>
+                          <option value="q:网络销售2" >网络销售2</option>
+                          <option value="r:网络销售3" >网络销售3</option>
+                          <option value="s:寿代产-上门" >寿代产-上门</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理人代码：</label>
+                      <div class="controls">
+                        <input id="agentCde1" type="text" name="agentCde1"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理人名称：</label>
+                      <div class="controls">
+                        <input id="agentNme1" type="text" name="agentNme1"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理许可证：</label>
+                      <div class="controls">
+                        <input id="permitNo1" type="text" name="permitNo1"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理协议号：</label>
+                      <div class="controls">
+                        <input id="agreementNo1" type="text" name="agreementNo1"/>
+                      </div>
+                    </div>
+                    <!--<div class="form-actions" style="text-align:center">
+                        <input id="back" class="btn btn-success span1" value="保 存" type="submit">
+                        <input id="next" class="btn btn-success span1" value="返 回" type="reset">
+                        <div id="status"></div>
+                      </div>-->
+                  </div>
+                </form>
+              </div>
+              	</div>
+              	<div class="modal-footer">
+              		<a href="#" id="update" class="btn btn-success">更新</a>
+              		<a href="#" class="btn" data-dismiss="modal">关闭</a>
+              	</div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-paginator.js"></script>
+<script src="js/user-manager.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/sweet-alert.min.js"></script>
+<script type="text/javascript" src="js/pikaday.js"></script>
+<script type="text/javascript" src="js/pikaday.jquery.js"></script>
+<script src="js/plugin/jquery.blockui.js"></script>
+<script src="js/common/LoaderMask.js"></script>
+</body>
+</html>

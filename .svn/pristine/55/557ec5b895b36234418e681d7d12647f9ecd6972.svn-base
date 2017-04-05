@@ -1,0 +1,95 @@
+{
+  "insuredList": [
+    {
+      "insuredName": "田伟",
+      "identifyType": "01",
+      "identifyNumber": "420683198809066118",
+      "insuredType": "7",
+      "insuredNature": "carOwner"
+    },
+    {
+      "insuredType": "1",
+      "insuredName": "田伟",
+      "identifyType": "01",
+      "identifyNumber": "420683198809066118",
+      "birthDay": "1988-09-06",
+      "sex": "1",
+      "insuredNature": "3"
+    }
+  ],
+  "combosList": [
+    {
+      "itemKindList": [
+        {
+          "kindCode": "001",
+          "kindName": "机动车损失保险",
+          "deductableFlag": 1,
+          "amount": "110622.6",
+          "benchMarkPremium": 2713.62,
+          "premium": 1721.79,
+          "discount": 0.6345
+        },
+        {
+          "kindCode": "301",
+          "kindName": "不计免赔率险（机动车损失保险）",
+          "deductableFlag": "0",
+          "amount": "0"
+        }
+      ]
+    },
+    {
+      "combosCode": "PACK000000",
+      "serialNo": "0",
+      "riskCode": "0507",
+      "comboNature": "3",
+      "itemKindList": [
+        {
+          "riskcode": "0507",
+          "kindCode": "BZ",
+          "deductableFlag": "0"
+        }
+      ]
+    }
+  ],
+  "carInfo": {
+    "newCarFlag": "0",
+    "carPriceType": "1",
+    "carType": "K33",
+    "carKindCode": "A0",
+    "useNatureCode": "8A",
+    "licenseType": "02",
+    "fuleType": "0",
+    "specialCarFlag": "0",
+    "carInsureRelation": "1",
+    "enrollDate": "2014-01-01",
+    "brandName": "福克斯CAF7201N41轿车",
+    "licenseNo": "粤BD8765",
+    "frameNo": "848475643738374874576",
+    "engineNo": "7463873",
+    "completeKerbMass": "1345.0",
+    "tonCount": "0.0",
+    "exhaustScale": "1.999",
+    "purchasePrice": "135900.0",
+    "actualValue": "110622.6",
+    "rbCode": "FTBAUD0041",
+    "platmodelCode": "BCAAFLUG0001",
+    "platmodelname": "福克斯CAF7201N41 SVP限量版",
+    "importFlag": "C",
+    "seatCount": "5",
+    "carOwner": "田伟",
+    "carOwnerNature": "7",
+    "carOwnerIdentifyType": "01",
+    "carOwnerIdentifyNumber": "420683198809066118"
+  },
+  "main": {
+    "startDate": "2016-08-17",
+    "endDate": "2017-08-16"
+  },
+  "applicant": {
+    "insuredNature": "3",
+    "insuredType": "1",
+    "identifyType": "01",
+    "identifyNumber": "420683198809066118",
+    "appliName": "田伟"
+  }
+}

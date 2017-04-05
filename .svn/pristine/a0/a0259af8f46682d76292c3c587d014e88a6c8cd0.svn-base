@@ -1,0 +1,1065 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>投保询价</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" />
+</head>
+<body>
+<div id="content">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content tab-content">
+                        <!--快速检索-->
+                        <div class="widget-box">
+                            <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>快速检索</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">车牌号：</label>
+                                            <div class="controls">
+                                                <input id="username" type="text" name="username" placeholder="车牌号"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">车架号：</label>
+                                            <div class="controls">
+                                                <input id="password" type="text" name="password" placeholder="车架号"/>
+                                                <button type="submit" class="btn btn-success">搜  索</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--行驶证车主-->
+                        <div class="widget-box">
+                            <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>行驶证车主</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>名称：</label>
+                                            <div class="controls">
+                                                <input id="username" type="text" name="username" placeholder="名称"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>证件：</label>
+                                            <div class="controls">
+                                                <select>
+                                                    <option value="01" checked>身份证</option>
+                                                    <option value="02" checked>护照</option>
+                                                    <option value="03" checked>军人证</option>
+                                                    <option value="04" checked>港澳通行证</option>
+                                                    <option value="05" checked>驾驶证</option>
+                                                    <option value="06" checked>港澳回乡证或台胞证</option>
+                                                    <option value="07" checked>临时身份证</option>
+                                                    <option value="99" checked>其他</option>
+                                                </select>
+                                                <input id="idCard" type="text" name="idCard" placeholder="证件号"/>
+                                                <button type="button" class="btn btn-success">客户信息检索</button>
+                                                <button type="button" class="btn btn-success disabled">修  改</button>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>出生日期：</label>
+                                            <div class="controls">
+                                                <div class="input-append date">
+                                                    <input class="w180" size="16" id="birthdayDate" type="text" value="2016-07-22" class="datetimepicker" readonly>
+                                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>性别：</label>
+                                            <div class="controls">
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                                    男
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                    女
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--车辆信息-->
+                        <div class="widget-box">
+                            <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>车辆信息</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>车牌号：</label>
+                                            <div class="controls">
+                                                <input id="username" type="text" name="username" placeholder="车牌号"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>新车：</label>
+                                            <div class="controls">
+                                                <label for="option1" class="checkbox inline">
+                                                    <input id="option1" type="checkbox" id="inlineCheckbox1" value="option1">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>发动机号：</label>
+                                            <div class="controls">
+                                                <input id="password" type="text" name="password" placeholder="发动机号"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>车架号：</label>
+                                            <div class="controls">
+                                                <input id="password" type="text" name="password" placeholder="车架号"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label"><span class="require-tips">*</span>厂牌型号：</label>
+                                            <div class="controls">
+                                                <input id="password" type="text" name="password"/>
+                                                <button type="button" class="btn btn-success">车型查询</button>
+                                                <select class="w642"><option></option></select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <input id="password" class="w300" type="text" name="password"/><label class="help-inline">/</label>
+                                                <input id="password" class="w300" type="text" name="password"/>
+                                                平台车型代码：
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label"><span class="require-tips">*</span>车辆种类：</label>
+                                            <div class="controls">
+                                                <input id="password" type="text" name="password" class="w70"/>
+                                                <select class="w80">
+                                                    <option value="?" selected="selected" title=""></option>
+                                                    <option>客车</option>
+                                                    <option>货车</option>
+                                                    <option>特种车</option>
+                                                    <option>摩托车</option>
+                                                    <option>拖拉机</option>
+                                                </select>
+                                                <input id="password" type="text" class="w120" name="password"/>
+                                                <select title="" class="w340">
+                                                    <option value="?" selected="selected" title=""></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>能量类型：</label>
+                                            <div class="controls">
+                                                <select class="w160">
+                                                    <option>燃油</option>
+                                                    <option>纯电动</option>
+                                                    <option>燃气电池</option>
+                                                    <option>插电式混合动力</option>
+                                                    <option>其他混合动力</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>核定座位数：</label>
+                                            <div class="controls">
+                                                <label class="help-inline">/</label>
+                                                <input id="password" type="text" name="password" class="w70"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>核定载重量(吨)：</label>
+                                            <div class="controls">
+                                                <label class="help-inline">/</label>
+                                                <input id="password" type="text" name="password"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">整备质量(吨)：</label>
+                                            <div class="controls">
+                                                <input id="password" type="text" name="password" class="w70"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">功率(KW)：</label>
+                                            <div class="controls">
+                                                <input id="password" type="text" name="password" class="w70"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>排气量(升)：</label>
+                                            <div class="controls">
+                                                <label class="help-inline">/</label>
+                                                <input id="password" type="text" name="password" class="w70"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>行驶证车辆类型：</label>
+                                            <div class="controls">
+                                                <select><option>--请选择--</option></select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>号牌种类：</label>
+                                            <div class="controls">
+                                                <select><option>--请选择--</option></select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">特殊车投保标志：</label>
+                                            <div class="controls">
+                                                <select><option>空</option></select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>初次登记日期：</label>
+                                            <div class="controls">
+                                                <div class="input-append date">
+                                                    <input class="w180" id="stRecordDate" size="16" type="text" value="2016-07-22" class="datetimepicker" readonly>
+                                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">使用性质：</label>
+                                            <div class="controls">
+                                                <select><option value="?"></option></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--其他定价信息-->
+                        <div class="widget-box">
+                            <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>其他定价信息</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>交强险保险期限：</label>
+                                            <div class="controls">
+                                                <div class="input-append date" data-date="2016-07-22" data-date-format="yyyy-mm-dd">
+                                                    <input class="w180" id="compulsoryInsuranceBegin" size="16" type="text" value="2016-07-22" class="datetimepicker" readonly>
+                                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                                </div>
+                                                <label class="help-inline"> - </label>
+                                                <div class="input-append date" data-date="2016-07-22" data-date-format="yyyy-mm-dd">
+                                                    <input class="w180" id="compulsoryInsuranceEnd" size="16" type="text" value="2016-07-22" class="datetimepicker" readonly>
+                                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>商业险保险期限：</label>
+                                            <div class="controls">
+                                                <div class="input-append date" data-date="2016-07-22" data-date-format="yyyy-mm-dd">
+                                                    <input class="w180" id="commercialInsuranceBegin" size="16" type="text" value="2016-07-22" class="datetimepicker" readonly>
+                                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                                </div>
+                                                <label class="help-inline"> - </label>
+                                                <div class="input-append date" data-date="2016-07-22" data-date-format="yyyy-mm-dd">
+                                                    <input class="w180" id="commercialInsuranceEnd" size="16" type="text" value="2016-07-22" class="datetimepicker" readonly>
+                                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                                </div>
+
+                                                <label class="help-inline">是否投贷多年:</label>
+                                                <input id="password" type="checkbox" name="password"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" style="width:200px;">跨省首年投保未出险证明年数：</label>
+                                            <div class="controls">
+                                                <label class="help-inline">交强险</label>
+                                                <input class="w120" id="password" type="text" name="password"/>
+                                                <label class="help-inline">商业险</label>
+                                                <input class="w120" id="password" type="text" name="password"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--选择保障-->
+                        <div class="widget-box">
+                            <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>选择保障</h5>
+                            </div>
+                            <div class="widget-content">
+                                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"></label>
+                                            <div class="controls">
+                                                <label for="option1" class="checkbox">
+                                                    <input id="isCompulsoryInsurance" type="checkbox" value="option1">交强险
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">保费(元):</label>
+                                            <div class="controls">
+                                                <input id="username" type="text" name="username"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">税款合计（元）:</label>
+                                            <div class="controls">
+                                                <input id="username" type="text" name="username"/>
+                                            </div>
+                                        </div>
+                                        <div id="compulsoryInsuranceInfo" class="control-group hide">
+                                            <div class="section">
+                                                <div class="h30" style="margin-top:-35px;">
+                                                    <div class="fr w180">
+                               <span id="ctrl_isShowForceFactor"><span class="toggle plus"><i class="upright"></i><i class="crossband"></i></span>
+                                  <label>
+                                      <span>交强险费率系数及险别</span>
+                                  </label>
+                               </span>
+                                                    </div>
+                                                </div>
+                                                <div id="addInsuranceTypeInfo" class="panel-heading hide">
+                                                    <div class="h30 bdb_d_888 mb10 mt5">
+                                                        <div class="f12 fl fwb p5">交强险险别</div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                        <div class="control-group control-group-inline">
+                                                            <label class="control-label">基准保费(元):</label>
+                                                            <div class="controls">
+                                                                <input type="text" ng-model="c51Peccancy.totalStandardPremium" class="warn ng-pristine ng-valid" disabled="">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="control-group control-group-inline">
+                                                            <label class="control-label">合计折扣:</label>
+                                                            <div class="controls">
+                                                                <input type="text" ng-model="c51Peccancy.totalDiscountTraffic" class="warn ng-pristine ng-valid" disabled="">
+                                                            </div>
+                                                        </div>
+                                                        <!--<div class="clearfix"></div>-->
+                                                        <div class="control-group control-group-inline">
+                                                            <label class="control-label">有责事故记录:</label>
+                                                            <div class="controls">
+                                                                <select class="w120"><option></option></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="control-group control-group-inline">
+                                                            <label class="control-label">有责事故记录系数:</label>
+                                                            <div class="controls">
+                                                                <input type="text" class="w120" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="control-group control-group-inline">
+                                                            <label class="control-label">交通违法行为:</label>
+                                                            <div class="controls">
+                                                                <select class="w120" disabled="disabled"><option></option></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="control-group control-group-inline">
+                                                            <label class="control-label">交通违法行为系数:</label>
+                                                            <div class="controls">
+                                                                <input type="text" class="w120" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-horizontal">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                <tr class="odd gradeX">
+                                                                    <th>险别</th>
+                                                                    <th>赔偿限额(元)</th>
+                                                                    <th>(无过错)赔偿限额(元)</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td style="text-align:center">死亡伤残</td>
+                                                                    <td style="text-align:center"><input type="text" disabled/></td>
+                                                                    <td style="text-align:center"><input type="text" disabled/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:center">医疗费用</td>
+                                                                    <td style="text-align:center"><input type="text" disabled/></td>
+                                                                    <td style="text-align:center"><input type="text" disabled/></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align:center">财产损失</td>
+                                                                    <td style="text-align:center"><input type="text" disabled/></td>
+                                                                    <td style="text-align:center"><input type="text" disabled/></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="compulsoryInsuranceType" class="panel-heading">
+                                                    <div class="h30 bdb_d_888 mb10 mt5">
+                                                        <div class="f12 fl fwb p5">车船税信息</div>
+                                                        <div class="fr w120 p5">
+                                  <span id="ctrl_isShowTaxInfo"><span class="toggle plus"><i class="upright"></i><i class="crossband"></i></span>
+                                  <label>
+                                      <span>车船税详细信息</span>
+                                  </label>
+                                  </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                        <!-- 纳税类型-->
+                                                        <div class="control-group" id="taxTypeTitle">
+                                                            <label class="control-label">纳税类型：</label>
+                                                            <div class="controls" id="taxType">
+                                                                <label class="radio inline">
+                                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="2" checked>
+                                                                    免税
+                                                                </label>
+                                                                <label class="radio inline">
+                                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                                                                    缴税
+                                                                </label>
+                                                                <label class="radio inline">
+                                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="2">
+                                                                    已完税
+                                                                </label>
+                                                                <label class="radio inline">
+                                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                                                                    减税
+                                                                </label>
+                                                                <label class="radio inline">
+                                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="2">
+                                                                    不减税
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <!--
+                                                        <div class="fr w120 p5 ng-hide" ng-show="ctrl.isLastYearVehicleTaxShow">
+                                                            <button class="btn btn-mini btn-primary" ng-click="quoteEvent.getLastYearVehicleTex()">上年缴税情况</button>
+                                                        </div>
+                                                        -->
+                                                        <div class="control-group control-group-inline w642">
+                                                            <label class="control-label" style="width:200px;">完税凭证号（减免税证明号）：</label>
+                                                            <div class="controls">
+                                                                <input type="text" class="w160">
+                                                            </div>
+                                                        </div>
+                                                        <div class="control-group control-group-inline">
+                                                            <label class="control-label">开具税务机关：</label>
+                                                            <div class="controls">
+                                                                <input type="text" class="w160">
+                                                            </div>
+                                                        </div>
+                                                        <div id="addTaxInfo" class="hide">
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">年单位税额：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">应缴税月份数：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">计税单位：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">前次纳税年度：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">前次交强险止期：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">纳税人识别号：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">当年应缴（元）：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">往年补缴（元）：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                            <div class="control-group control-group-inline">
+                                                                <label class="control-label">滞纳金（元）：</label>
+                                                                <div class="controls">
+                                                                    <input type="text" class="w160">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <label for="option1" class="checkbox">
+                                                <input id="isCommercialInsurance" type="checkbox" value="option1">商业险
+                                            </label>
+                                            <!--
+                                            <select><option>--请选择--</option><option>基本型</option><option>保障型</option><option>全面型</option>
+                                            <option>本田标配</option></select>
+                                            <label class="help-inline"> 当前选择套餐为：<span class="text-info">本田标配</span></label>
+                                            <span class="fwb help-block" style="color:red;">温馨提示：套餐推荐险别，为当前根据信息推荐。如录单信息发生变化，可能引起推荐险别套餐的变化，请重新选择推荐套餐</span>
+                                            -->
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="control-group" style="margin-top:-15px;">
+                                      <div class="controls">
+                                        <button type="button" class="btn btn-success">套餐设置</button>
+                                        <button type="button" class="btn btn-success">另存为新套餐</button>
+                                        <button type="button" class="btn btn-success">覆盖本套餐</button>
+                                        <button type="button" class="btn btn-success">删除本套餐</button>
+                                        <button type="button" class="btn btn-success">重置</button>
+                                      </div>
+                                    </div>
+                                    -->
+                                    <div id="commercialInsuranceInfo" class="control-group hide">
+                                        <div class="section">
+
+                                            <div class="h30" style="margin-top:-35px;">
+                                                <div class="fr w120" ng-show="true">
+                               <span id="ctrl_isSYShowForceFactor"><span class="toggle plus" ng-class="extStates"><i class="upright"></i><i class="crossband"></i></span>
+                                  <label>
+                                      <span>商业险费率因子</span>
+                                  </label>
+                               </span>
+                                                </div>
+                                            </div>
+
+                                            <div id="addSYRateInfo" class="panel-heading hide">
+                                                <div class="h30 bdb_d_888 mb10 mt5">
+                                                    <div class="f12 fl fwb p5 mb5">商业险费率因子</div>
+                                                </div>
+                                                <div class="form-horizontal">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                        <tr class="odd gradeX">
+                                                            <th>因子</th>
+                                                            <th>档次</th>
+                                                            <th>数值</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td style="text-align:center">自主核保系数</td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="text-align:center">车损险绝对免赔额系数</td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="text-align:center">渠道系数</td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="text-align:center">无赔款优待系数</td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="text-align:center">交通违法系数</td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                            <td style="text-align:center"><input type="text" disabled/></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="h30 bdb_d_888 mb10 mt5">
+                                                <div class="f12 fl fwb p5 mb5">商业险险别</div>
+                                                <!--
+                                                <div class="fr w160 p5">
+                                                    <span><span class="toggle plus" ng-class="extStates"><i class="upright"></i><i class="crossband"></i></span>
+                                                      <label>
+                                                          <span>显示费率/基准保费</span>
+                                                      </label>
+                                                    </span>
+                                                </div>
+                                                -->
+                                            </div>
+                                            <div class="form-horizontal">
+                                                <table id="tabInsSYType" class="table table-bordered">
+                                                    <thead>
+                                                    <tr class="odd gradeX">
+                                                        <th>选择</th>
+                                                        <th>险别</th>
+                                                        <th>保险金额/赔偿限额</th>
+                                                        <th>不计免赔</th>
+                                                        <th>费率浮动系数</th>
+                                                        <th>纯风险费率</th>
+                                                        <th>基准保费</th>
+                                                        <th>基准纯风险保费</th>
+                                                        <th>保费</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="odd gradeX text-right">
+                                                        <td><input type="checkbox" value="001"/></td>
+                                                        <td class="text-center">机动车损失保险</td>
+                                                        <td>
+                                                            <table class="table">
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>参考实际价值</td><td><input type="text" value=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>协商实际价值</td><td><input type="text" value=""></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>车损险绝对免赔额</td><td><select><option></option></select></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td class="text-center"><input type="checkbox" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="even gradeC">
+                                                        <td><input type="checkbox" value="002"/></td>
+                                                        <td>机动车第三者责任保险</td>
+                                                        <td>赔偿限额(万)<select><option></option></select></td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="odd gradeA">
+                                                        <td><input type="checkbox" value="007"/></td>
+                                                        <td class="text-center">机动车全车盗抢保险</td>
+                                                        <td><label class="help-inline"> / </label><input type="text"></td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="even gradeA">
+                                                        <td><input type="checkbox" value="003"/></td>
+                                                        <td>机动车车上人员责任保险（司机）</td>
+                                                        <td><input type="text"> 元 </td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="even gradeA">
+                                                        <td><input type="checkbox" value="006"/></td>
+                                                        <td>机动车车上人员责任保险（乘客）</td>
+                                                        <td><input type="text" class="w40 disabled"/> 座* <input type="text" class="w70" value="10000"/> 元/座 </td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+
+                                                    <tr class="add-temp hide">
+                                                        <td><input type="checkbox" value="205" /></td>
+                                                        <td>机动车划痕损失险</td>
+                                                        <td><label class="help-inline">/</label><input type="text" class="w40 disabled"/></td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="add-temp hide">
+                                                        <td><input type="checkbox" value="202" /></td>
+                                                        <td>自燃损失险</td>
+                                                        <td>元<label class="help-inline">/</label><input type="text" class="w40 disabled"/></td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="add-temp hide">
+                                                        <td><input type="checkbox" value="206"/></td>
+                                                        <td>发动机涉水损失险</td>
+                                                        <td></td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="add-temp hide">
+                                                        <td><input type="checkbox" value="210"/></td>
+                                                        <td>机动车损失保险无法找到第三方特约险</td>
+                                                        <td></td>
+                                                        <td class="center"></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="h30 bdb_d_888 mb10 mt5">
+                                                <div class="f12 fl fwb p5">
+                                <span id="ctrl_isShowOtherInfo"><span class="toggle plus"><i class="upright"></i><i class="crossband"></i></span>
+                                  <label>
+                                      <span>其他附加险</span>
+                                  </label>
+                                </span>
+                                                </div>
+                                            </div>
+                                            <div id="addOtherInsInfo" class="form-horizontal hide">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <tr class="odd gradeX">
+                                                        <th>选择</th>
+                                                        <th>险别</th>
+                                                        <th>保险金额/赔偿限额</th>
+                                                        <th>不计免赔</th>
+                                                        <th>费率浮动系数</th>
+                                                        <th>纯风险费率</th>
+                                                        <th>基准保费</th>
+                                                        <th>基准纯风险保费</th>
+                                                        <th>保费</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="add-temp hide">
+                                                        <td><input type="checkbox" /></td>
+                                                        <td class="text-center">指定修理厂险</td>
+                                                        <td></td>
+                                                        <td class="text-center"><input type="checkbox" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="add-temp hide">
+                                                        <td><input type="checkbox" /></td>
+                                                        <td>新增加设备损失险</td>
+                                                        <td>赔偿限额(万)<select><option></option></select></td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="add-tempB hide">
+                                                        <td><input type="checkbox" /></td>
+                                                        <td class="text-center">车上货物责任险</td>
+                                                        <td><label class="help-inline"> / </label><input type="text"></td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="add-tempB hide">
+                                                        <td><input type="checkbox" /></td>
+                                                        <td>	精神损害抚慰金责任险</td>
+                                                        <td><input type="text">元</td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    <tr class="add-temp hide">
+                                                        <td><input type="checkbox" /></td>
+                                                        <td>修理期间费用补偿险</td>
+                                                        <td><input type="text" class="w40 disabled"/> 座* <input type="text" class="w70" value="10000"/> 元/座 </td>
+                                                        <td class="center"><input type="checkbox" /></td>
+                                                        <td class="center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                        <td class="text-center"><input type="text" class="w70" /></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="addPremiumInfo" class="form-horizontal hide">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">商业险基准保费（合计）：</label>
+                                            <div class="controls">
+                                                <input type="text" class="w70" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">合计折扣：</label>
+                                            <div class="controls">
+                                                <input type="text" class="w70" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">商业险保费（合计）：</label>
+                                            <div class="controls">
+                                                <input type="text" class="w70" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group w text-center">
+                                            <div class="bdb_d_888 mb10 mb5"></div>
+                                            <label class="help-inline">总合计保费(含税)：</label>
+                                            <strong class="cal-sum w120">0</strong>
+                                            <div id="status"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--被保人信息-->
+                        <div class="widget-box">
+                            <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>被保人信息</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                                    <div id="form-wizard-1" class="step">
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">被保人：</label>
+                                            <div class="controls">
+                                                <select><option>--请选择--</option></select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>客户类型：</label>
+                                            <div class="controls">
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="2" checked>
+                                                    个人
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                                                    团体
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>名称：</label>
+                                            <div class="controls">
+                                                <input type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>证件：</label>
+                                            <div class="controls">
+                                                <select>
+                                                    <option value="01" checked>身份证</option>
+                                                    <option value="02" checked>护照</option>
+                                                    <option value="03" checked>军人证</option>
+                                                    <option value="04" checked>港澳通行证</option>
+                                                    <option value="05" checked>驾驶证</option>
+                                                    <option value="06" checked>港澳回乡证或台胞证</option>
+                                                    <option value="07" checked>临时身份证</option>
+                                                    <option value="99" checked>其他</option>
+                                                </select>
+                                                <input id="idCard" type="text" name="idCard" placeholder="证件号"/>
+                                                <button type="button" class="btn btn-success">客户信息检索</button>
+                                                <button type="button" class="btn btn-success disabled">修  改</button>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label"><span class="require-tips">*</span>联系方式：</label>
+                                            <div class="controls">
+                                                <select><option>手机</option><option>家庭电话</option></select>
+                                                <input type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>出生日期：</label>
+                                            <div class="controls">
+                                                <div class="input-append date">
+                                                    <input class="w180" size="16" id="isuBirthdayDay" type="text" value="2016-07-22" class="datetimepicker" readonly>
+                                                    <span class="add-on"><i class="icon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label"><span class="require-tips">*</span>性别：</label>
+                                            <div class="controls">
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="2" checked>
+                                                    男
+                                                </label>
+                                                <label class="radio inline">
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                                                    女
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">联系人email：</label>
+                                            <div class="controls">
+                                                <input type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">地址：</label>
+                                            <div class="controls">
+                                                <select class="w160"><option>请选择</option><option>中国</option><option>中国境外(含港、澳、台)</option></select> 国
+                                                <select class="w160"><option> </option></select> 市
+                                                <select class="w160"><option> </option></select> (县)区
+                                                <input type="text"/> 邮编: <input class="w120" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group control-group-inline">
+                                            <label class="control-label">受益人：</label>
+                                            <div class="controls">
+                                                <input type="text"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--特约及争议解决方式
+                        <div class="widget-box">
+                          <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                            <h5>特约及争议解决方式</h5>
+                          </div>
+                          <div class="widget-content nopadding">
+                            <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                              <div id="form-wizard-1" class="step">
+                                <div class="control-group control-group-inline">
+                                  <label class="control-label">争议解决方式：</label>
+                                  <div class="controls">
+                                    <label class="radio inline">
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="2" checked>
+                                    诉讼
+                                    </label>
+                                    <label class="radio inline">
+                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+                                    仲裁
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="h30">
+        <div class="w h30 wrapper-bottom-buttons wrapper-bottom-buttons-bg"></div>
+        <div class="w tac wrapper-bottom-buttons fs0">
+            <button class="btn btn-success mt10">保存</button>
+    <span class="ng-hide">
+      <button class="btn btn-success mt10 ng-hide ml5" >新车备案</button>&nbsp;&nbsp;
+    </span>
+            <div id="div-scope-watch-quotation" ext-trigger-bridge="{emit: true}" style="display: none;"></div>
+            <!-- 监听连平台数据对比回写 -->
+            <div id="div-scope-watch-compareDetail" ext-trigger-bridge="{emit: true}" style="display: none;"></div>
+            <!-- 监听缴税续保选择回写 -->
+            <div id="div-scope-watch-renewalAndC51DisTax" ext-trigger-bridge="{emit: true}" style="display: none;"></div>
+
+            <button class="btn btn-success mt10 ml5">申请报价</button>
+            <!--
+            <button class="btn btn-success mt10 ml5" disabled="disabled">发送报价单</button>
+            <button class="btn btn-success mt10 ml5" disabled="disabled">打印报价单</button>
+            <button class="btn btn-success mt10 ml5" disabled="disabled">通融申请</button>
+            <button class="btn btn-success mt10 ml5" disabled="disabled">查询告知单</button>
+            <button class="btn btn-success mt10 ml5">查看审核信息</button>
+            <button class="btn btn-success mt10 ml5 ng-scope">查看规则应用</button>
+            <button class="btn btn-success mt10 ml5">上传资料</button>
+            <button class="btn btn-success mt10 ml5 ng-hide" disabled="disabled">调节</button>
+            <button class="btn btn-success mt10 ml5 ng-hide" disabled="disabled">平台风险信息提示</button>
+            <div id="div-scope-watch-quoteUpload" ext-trigger-bridge="{emit: true}" style="display: none;"></div>
+            -->
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/personal-issue.js"></script>
+<!--Picker-->
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<!-- pikaday -->
+<link type="text/css" rel="stylesheet" href="css/pikaday.css"/>
+<script type="text/javascript" src="js/pikaday.js"></script>
+<script type="text/javascript" src="js/pikaday.jquery.js"></script>
+
+<!--<script src="js/jquery.ui.custom.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.validate.js"></script> 
+<script src="js/jquery.wizard.js"></script> 
+<script src="js/matrix.js"></script> 
+<script src="js/matrix.wizard.js"></script>
+<div id="gotoTop" class="gotoTop dsn" title="回到顶部" style="display: block;"><a href="javascript:;"><i class="icon-toTop"></i><b>回到顶部</b></a> </div>
+-->
+</body>
+</html>

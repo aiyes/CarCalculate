@@ -1,0 +1,148 @@
+package com.chinalife.sz.cc.model.user;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import org.apache.ibatis.type.Alias;
+
+@Alias("UserInfoDTO")
+public class UserInfoDTO implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8351727269014839327L;
+	//上次登录错误时间
+	private Date lastLoginErrDate;
+	//登陆错误次数
+	private int loginErrCount;
+	private String userCde;
+	private String userNme;
+	private String userType;
+	private String userStatus;
+	private String password;
+	private String dept;
+	private String deptNme;
+	private String handlerCde;
+	private String handlerNme;
+	private String businessNatureCde;
+	private String agentCde;
+	private String agentNme;
+	private String permitNo;
+	private String agreementNo;
+	private String crtMan;
+	private String updMan;
+	
+
+	public String getUserCde() {
+		return userCde;
+	}
+	public void setUserCde(String userCde) {
+		this.userCde = userCde;
+	}
+	public String getUserNme() {
+		return userNme;
+	}
+	public void setUserNme(String userNme) {
+		this.userNme = userNme;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+	public String getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public String getDeptNme() {
+		return deptNme;
+	}
+	public void setDeptNme(String deptNme) {
+		this.deptNme = deptNme;
+	}
+	public String getHandlerCde() {
+		return handlerCde;
+	}
+	public void setHandlerCde(String handlerCde) {
+		this.handlerCde = handlerCde;
+	}
+	public String getHandlerNme() {
+		return handlerNme;
+	}
+	public void setHandlerNme(String handlerNme) {
+		this.handlerNme = handlerNme;
+	}
+	public String getBusinessNatureCde() {
+		return businessNatureCde;
+	}
+	public void setBusinessNatureCde(String businessNatureCde) {
+		this.businessNatureCde = businessNatureCde;
+	}
+	public String getAgentCde() {
+		return agentCde;
+	}
+	public void setAgentCde(String agentCde) {
+		this.agentCde = agentCde;
+	}
+	public String getAgentNme() {
+		return agentNme;
+	}
+	public void setAgentNme(String agentNme) {
+		this.agentNme = agentNme;
+	}
+	public String getPermitNo() {
+		return permitNo;
+	}
+	public void setPermitNo(String permitNo) {
+		this.permitNo = permitNo;
+	}
+	public String getAgreementNo() {
+		return agreementNo;
+	}
+	public void setAgreementNo(String agreementNo) {
+		this.agreementNo = agreementNo;
+	}
+	public String getCrtMan() {
+		return crtMan;
+	}
+	public void setCrtMan(String crtMan) {
+		this.crtMan = crtMan;
+	}
+	public String getUpdMan() {
+		return updMan;
+	}
+	public void setUpdMan(String updMan) {
+		this.updMan = updMan;
+	}
+	
+	
+	public  void setLoginErrCount(int loginErrCount) {
+		this.loginErrCount = loginErrCount;
+	}
+	public  int getLoginErrCount() {
+		return loginErrCount;
+	}
+	
+	
+	public void setLastLoginErrDate(Date lastLoginErrDate) {
+		this.lastLoginErrDate = lastLoginErrDate;
+	}
+	public Date getLastLoginErrDate() {
+		return lastLoginErrDate;
+	}
+}

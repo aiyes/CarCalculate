@@ -1,0 +1,10 @@
+package com.chinalife.sz.cc.combos.service;
+
+import com.chinalife.sz.cc.model.combos.CombosSchemaDTO;
+
+/**
+ * Created by tianwei on 2016/12/23.
+ */
+public interface CombosSchemaService {
+    public void saveCombosSchema(CombosSchemaDTO combosSchemaDTO);
+}

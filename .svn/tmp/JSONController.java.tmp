@@ -1,0 +1,169 @@
+package com.chinalife.sz.carcalculate.controller;
+
+<<<<<<< .mine
+import com.chinalife.sz.carcalculate.service.WebUtils;
+=======
+import com.alibaba.fastjson.JSON;
+>>>>>>> .r106
+import com.chinalife.sz.cc.domain.*;
+<<<<<<< .mine
+
+=======
+import com.chinalife.sz.carcalculate.service.WebUtils;
+
+import com.chinalife.sz.carcalculate.utils.ConfigUtils;
+import com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub;
+import org.apache.axis2.AxisFault;
+>>>>>>> .r106
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.logging.Logger;
+import java.util.concurrent.BlockingQueue;
+
+/**
+ * Created by tianwei on 2016/7/21.
+ */
+@Controller
+public class JSONController {
+	private static ThreadLocal<BlockingQueue<String>>  errorResult= new ThreadLocal<BlockingQueue<String>>();
+	@Autowired
+	private WebUtils webUtils;
+	@RequestMapping(value = "/json", method = RequestMethod.GET)
+	public
+	@ResponseBody
+	List<Shop> getShopInJSON() {
+
+		//测试数据
+		Shop shop = new Shop();
+		System.out.println("Shop");
+		shop.setName("Eric");
+		shop.setStaffName(new String[]{"mkyong1", "mkyong2"});
+		Shop shop1 = new Shop();
+		System.out.println("Shop1");
+		shop1.setName("Eric1");
+		shop1.setStaffName(new String[]{"mkyong11", "mkyong21"});
+		List<Shop> list = new ArrayList<Shop>();
+		list.add(shop);
+		list.add(shop1);
+		return list;
+
+	}
+
+	@RequestMapping(value = "/jsonmap", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.BAD_GATEWAY)
+	public
+	@ResponseBody
+	Map<String, Shop> getShopInJSONMap() {
+		//System.out.println(headers.get);
+		//测试数据
+		Shop shop = new Shop();
+		System.out.println("Shop");
+		shop.setName("Eric");
+		shop.setStaffName(new String[]{"mkyong1", "mkyong2"});
+		Map<String, Shop> map = new HashMap<String, Shop>();
+		map.put("anjular", shop);
+		return map;
+
+	}
+
+	@RequestMapping(value = "/user/saveUser", method = {RequestMethod.POST})
+	@ResponseBody
+	public void saveUser(@RequestBody User user) {
+		//userService.batchSave(users);
+		org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(this.getClass());
+		logger.info("***********************************************************:" + user.getUserName());
+
+		//Logger logger = new Logger();
+
+	}
+
+	//信息查询
+	@RequestMapping(value = "/car/getCustomerInfo/{id}", method = RequestMethod.POST,produces = "application/json;charset:utf-8")
+	@ResponseBody
+	public PrpDcustomerIdvSchemaResponse getCustomerInfo(@RequestBody CustomerRequest customer, @PathVariable("id") String id,HttpServletResponse response) throws IOException {
+		org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(this.getClass());
+		logger.info("***********************************************************:" + customer.getCustomerCName());
+		customer.setRequestType("5");
+		customer.setComCode("44030000");
+		PrpDcustomerIdvSchemaResponse customerResponse = new PrpDcustomerIdvSchemaResponse();
+		customerResponse=webUtils.submit(customer, id, customerResponse);
+		System.out.println(customerResponse);
+		return customerResponse;
+	}
+	//保单查询
+	@ResponseBody
+	@RequestMapping(value="/car/getCarPolicyInfo/{id}",method = RequestMethod.POST)
+	public CarPolicyQueryResponse getCarPolicyInfo(@RequestBody CarPolicyRequest carPolicyRequest,@PathVariable("id") String id ){
+
+		carPolicyRequest.setRequestType("5");
+
+		CarPolicyQueryResponse  carPolicyResponse =  new CarPolicyQueryResponse();
+
+		carPolicyResponse=webUtils.submit(carPolicyRequest,id,carPolicyResponse);
+		System.out.println(carPolicyResponse);
+		return carPolicyResponse;
+	}
+	//保费计算
+	@RequestMapping(value="/car/premiumCalculate/{id}",method = RequestMethod.POST)
+	public @ResponseBody PremiumCalculateResponse premiumCalculate(@RequestBody PremiumCalculateRequest mainInfo, @PathVariable("id") String id,HttpServletResponse resp)  {
+		int i = new Double(Double.parseDouble(mainInfo.getCarInfo().getCompleteKerbMass())).intValue();
+		mainInfo.getCarInfo().setCompleteKerbMass(Integer.toString(i));
+		System.out.println(mainInfo);
+		PremiumCalculateResponse premiumCalculate= new PremiumCalculateResponse();
+		CombosDataResponse combosDataResponse = new CombosDataResponse();
+		combosDataResponse=webUtils.submit(mainInfo,id,combosDataResponse);
+
+		if(combosDataResponse==null){
+			BlockingQueue<String> errorQueue = errorResult.get();
+			String errorMessage = errorQueue.remove();
+
+			premiumCalculate.setErrorMessage(errorMessage);
+			resp.setStatus(406);
+		}
+		else {
+			premiumCalculate.setCombosList(new CombosDataResponse[]{combosDataResponse});
+		}
+		//resp.setStatus(404);
+		//resp.sendError();
+		return premiumCalculate;
+	}
+	//车型查询
+	@RequestMapping(value="/car/getVehicleModelList/{id}",method = RequestMethod.POST)
+	public @ResponseBody List<VehicleModelDataResponse> getVehicleModelList(@RequestBody VehicleModelRequest vehicelModel,@PathVariable("id") String id){
+		System.out.println(vehicelModel);
+		List<VehicleModelDataResponse> VehicleModelList = new ArrayList<VehicleModelDataResponse>();
+		//VehicleModelDataResponse[] VehicleModelList=new VehicleModelDataResponse[]{};
+		VehicleModelList = webUtils.submit(vehicelModel, id, VehicleModelList);
+		System.out.println(VehicleModelList);
+		return VehicleModelList;
+	}
+//历史数据复用
+	@RequestMapping(value="/car/policyReuse/{id}",method = RequestMethod.POST)
+	public @ResponseBody PolicyDataReuseResponse policyReuse(@RequestBody PolicyDataReuseRequest policy,@PathVariable("id") String id){
+		System.out.println(policy);
+		PolicyDataReuseResponse  response = new PolicyDataReuseResponse();
+		response=webUtils.submit(policy,id,response);
+		return response;
+	}
+
+<<<<<<< .mine
+	public static ThreadLocal<BlockingQueue<String>> getErrorResult() {
+		return null;
+	}
+=======
+	public static ThreadLocal<BlockingQueue<String>> getErrorResult() {
+		return errorResult;
+	}
+>>>>>>> .r106
+}

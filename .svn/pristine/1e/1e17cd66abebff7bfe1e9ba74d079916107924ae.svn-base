@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>新增用户</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/sweet-alert.css" />
+  <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" />
+</head>
+<body>
+<div id="content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-content tab-content">
+            <!--新增用户-->
+            <div class="widget-box">
+              <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                <h5>新增用户</h5>
+              </div>
+              <div class="widget-content nopadding">
+                <form id="form-wizard" name="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                  <div id="form-wizard-1" class="step">
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户代码：</label>
+                      <div class="controls">
+                        <input type="text" id="userCde" name="userCde" placeholder="用户代码" '/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户名称：</label>
+                      <div class="controls">
+                        <input  type="text" id="userNme" name="userNme" placeholder="用户名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户状态：</label>
+                      <div class="controls">
+                        <select name="userStatus" id="userStatus">
+                          <option value="1" checked>有效</option>
+                          <option value="0" checked>失效</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>密码：</label>
+                      <div class="controls">
+                        <input  type="text" id="password" name="password" placeholder="密码"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>用户类型：</label>
+                      <div class="controls">
+                        <select name="userType" id="userType">
+                          <option value="0" checked>外部人员</option>
+                          <option value="1" checked>内部销管人员</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label"><span class="require-tips">*</span>报价机构：</label>
+                      <div class="controls">
+                        <input id="dept" type="text" name="dept" placeholder="机构代码"/>
+                        <input class="w642" id="deptNme" type="text" name="deptNme" placeholder="机构名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label"><span class="require-tips">*</span>归属业务员：</label>
+                      <div class="controls">
+                        <input id="handler1Cde" type="text" name="handler1Cde" placeholder="业务员代码"/>
+                        <input id="handler1Nme" type="text" name="handler1Nme" placeholder="业务员名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">寿险销售人员：</label>
+                      <div class="controls">
+                        <input id="handlerCde" type="text" name="handlerCde" placeholder="寿险销售人员代码"/>
+                        <input id="handlerNme" type="text" name="handlerNme" placeholder="寿险销售人员名称"/>
+                      </div>
+                    </div>
+                    
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>销售渠道：</label>
+                      <div class="controls">
+                        <select id="ChannelType" name="ChannelType">
+                          <option value="01:营销" >营销</option>
+                          <option value="02:银邮" >银邮</option>
+                          <option value="03:互动">互动</option>
+                          <option value="04:电销" >电销</option>
+                          <option value="05:非车/重客/综拓" >非车/重客/综拓</option>
+                          <option value="06:车商" selected="selected">车商</option>
+                          <option value="07:银保" >银保</option>
+                          <option value="08:个代" >个代</option>
+                          <option value="09:普通中介" >普通中介</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>业务来源：</label>
+                      <div class="controls">
+                        <select id="businessNatureCde" name="businessNatureCde">
+                          <option value="1:个人代理" selected="selected">个人代理</option>
+                          <option value="2:专业代理" >专业代理</option>
+                          <option value="0:直接业务">直接业务</option>
+                          <option value="3:普通兼业代理" >普通兼业代理</option>
+                          <option value="4:经纪—境内业务" >经纪—境内业务</option>
+                          <option value="5:经纪—境外业务" >经纪—境外业务</option>
+                          <option value="6:电话直销" >电话直销</option>
+                          <option value="7:柜台业务" >柜台业务</option>
+                          <option value="8:网络直销" >网络直销</option>
+                          <option value="9:互动业务" >互动业务</option>
+                          <option value="a:其他业务" >其他业务</option>
+                          <option value="b:寿代产-个险" >寿代产-个险</option>
+                          <option value="c:寿代产-团险" >寿代产-团险</option>
+                          <option value="d:寿代产-银保" >寿代产-银保</option>
+                          <option value="e:寿代产-其他" >寿代产-其他</option>
+                          <option value="f:互直" >互直</option>
+                          <option value="g:互代" >互代</option>
+                          <option value="h:分入业务" >分入业务</option>
+                          <option value="i:银行邮政代理" >银行邮政代理</option>
+                          <option value="j:车行业务" >车行业务</option>
+                          <option value="k:寿代产-收展" >寿代产-收展</option>
+                          <option value="l:门店业务" >门店业务</option>
+                          <option value="m:寿代产-养老" >寿代产-养老</option>
+                          <option value="n:投代产" >投代产</option>
+                          <option value="o:资代产" >资代产</option>
+                          <option value="p:养老代产" >养老代产</option>
+                          <option value="q:网络销售2" >网络销售2</option>
+                          <option value="r:网络销售3" >网络销售3</option>
+                          <option value="s:寿代产-上门" >寿代产-上门</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理人代码：</label>
+                      <div class="controls">
+                        <input id="agentCde" type="text" name="agentCde" placeholder="代理人代码"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理人名称：</label>
+                      <div class="controls">
+                        <input id="agentNme" type="text" name="agentNme" placeholder="代理人名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理许可证：</label>
+                      <div class="controls">
+                        <input id="permitNo" type="text" name="permitNo" placeholder="代理许可证"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label"><span class="require-tips">*</span>代理协议号：</label>
+                      <div class="controls">
+                        <input id="agreementNo" type="text" name="agreementNo" placeholder="代理协议号"/>
+                      </div>
+                    </div>
+                     <div class="control-group">
+                      <label class="control-label">备注：</label>
+                      <div class="controls">
+                        <input class="w642" id="remark" type="text" name="remark" placeholder="备注信息"/>
+                      </div>
+                    </div>
+                    <!--<div class="form-actions" style="text-align:center">
+                        <input id="back" class="btn btn-success span1" value="保 存" type="submit">
+                        <input id="next" class="btn btn-success span1" value="返 回" type="reset">
+                        <div id="status"></div>
+                      </div>-->
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="h30">
+  <div class="w h30 wrapper-bottom-buttons wrapper-bottom-buttons-bg"></div>
+  <div class="w tac wrapper-bottom-buttons fs0">
+    <button class="btn btn-success mt10" id="saveUser">保 存</button>
+    <button class="btn btn-success mt10 ml5" id="back">返 回</button>
+  </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/personal-issue.js"></script>
+<!--Picker-->
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/jquery.validate.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/sweet-alert.min.js"></script>
+<script src="js/plugin/jquery.blockui.js"></script>
+<script src="js/common/LoaderMask.js"></script>
+<script src="js/user-add.js"></script>
+</body>
+</html>

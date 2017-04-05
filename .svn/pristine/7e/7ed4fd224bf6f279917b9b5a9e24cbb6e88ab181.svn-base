@@ -1,0 +1,59 @@
+package com.chinalife.sz.cc.menu.action.impl;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.chinalife.sz.cc.menu.action.MenuAction;
+import com.chinalife.sz.cc.menu.service.MenuService;
+import com.chinalife.sz.cc.model.common.ResponseCode;
+import com.chinalife.sz.cc.model.menu.MenuDTO;
+import com.prs.framework.core.common.model.ServiceRequest;
+import com.prs.framework.core.common.model.ServiceResponse;
+import com.prs.framework.core.exception.BusinessException;
+import com.prs.framework.core.exception.BusinessServiceException;
+
+public class MenuActionImpl implements MenuAction {
+	
+	private static Log logger = LogFactory.getLog(MenuActionImpl.class);
+	
+	@Resource
+	private MenuService menuService;
+	
+	/*
+	 * 获取菜单列表
+	 * @see com.chinalife.sz.carcalculate.menu.action.MenuAction#findAllMenu(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	public ServiceResponse findAllMenu(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = new HashMap<String, Object>(); 
+		MenuDTO dto=null;
+		
+		try {
+			List<MenuDTO> list=menuService.findAllMenu();
+			
+			Iterator<MenuDTO> it=list.iterator();
+			while(it.hasNext()){
+				dto=it.next();
+				model.put(dto.getMemo(),dto);
+			}
+
+			serviceResponse.setModel(model);
+			serviceResponse.setSuccess(true);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_SUCCESS);
+		} catch (BusinessException e) {
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.FIND_FAILURE);
+			throw new BusinessServiceException(e);
+		}
+		return serviceResponse;
+	}
+
+}

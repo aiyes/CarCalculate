@@ -1,0 +1,12 @@
+package com.chinalife.sz.cc.model.common;
+
+public class ServiceRequestID {
+
+	// 货运险试算
+	public static final String CARGO_APP = "cargo.app";
+	
+	// 货运险承保
+	public static final String CARGO_POL = "cargo.pol";
+	
+
+}

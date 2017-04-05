@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinalife.sz.cc.menu.mapper.MenuMapper">
+
+	<sql id="menuAllColumn">
+			USER_TYPE,TEMPLATE,STATUS,MEMO
+	</sql>
+	
+	<sql id="menuTableName">VQ_MENU</sql>
+	
+	<resultMap type="MenuDTO"  id="menuDTOResult">
+			<id property="userType" column="USER_TYPE" />
+			<result property="template" column="TEMPLATE" />
+			<result property="status" column="STATUS" />
+			<result property="memo" column="MEMO" />
+	</resultMap>
+	
+	
+	<select id="findAllMenu" resultMap="menuDTOResult">
+			SELECT <include refid="menuAllColumn" />
+			FROM <include refid="menuTableName" />	
+	</select>
+
+</mapper>
+

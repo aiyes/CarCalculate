@@ -1,0 +1,10 @@
+operator=SZ0_user
+operatorKey=SZ0_Pwd@gpic
+#operator=SZ0_user
+#operatorKey=SZ0_Pwd@gpic
+transType=00011001
+transExeDate=2016-7-12
+transExeTime=14:25:30
+pageFlag=0
+rowNumStart=1
+pageRowNum=50

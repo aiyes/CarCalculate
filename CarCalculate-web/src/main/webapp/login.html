@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>车险报价系统</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/sweet-alert.css" />
+    <script src="js/sweet-alert.min.js"></script>     
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+<div id="loginbox">
+    <div class="form-vertical"></div>
+    <div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>
+    <form name="user-login">
+    <div class="control-group">
+        <div class="controls">
+            <div class="main_input_box">
+                <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" id ="j_userName" name="j_userName" placeholder="用户名" />
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <div class="main_input_box">
+                <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" id="j_passWord" name="j_passWord" placeholder="密码" />
+            </div>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <div class="controls">
+            <div class="main_input_box">
+         	<input type="text" id="verifycode" name="verifycode" placeholder="验证码" style="width:18%; border:0px; height:21px;margin-bottom: 3px;"/>
+             <img title="看不清，点我" align="middle"  id="verifycodeimg" src="captcha.verifycode.action" onclick="javascript:refresh(this)" onmouseover="mouseover(this)" style="width:80px; border:0px; height:30px;margin-bottom: 3px;">
+            </div>
+        </div>
+    </div>
+    </form>
+	<div class="control-group">
+        <div class="controls">
+            <div class="main_input_box">
+            	<span class="add-on bg_ls"><i class="icon-chevron-right"></i></span><input type="button" class="btn btn-success" id="btn_submit" style="width:77%; border:0px; height:38px;margin-bottom: 3px;" value="登  陆" />
+            </div>
+        </div>
+    </div>
+    <p class="help-inline fs">安全小提示。</p>
+    <p class="help-inline">如您未获授权使用这私人电脑系统，请立即离开。在未发通知或未获允许情况下，所有系统行为会受监控及记录。</p>
+    <div class="form-actions"></div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/login.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.validate.js"></script>
+<script src="js/plugin/jquery.blockui.js"></script>
+<script src="js/common/LoaderMask.js"></script>
+</body>
+</html>

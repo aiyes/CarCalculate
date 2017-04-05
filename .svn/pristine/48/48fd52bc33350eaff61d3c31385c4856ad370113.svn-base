@@ -1,0 +1,255 @@
+/*
+ * xiaoxiaosu
+ */
+
+
+$(function(){
+	
+	// ini 
+	var isFound = false;
+	
+	/*
+	 * 初始化日期控件
+	 */ 
+    $(".datetimepicker").datetimepicker({
+        minView: "month",
+        format: "yyyy-mm-dd",
+        language: 'zh-CN',
+        autoclose:true
+    });	
+
+});
+
+$("#businessNatureCde1").click(function(){
+	var businessNature=$("#businessNatureCde1").val();
+	if(businessNature.indexOf("寿代产")>=0){
+		$("#lifeHandler").css('display','block'); 
+	}
+	else{
+		$("#lifeHandler").css('display','none'); 
+	}
+});
+
+$("#userInfoFind").click(function(){
+	$.ajax({
+		type:'post',
+		url:'userInfo.find.action',
+		dataType:'json',
+		data:{
+			userCode:$("#userCode").val(),
+			userName:$("#userName").val(),
+			createBegin:$("#createBegin").val(),
+			createEnd:$("#createEnd").val(),
+			dept:$("#dept").val(),
+			handler1Cde:$("#handler1Cde").val(),
+			handler1Nme:$("#handler1Nme").val(),
+			page:'1'
+		},
+		success:function(data){
+			$("#userInfoList").html("");
+			var status;
+			$.each(data.dtoList,function(index,item){ 
+				if(item.userStatus=='1')
+					status="有效";
+				else
+					status="失效";
+				$("#userInfoList").append('<tr>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userCde+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.dept+'-'+item.deptNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.handler1Cde+'-'+item.handler1Nme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.crtTime+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+status+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+'<a data-toggle="modal" href="#edit" class="btn btn-success span1" style="width:70px;" onclick=edit("'+item.userCde+'")>编辑</a>'+'</td>');
+				$("#userInfoList").append('</tr>');
+			
+			});
+
+				
+			var pageCount = data.totalPages//总页数
+				
+			var options = {
+						totalPages:pageCount,
+						currentPage:1,
+						itemTexts:function(type,page,current){
+							switch(type){
+							case "first":
+								return "首页";
+							case "prev":
+								return "上一页";
+							case "next":
+								return "下一页";
+							case "last":
+								return "末页";
+							case "page":
+								return page;
+							}
+						}
+						};
+				$("#userPaginator").bootstrapPaginator(options);
+				}
+				
+	});
+});
+
+function paging(page){
+	
+	$.ajax({
+		type:'post',
+		url:'userInfo.find.action',
+		dataType:'json',
+		data:{
+			userCode:$("#userCode").val(),
+			userName:$("#userName").val(),
+			createBegin:$("#createBegin").val(),
+			createEnd:$("#createEnd").val(),
+			dept:$("#dept").val(),
+			handlerCde:$("#handlerCde").val(),
+			handlerNme:$("#handlerNme").val(),
+			page:page
+		},
+		success:function(data){
+			$("#userInfoList").html("");
+			var status;
+			$.each(data.dtoList,function(index,item){ 
+				if(item.userStatus=='1')
+					status="有效";
+				else
+					status="失效";
+				$("#userInfoList").append('<tr>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userCde+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.dept+'-'+item.deptNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.handler1Cde+'-'+item.handler1Nme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.crtTime+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+status+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+'<a data-toggle="modal" href="#edit" class="btn btn-success span1" style="width:70px;" onclick=edit("'+item.userCde+'")>编辑</a>'+'</td>');
+				$("#userInfoList").append('</tr>');
+			
+			});
+
+				
+			var pageCount = data.totalPages//总页数
+				
+			var options = {
+						totalPages:pageCount,
+						currentPage:page,
+						itemTexts:function(type,page,current){
+							switch(type){
+							case "first":
+								return "首页";
+							case "prev":
+								return "上一页";
+							case "next":
+								return "下一页";
+							case "last":
+								return "末页";
+							case "page":
+								return page;
+							}
+						}
+						};
+				$("#userPaginator").bootstrapPaginator(options);
+				}
+				
+	});
+}
+
+$("#update").click(function(){
+	$.LoaderMask.loading({title:"信息校验中...",isFlag:true});
+//	alert(1);
+	$.ajax({
+		type:'post',
+		url:'userInfo.update.action',
+		dataType:'json',
+		data:{
+			userCde:$("#userCde1").val(),
+			userNme:$("#userNme1").val(),
+			userStatus:$("#userStatus1").val(),
+			userType:$("#userType1").val(),
+			dept:$("#dept1").val(),
+			deptNme:$("#deptNme1").val(),
+			handler1Cde:$("#handler1Cde1").val(),
+			handler1Nme:$("#handler1Nme1").val(),
+			handlerCde:$("#handlerCde1").val(),
+			handlerNme:$("#handlerNme1").val(),
+			channelType:$("#ChannelType1").val(),
+			businessNatureCde:$("#businessNatureCde1").val(),
+			agentCde:$("#agentCde1").val(),
+			agentNme:$("#agentNme1").val(),
+			permitNo:$("#permitNo1").val(),
+			agreementNo:$("#agreementNo1").val(),
+			remark:$("#remark1").val(),
+			updMan:$.cookie("userCode")
+		},
+		success:function(data){
+			$("#edit").css({display:"none"});
+			if($("#userType1").val()=="0"){
+				$.LoaderMask.loading({title:"信息校验中...",isFlag:false});
+				if(data.salesAgentInfo_check=="success"){
+				if(data.responseCode=="S0002"){
+					swal("更新提示","更新成功！","success");
+					paging(1);
+				}
+				else{	
+					swal("更新提示","更新失败！","error");
+				}
+					}
+					else{
+						swal("更新提示","销售人员信息校验失败，请重新录入","error");
+					}
+			}
+			else{
+//				$("#edit").css({display:"none"});
+				$.LoaderMask.loading({title:"信息校验中...",isFlag:false});
+				if(data.responseCode=="S0002"){
+					swal("更新提示","更新用户成功","success");
+					paging(1);
+				}else{
+					swal("更新提示","更新用户失败","error");
+				}
+			}
+		}
+	});
+});
+
+function edit(userCde){
+	$.ajax({
+		type:'post',
+		url:'userInfo.findByUsercde.action',
+		dataType:'json',
+		data:{
+			userCode:userCde
+		},
+		success:function(data){
+			var businessNature = data.dto.businessNatureCde;
+			if(businessNature.indexOf("寿代产")>=0){
+				$("#lifeHandler").css('display','block'); 
+			}
+			else{
+				$("#lifeHandler").css('display','none'); 
+			}
+			$("#userCde1").val(data.dto.userCde);
+			$("#userNme1").val(data.dto.userNme);
+			$("#userStatus1").val(data.dto.userStatus);
+			$("#userType1").val(data.dto.userType);
+			$("#dept1").val(data.dto.dept);
+			$("#deptNme1").val(data.dto.deptNme);
+			$("#handler1Cde1").val(data.dto.handler1Cde);
+			$("#handler1Nme1").val(data.dto.handler1Nme);
+			$("#handlerCde1").val(data.dto.handlerCde);
+			$("#handlerNme1").val(data.dto.handlerNme);
+			$("#ChannelType1").val(data.dto.channelType);
+			$("#businessNatureCde1").val(data.dto.businessNatureCde);
+			$("#agentCde1").val(data.dto.agentCde);
+			$("#agentNme1").val(data.dto.agentNme);
+			$("#permitNo1").val(data.dto.permitNo);
+			$("#agreementNo1").val(data.dto.agreementNo);
+			$("#remark1").val(data.dto.remark);
+		}
+	});
+}
+
+function clear(userCde){
+	
+}

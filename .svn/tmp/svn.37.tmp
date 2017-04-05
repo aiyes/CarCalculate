@@ -1,0 +1,35 @@
+{
+	"data" : [
+		{
+			"text": "投保管理",
+			"link": "" ,
+			"icon": "list",
+			"children": [
+				{
+					"text": "投保询价",
+					"link": "sspersonal-issue.html"
+				},
+			  {
+				"text": "新车询价",
+				"link": "newCar.html"
+			  }
+			]
+		},
+		{
+			"text": "系统配置",
+			"link": "" ,
+			"icon": "asterisk",
+			"children": [
+				{
+					"text": "新增用户",
+					"link": "user-add.html"
+				},
+				{
+					"text": "用户管理",
+					"link": "user-manager.html"
+				}
+			]
+		}
+	] ,
+	"tasks" : 23
+}

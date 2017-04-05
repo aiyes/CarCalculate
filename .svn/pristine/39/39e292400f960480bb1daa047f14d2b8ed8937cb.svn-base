@@ -1,0 +1,147 @@
+package com.chinalife.sz.carcalculate.service.impl;
+
+import com.chinalife.sz.carcalculate.service.WebService;
+import com.chinalife.sz.carcalculate.utils.LogUtils;
+import com.chinalife.sz.carcalculate.webservice.SalesAgentInfoQueryServiceStub;
+import com.chinalife.sz.carcalculate.webservice.SalesAgentInfoQueryServiceStub.*;
+import com.chinalife.sz.cc.log.service.LogService;
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.log.LogDTO;
+import com.prs.framework.core.exception.BusinessException;
+import org.apache.axis2.AxisFault;
+
+import javax.annotation.Resource;
+import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by tianwei on 2016/7/31.
+ * 销售人员
+ */
+public class SalesAgentInfoQueryService implements WebService {
+	@Resource
+	private LogService logService;
+
+	private SalesAgentInfoQueryServiceStub stub;
+	@Override
+	public <T> boolean checkData(T object) {
+		
+		return false;
+	}
+	public Map<String,Object> SalesAgentInfoTest(String handlerCode, String businessNatureCode, String businessNatureName){
+		final LogDTO logDTO = new LogDTO();
+		Map<String, Object> model = new HashMap<String, Object>();
+		logDTO.setServiceNme("销售信息查询");
+		SimpleDateFormat df = new SimpleDateFormat();
+		//报文头部扩展信息
+			TXInsuranceRequestExtensionEhm extensionEhm=new TXInsuranceRequestExtensionEhm();
+				//用户名：
+				extensionEhm.setOperator("SZ0_user");
+				//密码
+				extensionEhm.setOperatorKey("SZ0_Pwd@gpic");
+				
+				//报文头部请求信息
+				TXInsuranceRequestEhm requestEhm=new TXInsuranceRequestEhm();
+				//交易类型
+				requestEhm.setTransType("request");
+				//交易日期
+				requestEhm.setTransExeDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+				//交易时间
+				requestEhm.setTransExeTime(new SimpleDateFormat("hh:mm:sss").format(new Date()));
+				//报文头部请求扩展信息
+				IInsuranceExtensionEhm insEhm=new IInsuranceExtensionEhm();
+				insEhm.setPageFlag("0");
+				//扩展信息
+				requestEhm.setIInsuranceExtensionEhm(insEhm);
+				
+				//请求业务信息
+				SalesAgentInfoQueryEhmRequest ehmRequest = new SalesAgentInfoQueryEhmRequest();
+				//请求类型
+				ehmRequest.setRequestType("SZ0");
+				ehmRequest.setLogonRole("1");
+				ehmRequest.setHandler1Code(handlerCode);
+				ehmRequest.setBusinessNatureCode(businessNatureCode);
+				ehmRequest.setBusinessNatureName(businessNatureName);
+				
+				//请求信息中放入报文头
+				ehmRequest.setTXInsuranceRequestEhm(requestEhm);
+				//请求信息中放入报文扩展信息
+				ehmRequest.setTXInsuranceRequestExtensionEhm(extensionEhm);
+				
+				
+				//组webservice包
+				SalesAgentInfoQuery query = new SalesAgentInfoQuery();
+				query.setEhmRequest(ehmRequest);
+				
+				//返回信息
+				SalesAgentInfoQueryEhmResponse response =null;
+				try {
+					logDTO.setReqTm(df.format(new Date()));
+					logDTO.setReqXml(LogUtils.writeObject2String(ehmRequest));
+					response=new SalesAgentInfoQueryServiceStub().salesAgentInfoQuery(query).get_return();
+					logDTO.setRespTm(df.format(new Date()));
+					logDTO.setRespXml(LogUtils.writeObject2String(response));
+					//得到返回结果
+					TransResultEhm result=response.getTXInsuranceResponseEhm().getTransResultEhm();
+					String flag = result.getResultCode();
+					if(flag.equals("1")){
+						model.put(Constants.SALESAGENTINFO_CHECK, "success");
+						AgentEhm[] agentehm=response.getAgentArr();
+						model.put(Constants.AGENT_INFO_LIST, agentehm);
+					}
+					else{
+						model.put(Constants.SALESAGENTINFO_CHECK, "fail");
+					}
+					logDTO.setLogType("success");
+				} catch (AxisFault e) {
+					logDTO.setLogType("fail");
+					logDTO.setExc(e);
+					e.printStackTrace();
+				} catch (RemoteException e) {
+					logDTO.setLogType("fail");
+					logDTO.setExc(e);
+					e.printStackTrace();
+				}
+				
+		LogUtils.executorService.submit(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					logService.addLog(logDTO);
+				} catch (BusinessException e) {
+					e.printStackTrace();
+				}	
+				
+			}
+		});	
+		
+		return model;
+		
+	}
+	@Override
+	public <T> T dealData(Object object, T response) {
+		return null;
+	}
+
+	@Override
+	public void asynWtireLog(LogDTO logDTO) {
+
+	}
+
+	public SalesAgentInfoQueryServiceStub getStub() {
+		return stub;
+	}
+
+	public void setStub(SalesAgentInfoQueryServiceStub stub) {
+		this.stub = stub;
+	}
+	public static void main(String[] args) {
+		SalesAgentInfoQueryService servie = new SalesAgentInfoQueryService();
+		 servie.SalesAgentInfoTest("362323198707191025", "j", "车行业务");
+
+	}
+}

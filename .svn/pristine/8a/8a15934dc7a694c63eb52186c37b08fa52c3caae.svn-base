@@ -1,0 +1,228 @@
+;$(function(){
+	
+	/**
+	 * 新增用户js
+	 */
+
+	$("#saveUser").click(function(){
+//		console.log($("#userType").val());
+		if($("#userType").val()=="1"){
+			if($.trim($("#userCde").val())==""){
+				swal("消息提示","用户名不能为空","warning");
+				return;
+			}
+			if($.trim($("#password").val())==""){
+				swal("消息提示","密码不能为空","warning");
+				return;
+			}
+		}
+		else{
+			if(!userAdd.form()) {
+				return;
+			}
+		}
+		
+		/*if($.trim($("#userCde").val())==""){
+			swal("消息提示","用户名不能为空","warning");
+			return;
+		}
+		if($.trim($("#password").val())==""){
+			swal("消息提示","密码不能为空","warning");
+			return;
+		}
+		if($.trim($("#dept").val())==""){
+			swal("消息提示","机构代码不能为空","warning");
+			return;
+		}
+		if($.trim($("#deptNme").val())==""){
+			swal("消息提示","机构名称不能为空","warning");
+			return;
+		}
+		if($.trim($("#handlerCde").val())==""){
+			swal("消息提示","业务员代码不能为空","warning");
+			return;
+		}
+		if($.trim($("#handlerNme").val())==""){
+			swal("消息提示","业务员名称不能为空","warning");
+			return;
+		}
+		if($.trim($("#agentCde").val())==""){
+			swal("消息提示","代理人代码不能为空","warning");
+			return;
+		}
+		if($.trim($("#agentNme").val())==""){
+			swal("消息提示","代理人名称不能为空","warning");
+			return;
+		}
+		if($.trim($("#permitNo").val())==""){
+			swal("消息提示","代理许可证不能为空","warning");
+			return;
+		}
+		if($.trim($("#agreementNo").val())==""){
+			swal("消息提示","代理协议号不能为空","warning");
+			return;
+		}*/
+		
+		
+		
+		$.LoaderMask.loading({title:"信息校验中...",isFlag:true});
+		$.ajax({
+			type:'post',
+			url:'user.add.action',
+			dataType:'json',
+			data:{
+				userCde:$("#userCde").val(),
+				userNme:$("#userNme").val(),
+				userType:$("#userType").val(),
+				userStatus:$("#userStatus").val(),
+				password:$("#password").val(),
+				dept:$("#dept").val(),
+				deptNme:$("#deptNme").val(),
+				handlerCde:$("#handlerCde").val(),
+				handlerNme:$("#handlerNme").val(),
+				businessNatureCde:$("#businessNatureCde").val(),
+				agentCde:$("#agentCde").val(),
+				agentNme:$("#agentNme").val(),
+				permitNo:$("#permitNo").val(),
+				agreementNo:$("#agreementNo").val(),
+				crtMan:$.cookie('userCode')	
+			},
+			success:function(data){
+//				console.log(data.responseCode);
+				if($("#userType").val()=="0"){
+				$.LoaderMask.loading({title:"信息校验中...",isFlag:false});
+				if(data.salesAgentInfo_check=="success"){
+				if(data.responseCode=="S0001"){
+//					var username = data.carCalculate.add.user.userNme
+					swal("消息提示","新增用户成功","success");
+				}else{
+					swal("消息提示","新增用户失败","error");
+				}
+				}
+				else{
+					swal("消息提示","销售人员信息校验失败，请重新录入","error");
+				}
+				}
+				else if($("#userType").val()=="1"){
+					$.LoaderMask.loading({title:"信息校验中...",isFlag:false});
+					if(data.responseCode=="S0001"){
+						swal("消息提示","新增用户成功","success");
+					}else{
+						swal("消息提示","新增用户失败","error");
+					}
+				}
+				$("#form-wizard")[0].reset();
+				
+			},
+			error:function(msg){
+				$.LoaderMask.loading({title:"信息校验中...",isFlag:false});
+				swal("消息提示","新增用户失败","error");
+			}
+			
+		});
+	});
+
+	$("#back").click(function(){
+		$("#form-wizard")[0].reset();
+	});
+
+
+
+	if(!placeholderSupport()){   // 判断浏览器是否支持 placeholder 
+
+	    $('[placeholder]').focus(function() { 
+
+	        var input = $(this); 
+
+	        if (input.val() == input.attr('placeholder')) { 
+
+	            input.val(''); 
+
+	            input.removeClass('placeholder'); 
+
+	        } 
+
+	    }).blur(function() { 
+
+	        var input = $(this); 
+
+	        if (input.val() == '' || input.val() == input.attr('placeholder')) { 
+
+	            input.addClass('placeholder'); 
+
+	            input.val(input.attr('placeholder')); 
+
+	        } 
+
+	    }).blur(); 
+
+	};
+	
+	function placeholderSupport() { 
+ 		
+	    return 'placeholder' in document.createElement('input'); 
+
+	} 
+	
+
+	
+	var userAdd = $("form[name='form-wizard']").validate({
+        rules:{
+        	userCde:{
+                required:true
+            },
+            password:{
+                required:true
+            },
+            dept:{
+                required:true
+            },
+            deptNme:{
+                required:true
+            },
+            handlerCde:{
+                required:true
+            },
+            handlerNme:{
+                required:true
+            },
+            agentCde:{
+                required:true
+            },
+            agentNme:{
+                required:true
+            },
+            permitNo:{
+                required:true
+            },
+            agreementNo:{
+                required:true
+            }
+        },
+        errorClass: "help-inline",  //help-block
+        errorElement: "span",
+        highlight:function(element, errorClass, validClass) {
+	        $( element ).tooltip({ placement: 'bottom' });
+        	$( element ).css({'background-color': '#FFED86','border-color':'rgba(236, 168, 82, 0.8)'});
+        },
+        unhighlight: function(element, errorClass, validClass) {
+        	$( element ).css({'background-color': '','border-color':''});
+        },
+        messages: {
+        	userCde: {required: "用户代码不能为空！"},
+        	password: {required: "密码不能为空！"}, 
+        	dept: {required: "机构代码不能为空！"},
+        	deptNme: {required: "机构名称不能为空！"},
+        	handlerCde: {required: "业务员代码不能为空！"},
+        	handlerNme: {required: "业务员名称不能为空！"},
+        	agentCde: {required: "代理人代码不能为空！"},
+        	agentNme: {required: "代理人名称不能为空！"},
+        	permitNo: {required: "代理许可证不能为空！"},
+        	agreementNo: {required: "代理协议号不能为空！"}
+        }
+    });
+	
+	
+	
+
+});

@@ -1,0 +1,344 @@
+package com.chinalife.sz.carcalculate.controller;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.mail.Session;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.common.ResponseCode;
+import com.chinalife.sz.cc.model.common.ServiceRequestID;
+import com.chinalife.sz.cc.model.menu.MenuDTO;
+import com.chinalife.sz.cc.model.user.UserInfoDTO;
+import com.lowagie.tools.concat_pdf;
+import com.prs.framework.core.biz.action.support.annotation.ActionHandler;
+import com.prs.framework.core.exception.WebControllerException;
+import com.prs.framework.core.web.controller.util.WebUtils;
+
+/**
+ * 
+ * <p>Title: MainPageDispatcherController</p>
+ * <p>Description: controller </p>
+ * <p>Company: 紫川软件有限公司</p>
+ * @author sutanwei@purple-river.com
+ * @date 2016年1月16日
+ * @version 1.0
+ */
+@Controller
+public class UserManagerController {
+
+	/**
+	 * 日志管理
+	 */
+	private static Log logger = LogFactory.getLog(UserManagerController.class);
+	
+	/**
+	 * @Title: 登陆页面
+	 * @param request
+	 * @param response
+	 * @author MarsCheng
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="user.login.action", method=RequestMethod.POST)
+	public  ModelAndView userLogin (HttpServletRequest request, HttpServletResponse response) throws WebControllerException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model2 = new HashMap<String, Object>();
+		String userName = request.getParameter(Constants.USER_NAME);
+		String passWord = request.getParameter(Constants.PASS_WORD);
+		String verifycode = request.getParameter("verifycode");
+		logger.info("===============" + verifycode);
+		try {
+			HttpSession session = request.getSession();
+			String validateC = (String) session.getAttribute("validateCode");
+			logger.info(verifycode + "=============" + validateC);
+			if(StringUtils.isNotEmpty(userName) && StringUtils.isNotEmpty(verifycode) 
+					&& validateC.equals(verifycode.toUpperCase())) {
+				model.put(Constants.USER_NAME, userName);
+				model.put(Constants.PASS_WORD, passWord);
+				model = WebUtils.getResponseModel(model, ServiceRequestID.USER_LOGIN);	// 登陆返回结果
+				int status = (Integer)model.get(Constants.STATUS);
+//				request.getSession().setAttribute(Constants.STATUS,status);
+				if(status == 0){					// 登陆成功
+					UserInfoDTO dto = (UserInfoDTO)model.get(Constants.PARAM_DTO);	
+					//菜单设置
+/*					MenuDTO dto2;
+					
+					model2 = WebUtils.getResponseModel(model2, ServiceRequestID.MENU_FIND);
+					if(dto.getUserType()=='1'){
+						dto2 = (MenuDTO)model2.get(Constants.INMENU_TEMPLATE);
+					}
+					else{
+						dto2 = (MenuDTO)model2.get(Constants.OUTMENU_TEMPLATE);
+					}
+					String template = dto2.getTemplate();*/
+/*					String pathString = this.getClass().getClassLoader().getResource("/").getPath();
+//					System.out.println(pathString);
+					String new_pathString=pathString.replaceAll("target/classes/", "src/main/webapp/json/menuList.json");
+//					System.out.println(new_pathString);
+ */
+					//获取到前端文件的地址
+/*					String webPath = System.getProperty("webapp.root");
+					String path = webPath +"json\\menuList.json";
+					System.out.println(path);
+					File menu = new File(path);
+					if(!menu.exists()){
+						menu.createNewFile();
+					}
+					FileWriter fw = new FileWriter(menu);
+					fw.write(template);
+					fw.close();*/
+					
+					//登陆查询到的信息加入cookie
+					Cookie userNme = new Cookie("userName", URLEncoder.encode(dto.getUserNme(), "utf-8"));
+					Cookie userCd = new Cookie("userCode",URLEncoder.encode(dto.getUserCde(), "utf-8"));
+					response.addCookie(userNme);
+					response.addCookie(userCd);
+					
+					char usertype =  dto.getUserType();
+					String userType = String.valueOf(usertype);
+					session.setAttribute("login", "success");
+					session.setAttribute("userType",userType);
+					Cookie userTypeCookie = new Cookie("userType", userType);
+					response.addCookie(userTypeCookie);
+					//设置session过期时间
+					session.setMaxInactiveInterval(3600);
+					System.out.println("========登陸成功=========");
+//					return new ModelAndView("/index");
+//					response.sendRedirect(response.encodeURL("main.action"));
+				}
+				else {
+					//清空cookie
+				Cookie[] cookies=request.getCookies();
+				if(cookies!=null){
+					for(int i=0;i<cookies.length;i++){
+						Cookie cookie=new Cookie(cookies[i].getName(), null);
+						cookie.setMaxAge(0);
+						response.addCookie(cookie);
+					}
+				}
+				}
+			} else {								// 验证失败
+				logger.info("===============VALIDATE_CODE == " + verifycode + "=============" + validateC);
+				model.put(Constants.STATUS, 5);
+//				response.sendRedirect(response.encodeURL("login.action"));
+			}
+		} catch (Exception e) {
+//			System.out.println(e);	
+			throw new WebControllerException();
+ 
+		}
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+		
+	}	
+	/**
+	 * 新增用户
+	 * @param userInfoDTO
+	 * @author MarsCheng
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="user.add.action", method=RequestMethod.POST)
+	public @ResponseBody ModelAndView userAdd(UserInfoDTO userInfoDTO) throws WebControllerException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		try{
+		model.put(Constants.ADD_USER, userInfoDTO);
+		//新增用户返回结果
+		model=WebUtils.getResponseModel(model, ServiceRequestID.USER_ADD);
+		
+		}catch (Exception e) {
+//			System.out.println(e);
+			model.clear();
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_FAILURE);
+			throw new WebControllerException();
+		}
+		return new ModelAndView(new MappingJacksonJsonView(),model);	
+	
+	}
+	
+	/**
+	 * 修改密码
+	 * @param request
+	 * @param response
+	 * @author MarsCheng
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="passWord.edit.action", method=RequestMethod.POST)
+	public ModelAndView passWordEdit(HttpServletRequest request, HttpServletResponse response) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userCode = request.getParameter(Constants.USER_CODE);
+		String newPassword = request.getParameter(Constants.NEW_PASSWORD);
+		String oldPassword = request.getParameter(Constants.OLD_PASSWORD);
+		
+		try {
+		model.put(Constants.NEW_PASSWORD, newPassword);
+		model.put(Constants.OLD_PASSWORD,oldPassword );
+		model.put(Constants.USER_CODE, userCode);
+		
+		model=WebUtils.getResponseModel(model, ServiceRequestID.PASSWORD_EDIT);
+		
+		
+		} catch (Exception e) {
+			model.clear();
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_FAILURE);
+			throw new WebControllerException();
+		}
+		
+//		System.out.println("====new==="+newPassword+"====old===="+oldPassword);
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+	}
+	
+	/**
+	 * 重置密码
+	 * @param request
+	 * @param response
+	 * @author MarsCheng
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="passWord.reset.action", method=RequestMethod.POST)
+	public ModelAndView passWordReset(HttpServletRequest request, HttpServletResponse response) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userCode = request.getParameter(Constants.USER_CODE);
+		String newPassword = request.getParameter(Constants.NEW_PASSWORD);
+		
+		try {
+		model.put(Constants.NEW_PASSWORD, newPassword);
+		model.put(Constants.USER_CODE, userCode);
+		
+		model=WebUtils.getResponseModel(model, ServiceRequestID.PASSWORD_RESET);
+		
+		
+		} catch (Exception e) {
+			model.clear();
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_FAILURE);
+			throw new WebControllerException();
+		}
+		
+//		System.out.println("====new==="+newPassword+"====old===="+oldPassword);
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+	}
+	
+	/**
+	 * 用户信息查询
+	 * @author MarsCheng
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="userInfo.find.action", method=RequestMethod.POST)
+	public ModelAndView userInfoFind(HttpServletRequest request, HttpServletResponse response) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userCode = request.getParameter(Constants.USER_CODE);
+		String userName = request.getParameter(Constants.USER_NAME);
+		String createBegin = request.getParameter(Constants.CREATE_BEGIN);
+		String createEnd = request.getParameter(Constants.CREATE_END);
+		String dept = request.getParameter(Constants.DEPT);
+		String handler1Cde = request.getParameter(Constants.HANDLER1CDE);
+		String handler1Nme = request.getParameter(Constants.HANDLER1NME);
+		int page = Integer.parseInt(request.getParameter(Constants.CURRENT_PAGE));
+		
+		model.put(Constants.USER_CODE, userCode);
+		model.put(Constants.USER_NAME, userName);
+		model.put(Constants.CREATE_BEGIN, createBegin);
+		model.put(Constants.CREATE_END, createEnd);
+		model.put(Constants.DEPT,dept);
+		model.put(Constants.HANDLER1CDE,handler1Cde );
+		model.put(Constants.HANDLER1NME,handler1Nme);
+		model.put(Constants.CURRENT_PAGE, page);
+		model=WebUtils.getResponseModel(model, ServiceRequestID.USERINFO_FIND);
+		
+		
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+	}
+	
+	/**
+	 * 根据用户Id查找用户信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="userInfo.findByUsercde.action", method=RequestMethod.POST)
+	public ModelAndView userInfoFindByUserCde(HttpServletRequest request, HttpServletResponse response) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userCode = request.getParameter(Constants.USER_CODE);
+		model.put(Constants.USER_CODE, userCode);
+		model=WebUtils.getResponseModel(model, ServiceRequestID.USERINFO_FIND_BY_USERCDE);
+		
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+		
+		
+	}
+	
+	/**
+	 * 更新用户信息
+	 * @param dto
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@RequestMapping(value="userInfo.update.action", method=RequestMethod.POST)
+	public ModelAndView updateUserInfo(UserInfoDTO dto) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		try{
+			model.put(Constants.UPDATE_USER, dto);
+			//更新用户返回结果
+			model=WebUtils.getResponseModel(model, ServiceRequestID.USERINFO_UPDATE);
+			
+			}catch (Exception e) {
+//				System.out.println(e);
+				model.clear();
+				model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_FAILURE);
+				throw new WebControllerException();
+			}
+			return new ModelAndView(new MappingJacksonJsonView(),model);
+		
+		
+	}
+	
+	
+	@RequestMapping(value="session.update.action", method=RequestMethod.POST)
+	public ModelAndView deleteSession(HttpServletRequest request, HttpServletResponse response) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		try{
+			HttpSession session = request.getSession();
+			session.invalidate();
+			logger.info("=========session清空成功===========");
+			model.put(Constants.MESSAGE, "success");
+			}catch (Exception e) {
+			model.put(Constants.MESSAGE, "fail");	
+			}
+			return new ModelAndView(new MappingJacksonJsonView(),model);
+		
+		
+	}
+	
+
+	
+}

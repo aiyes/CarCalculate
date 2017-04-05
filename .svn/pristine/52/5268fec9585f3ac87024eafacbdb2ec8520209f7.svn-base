@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.chinalife.sz.cc.user.mapper.UserInfoMapper">
+
+	<sql id="userInfoAllColumn">
+		user_cde,user_nme,user_type,user_status,dept,dept_nme,channel_type,channel_name,
+		handler_cde,handler_nme,handler1_cde,handler1_nme,business_nature_cde,business_nature_nme,
+		agent_cde,agent_nme,permit_no,agreement_no,remark
+	</sql>
+	
+	<sql id="userInfoLoginColumn">
+		user_cde,user_nme,user_type,user_status,dept,dept_nme,
+		handler1_cde,handler1_nme,business_nature_cde,business_nature_nme,agent_cde,agent_nme,
+		permit_no,agreement_no
+	</sql>
+	
+	<sql id="userInfoFindColumn">
+		user_cde,user_nme,user_status,dept,dept_nme,handler1_cde,handler1_nme,crt_tm,upd_tm
+	</sql>
+	
+	<sql id="userInfoInsert">
+		user_cde,user_nme,user_type,user_status,password,dept,dept_nme,handler1_cde,handler1_nme,
+		handler_cde,handler_nme,channel_type,channel_name,business_nature_cde,business_nature_nme,agent_cde,agent_nme,
+		permit_no,agreement_no,remark,crt_man,crt_tm
+	</sql>
+
+	<sql id="userInfoTableName">vq_user_info</sql>
+
+	<resultMap type="UserInfoDTO" id="userInfoDTOResult">
+		<id property="userCde" column="user_cde" />
+		<result property="userNme" column="user_nme" />
+		<result property="userType" column="user_type" />
+		<result property="userStatus" column="user_status" />
+		<result property="dept" column="dept" />
+		<result property="deptNme" column="dept_nme" />
+		<result property="handlerCde" column="handler_cde" />
+		<result property="handlerNme" column="handler_nme" />
+		<result property="handler1Cde" column="handler1_cde" />
+		<result property="handler1Nme" column="handler1_nme" />
+		<result property="channelType" column="channel_type"/>
+		<result property="channelName" column="channel_name"/>
+		<result property="businessNatureCde" column="business_nature_cde" />
+		<result property="businessNatureNme" column="business_nature_nme" />
+		<result property="agentCde" column="agent_cde" />
+		<result property="agentNme" column="agent_nme" />
+		<result property="permitNo" column="permit_no" />
+		<result property="agreementNo" column="agreement_no" />
+		<result property="remark" column="remark" />
+	</resultMap>
+	
+	<resultMap type="UserInfoDTO" id="userInfoLoginResult">
+		<id property="userCde" column="user_cde" />
+		<result property="userNme" column="user_nme" />
+		<result property="userType" column="user_type" />
+		<result property="userStatus" column="user_status" />
+		<result property="dept" column="dept" />
+		<result property="deptNme" column="dept_nme" />
+		<result property="handler1Cde" column="handler1_cde" />
+		<result property="handler1Nme" column="handler1_nme" />
+		<result property="businessNatureCde" column="business_nature_cde" />
+		<result property="businessNatureNme" column="business_nature_nme" />
+		<result property="agentCde" column="agent_cde" />
+		<result property="agentNme" column="agent_nme" />
+		<result property="permitNo" column="permit_no" />
+		<result property="agreementNo" column="agreement_no" />
+	</resultMap>
+	
+	<resultMap type="UserInfoDTO" id="userInfoFindResult">
+		<id property="userCde" column="user_cde" />
+		<result property="userNme" column="user_nme" />
+		<result property="userStatus" column="user_status" />
+		<result property="dept" column="dept" />
+		<result property="deptNme" column="dept_nme" />
+		<result property="handler1Cde" column="handler1_cde" />
+		<result property="handler1Nme" column="handler1_nme" />
+		<result property="crtTM" column="crt_tm"/>
+		<result property="updTM" column="upd_tm"/>
+	</resultMap>
+
+	<!-- 插入车险报价用户表 -->
+	<insert id="addUserInfo"  parameterType="UserInfoDTO">
+		INSERT INTO <include refid="userInfoTableName" /> (
+		<include refid="userInfoInsert" />
+		)VALUES (#{userCde,jdbcType=VARCHAR},
+		#{userNme,jdbcType=VARCHAR},
+		#{userType,jdbcType=VARCHAR},
+		#{userStatus,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{dept,jdbcType=VARCHAR},
+		#{deptNme,jdbcType=VARCHAR},
+		#{handler1Cde,jdbcType=VARCHAR},
+		#{handler1Nme,jdbcType=VARCHAR},
+		#{handlerCde,jdbcType=VARCHAR},
+		#{handlerNme,jdbcType=VARCHAR},
+		#{channelType,jdbcType=VARCHAR},
+		#{channelName,jdbcType=VARCHAR},
+		#{businessNatureCde,jdbcType=VARCHAR},
+		#{businessNatureNme,jdbcType=VARCHAR},
+		#{agentCde,jdbcType=VARCHAR},
+		#{agentNme,jdbcType=VARCHAR},
+		#{permitNo,jdbcType=VARCHAR},
+		#{agreementNo,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR},
+		#{crtMan,jdbcType=VARCHAR},
+		NOW())
+	</insert>
+
+
+	<update id="updateUserInfo" parameterType="UserInfoDTO">
+		UPDATE
+		<include refid="userInfoTableName" />
+		SET USER_NME=#{userNme,jdbcType=VARCHAR},
+		USER_TYPE=#{userType,jdbcType=VARCHAR},
+		USER_STATUS=#{userStatus,jdbcType=VARCHAR},
+		CHANNEL_TYPE=#{channelType,jdbcType=VARCHAR},
+		CHANNEL_NAME=#{channelName,jdbcType=VARCHAR},
+		DEPT=#{dept,jdbcType=VARCHAR},
+		DEPT_NME=#{deptNme,jdbcType=VARCHAR},
+		HANDLER1_CDE=#{handler1Cde,jdbcType=VARCHAR},
+		HANDLER1_NME=#{handler1Nme,jdbcType=VARCHAR},
+		HANDLER_CDE=#{handlerCde,jdbcType=VARCHAR},
+		HANDLER_NME=#{handlerNme,jdbcType=VARCHAR},
+		BUSINESS_NATURE_CDE=#{businessNatureCde,jdbcType=VARCHAR},
+		BUSINESS_NATURE_NME=#{businessNatureNme,jdbcType=VARCHAR},
+		AGENT_CDE=#{agentCde,jdbcType=VARCHAR},
+		AGENT_NME=#{agentNme,jdbcType=VARCHAR},
+		PERMIT_NO=#{permitNo,jdbcType=VARCHAR},
+		AGREEMENT_NO=#{agreementNo,jdbcType=VARCHAR},
+		REMARK=#{remark,jdbcType=VARCHAR},
+		UPD_TM=NOW(),
+		UPD_MAN=#{updMan,jdbcType=VARCHAR}
+		WHERE user_cde=#{userCde,jdbcType=VARCHAR}
+	</update>
+
+
+	<!--根据客户号，查对应客户信息 -->
+	<select id="findUserInfoByUserCde" resultMap="userInfoDTOResult">
+		SELECT
+		<include refid="userInfoAllColumn" />
+		FROM
+		<include refid="userInfoTableName" />
+		WHERE user_cde=#{userCde,jdbcType=VARCHAR} 	 
+	</select>
+	
+	<!-- 分页查找用户信息 -->
+	<select id="findUserInfo" resultMap="userInfoFindResult">
+	SELECT ttt.* 
+	FROM(
+	SELECT tt.*
+	FROM(
+	SELECT 
+	<include refid="userInfoFindColumn"/>
+	FROM
+		<include refid="userInfoTableName" />
+		<where>
+		<if test="userCde!=null and userCde!=''">
+		user_cde=#{userCde,jdbcType=VARCHAR} 
+		</if>	
+		<if test="userNme!=null and userNme!=''">
+			AND user_nme=#{userNme,jdbcType=VARCHAR}
+		</if> 
+		<if test="createEnd!=null and createEnd!=''">
+			AND TO_CHAR(crt_tm,'YYYY-MM-DD') &lt;= #{createEnd,jdbcType=VARCHAR}
+		</if>
+		<if test="createBegin!=null and createBegin!=''">
+			AND TO_CHAR(crt_tm,'YYYY-MM-DD') &gt;= #{createBegin,jdbcType=VARCHAR}
+		</if>
+		<if test="dept!=null and dept!=''">
+			AND dept= #{dept,jdbcType=VARCHAR}
+		</if>
+		<if test="handler1Cde!=null and handler1Cde!=''">
+			AND handler1_cde = #{handler1Cde,jdbcType=VARCHAR}
+		</if>
+		<if test="handler1Nme!=null and handler1Nme!=''">
+			AND handler1_nme = #{handler1Nme,jdbcType=VARCHAR}
+		</if>
+		</where>
+		ORDER BY crt_tm DESC)tt)ttt
+				LIMIT #{startIndex,jdbcType=INTEGER},
+				#{pageSize,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 分页数 -->
+	<select id="pageCounts" resultType="int">
+		SELECT count(*) FROM
+		 <include refid="userInfoTableName" />
+		 <where>
+		<if test="userCde!=null and userCde!=''">
+		user_cde=#{userCde,jdbcType=VARCHAR} 
+		</if>	
+		<if test="userNme!=null and userNme!=''">
+			AND user_nme=#{userNme,jdbcType=VARCHAR}
+		</if> 
+		<if test="createEnd!=null and createEnd!=''">
+			AND TO_CHAR(crt_tm,'YYYY-MM-DD') &lt;= #{createEnd,jdbcType=VARCHAR}
+		</if>
+		<if test="createBegin!=null and createBegin!=''">
+			AND TO_CHAR(crt_tm,'YYYY-MM-DD') &gt;= #{createBegin,jdbcType=VARCHAR}
+		</if>
+		<if test="dept!=null and dept!=''">
+			AND dept= #{dept,jdbcType=VARCHAR}
+		</if>
+		<if test="handler1Cde!=null and handler1Cde!=''">
+			AND handler1_cde = #{handler1Cde,jdbcType=VARCHAR}
+		</if>
+		<if test="handler1Nme!=null and handler1Nme!=''">
+			AND handler1_nme = #{handler1Nme,jdbcType=VARCHAR}
+		</if>
+		</where>
+	</select>
+	
+	<!-- 用户登陆 -->
+	<select id="userNameLogin" resultMap="userInfoLoginResult">
+		SELECT
+		<include refid="userInfoLoginColumn" />
+		FROM
+		<include refid="userInfoTableName" />
+		WHERE user_cde=#{userCde,jdbcType=VARCHAR}
+			   AND
+				password=#{password,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按用户信息失效(更新用户状态) -->
+	<update id="delUserInfoByUserCde">
+		UPDATE
+		<include refid="userInfoTableName" />
+		SET user_status='0',
+		upd_man=#{updMan,jdbcType=VARCHAR}
+		WHERE user_cde=#{userCde,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 修改密码 -->
+	<update id="updatePassword">
+		UPDATE
+		<include refid="userInfoTableName"/>
+		SET password=#{newpassword,jdbcType=VARCHAR},
+			upd_tm=NOW()
+		WHERE user_cde=#{userCde,jdbcType=VARCHAR}
+			AND
+				password=#{password,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 重置密码 -->
+	<update id="resetPassword">
+		UPDATE
+		<include refid="userInfoTableName"/>
+		SET password=#{newpassword,jdbcType=VARCHAR},
+		upd_tm=NOW()
+		WHERE user_cde=#{userCde,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

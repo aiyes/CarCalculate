@@ -1,0 +1,490 @@
+package com.chinalife.sz.cc.domain;
+
+import java.io.Serializable;
+
+/**
+ * Created by tianwei on 2016/7/20.
+ * 险别信息
+ */
+public class ItemKindDataResponse  implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4679213948376959691L;
+	private double Amount;
+	private String StartDate;
+	private int StartHour;
+	private String EndDate;
+	private int EndHour;
+	private double AmountCNY;
+	private double PremiumCNY;
+	private double DiscountPremiumCNY;
+	private String ItemCode;
+	private String ItemDetailName;
+	private double UnitAmount;
+	private double BenchMarkPremium;
+	private double AdjustRate;
+	private double ShortRate;
+	private String ShortRateFlag;
+	private double BasePremium;
+	private double Rate;
+	private String ActuaryPremium;
+	private String UnderWritePremium;
+	private double Premium;
+	private String DeductableFlag;
+	private double Quantity;
+	private String Currency;
+	private String ModeCode;
+	private String ModeName;
+	private String KindCode;
+	private String KindName;
+	private double Discount;
+	private double DiscountPremium;
+	private String OptionalFlag;
+	private String ComboNature;
+	private String UUID;
+	private String ItemNo;
+	private String RateFactor;
+	private String SerialNo;
+	private String flag;
+	private String CalculateFlag;
+	private String newDiscount;
+	private String newPremium;
+	private String m1Value;
+	private String m1Premium;
+	private String rPremium;
+	private String kindPremiumM;
+	private String guestamount;
+	private String driveramount;
+	private String thirdPeopleamount;
+    private String kindBenchmarkPremiumm;
+
+	@Override
+	public String toString() {
+		return "ItemKindDataResponse{" +
+				"Amount=" + Amount +
+				", StartDate='" + StartDate + '\'' +
+				", StartHour=" + StartHour +
+				", EndDate='" + EndDate + '\'' +
+				", EndHour=" + EndHour +
+				", AmountCNY=" + AmountCNY +
+				", PremiumCNY=" + PremiumCNY +
+				", DiscountPremiumCNY=" + DiscountPremiumCNY +
+				", ItemCode='" + ItemCode + '\'' +
+				", ItemDetailName='" + ItemDetailName + '\'' +
+				", UnitAmount=" + UnitAmount +
+				", BenchMarkPremium=" + BenchMarkPremium +
+				", AdjustRate=" + AdjustRate +
+				", ShortRate=" + ShortRate +
+				", ShortRateFlag='" + ShortRateFlag + '\'' +
+				", BasePremium=" + BasePremium +
+				", Rate=" + Rate +
+				", ActuaryPremium='" + ActuaryPremium + '\'' +
+				", UnderWritePremium='" + UnderWritePremium + '\'' +
+				", Premium=" + Premium +
+				", DeductableFlag='" + DeductableFlag + '\'' +
+				", Quantity=" + Quantity +
+				", Currency='" + Currency + '\'' +
+				", ModeCode='" + ModeCode + '\'' +
+				", ModeName='" + ModeName + '\'' +
+				", KindCode='" + KindCode + '\'' +
+				", KindName='" + KindName + '\'' +
+				", Discount=" + Discount +
+				", DiscountPremium=" + DiscountPremium +
+				", OptionalFlag='" + OptionalFlag + '\'' +
+				", ComboNature='" + ComboNature + '\'' +
+				", UUID='" + UUID + '\'' +
+				", ItemNo='" + ItemNo + '\'' +
+				", RateFactor='" + RateFactor + '\'' +
+				", SerialNo='" + SerialNo + '\'' +
+				", flag='" + flag + '\'' +
+				", CalculateFlag='" + CalculateFlag + '\'' +
+				", newDiscount='" + newDiscount + '\'' +
+				", newPremium='" + newPremium + '\'' +
+				", m1Value='" + m1Value + '\'' +
+				", m1Premium='" + m1Premium + '\'' +
+				", rPremium='" + rPremium + '\'' +
+				", kindPremiumM='" + kindPremiumM + '\'' +
+				", guestamount='" + guestamount + '\'' +
+				", driveramount='" + driveramount + '\'' +
+				", thirdPeopleamount='" + thirdPeopleamount + '\'' +
+				'}';
+	}
+
+	public String getKindBenchmarkPremiumm() {
+		return kindBenchmarkPremiumm;
+	}
+
+	public void setKindBenchmarkPremiumm(String kindBenchmarkPremiumm) {
+		this.kindBenchmarkPremiumm = kindBenchmarkPremiumm;
+	}
+
+	public double getAmount() {
+		return Amount;
+	}
+
+	public void setAmount(double amount) {
+		Amount = amount;
+	}
+
+	public String getStartDate() {
+		return StartDate;
+	}
+
+	public void setStartDate(String startDate) {
+		StartDate = startDate;
+	}
+
+	public int getStartHour() {
+		return StartHour;
+	}
+
+	public void setStartHour(int startHour) {
+		StartHour = startHour;
+	}
+
+	public String getEndDate() {
+		return EndDate;
+	}
+
+	public void setEndDate(String endDate) {
+		EndDate = endDate;
+	}
+
+	public int getEndHour() {
+		return EndHour;
+	}
+
+	public void setEndHour(int endHour) {
+		EndHour = endHour;
+	}
+
+	public double getAmountCNY() {
+		return AmountCNY;
+	}
+
+	public void setAmountCNY(double amountCNY) {
+		AmountCNY = amountCNY;
+	}
+
+	public double getPremiumCNY() {
+		return PremiumCNY;
+	}
+
+	public void setPremiumCNY(double premiumCNY) {
+		PremiumCNY = premiumCNY;
+	}
+
+	public double getDiscountPremiumCNY() {
+		return DiscountPremiumCNY;
+	}
+
+	public void setDiscountPremiumCNY(double discountPremiumCNY) {
+		DiscountPremiumCNY = discountPremiumCNY;
+	}
+
+	public String getItemCode() {
+		return ItemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		ItemCode = itemCode;
+	}
+
+	public String getItemDetailName() {
+		return ItemDetailName;
+	}
+
+	public void setItemDetailName(String itemDetailName) {
+		ItemDetailName = itemDetailName;
+	}
+
+	public double getUnitAmount() {
+		return UnitAmount;
+	}
+
+	public void setUnitAmount(double unitAmount) {
+		UnitAmount = unitAmount;
+	}
+
+	public double getBenchMarkPremium() {
+		return BenchMarkPremium;
+	}
+
+	public void setBenchMarkPremium(double benchMarkPremium) {
+		BenchMarkPremium = benchMarkPremium;
+	}
+
+	public double getAdjustRate() {
+		return AdjustRate;
+	}
+
+	public void setAdjustRate(double adjustRate) {
+		AdjustRate = adjustRate;
+	}
+
+	public double getShortRate() {
+		return ShortRate;
+	}
+
+	public void setShortRate(double shortRate) {
+		ShortRate = shortRate;
+	}
+
+	public String getShortRateFlag() {
+		return ShortRateFlag;
+	}
+
+	public void setShortRateFlag(String shortRateFlag) {
+		ShortRateFlag = shortRateFlag;
+	}
+
+	public double getBasePremium() {
+		return BasePremium;
+	}
+
+	public void setBasePremium(double basePremium) {
+		BasePremium = basePremium;
+	}
+
+	public double getRate() {
+		return Rate;
+	}
+
+	public void setRate(double rate) {
+		Rate = rate;
+	}
+
+	public String getActuaryPremium() {
+		return ActuaryPremium;
+	}
+
+	public void setActuaryPremium(String actuaryPremium) {
+		ActuaryPremium = actuaryPremium;
+	}
+
+	public String getUnderWritePremium() {
+		return UnderWritePremium;
+	}
+
+	public void setUnderWritePremium(String underWritePremium) {
+		UnderWritePremium = underWritePremium;
+	}
+
+	public double getPremium() {
+		return Premium;
+	}
+
+	public void setPremium(double premium) {
+		Premium = premium;
+	}
+
+	public String getDeductableFlag() {
+		return DeductableFlag;
+	}
+
+	public void setDeductableFlag(String deductableFlag) {
+		DeductableFlag = deductableFlag;
+	}
+
+	public double getQuantity() {
+		return Quantity;
+	}
+
+	public void setQuantity(double quantity) {
+		Quantity = quantity;
+	}
+
+	public String getCurrency() {
+		return Currency;
+	}
+
+	public void setCurrency(String currency) {
+		Currency = currency;
+	}
+
+	public String getModeCode() {
+		return ModeCode;
+	}
+
+	public void setModeCode(String modeCode) {
+		ModeCode = modeCode;
+	}
+
+	public String getModeName() {
+		return ModeName;
+	}
+
+	public void setModeName(String modeName) {
+		ModeName = modeName;
+	}
+
+	public String getKindCode() {
+		return KindCode;
+	}
+
+	public void setKindCode(String kindCode) {
+		KindCode = kindCode;
+	}
+
+	public String getKindName() {
+		return KindName;
+	}
+
+	public void setKindName(String kindName) {
+		KindName = kindName;
+	}
+
+	public double getDiscount() {
+		return Discount;
+	}
+
+	public void setDiscount(double discount) {
+		Discount = discount;
+	}
+
+	public double getDiscountPremium() {
+		return DiscountPremium;
+	}
+
+	public void setDiscountPremium(double discountPremium) {
+		DiscountPremium = discountPremium;
+	}
+
+	public String getOptionalFlag() {
+		return OptionalFlag;
+	}
+
+	public void setOptionalFlag(String optionalFlag) {
+		OptionalFlag = optionalFlag;
+	}
+
+	public String getComboNature() {
+		return ComboNature;
+	}
+
+	public void setComboNature(String comboNature) {
+		ComboNature = comboNature;
+	}
+
+	public String getUUID() {
+		return UUID;
+	}
+
+	public void setUUID(String UUID) {
+		this.UUID = UUID;
+	}
+
+	public String getItemNo() {
+		return ItemNo;
+	}
+
+	public void setItemNo(String itemNo) {
+		ItemNo = itemNo;
+	}
+
+	public String getRateFactor() {
+		return RateFactor;
+	}
+
+	public void setRateFactor(String rateFactor) {
+		RateFactor = rateFactor;
+	}
+
+	public String getSerialNo() {
+		return SerialNo;
+	}
+
+	public void setSerialNo(String serialNo) {
+		SerialNo = serialNo;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
+	public String getCalculateFlag() {
+		return CalculateFlag;
+	}
+
+	public void setCalculateFlag(String calculateFlag) {
+		CalculateFlag = calculateFlag;
+	}
+
+	public String getNewDiscount() {
+		return newDiscount;
+	}
+
+	public void setNewDiscount(String newDiscount) {
+		this.newDiscount = newDiscount;
+	}
+
+	public String getNewPremium() {
+		return newPremium;
+	}
+
+	public void setNewPremium(String newPremium) {
+		this.newPremium = newPremium;
+	}
+
+	public String getM1Value() {
+		return m1Value;
+	}
+
+	public void setM1Value(String m1Value) {
+		this.m1Value = m1Value;
+	}
+
+	public String getM1Premium() {
+		return m1Premium;
+	}
+
+	public void setM1Premium(String m1Premium) {
+		this.m1Premium = m1Premium;
+	}
+
+	public String getrPremium() {
+		return rPremium;
+	}
+
+	public void setrPremium(String rPremium) {
+		this.rPremium = rPremium;
+	}
+
+	public String getKindPremiumM() {
+		return kindPremiumM;
+	}
+
+	public void setKindPremiumM(String kindPremiumM) {
+		this.kindPremiumM = kindPremiumM;
+	}
+
+	public String getGuestamount() {
+		return guestamount;
+	}
+
+	public void setGuestamount(String guestamount) {
+		this.guestamount = guestamount;
+	}
+
+	public String getDriveramount() {
+		return driveramount;
+	}
+
+	public void setDriveramount(String driveramount) {
+		this.driveramount = driveramount;
+	}
+
+	public String getThirdPeopleamount() {
+		return thirdPeopleamount;
+	}
+
+	public void setThirdPeopleamount(String thirdPeopleamount) {
+		this.thirdPeopleamount = thirdPeopleamount;
+	}
+}

@@ -1,0 +1,39 @@
+/**
+ * @author MarsCheng
+ * @email chengjie@sz.chinalife-p.com.cn
+ * 2016年9月6日
+ */
+package com.chinalife.sz.carcalculate.utils;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
+
+import javax.xml.namespace.QName;
+
+import org.apache.axiom.om.OMElement;
+import org.apache.axis2.databinding.utils.BeanUtil;
+
+import com.alibaba.fastjson.JSON;
+
+
+/**
+ * 日志工具类
+ * @author MarsCheng
+ * @email chengjie@sz.chinalife-p.com.cn
+ * 2016年9月6日
+ */
+public class LogUtils {
+	
+
+	public static ExecutorService executorService  = Executors.newSingleThreadExecutor();
+	
+	public static String writeObject2String(Object object){
+		String result = JSON.toJSONString(object);
+		System.out.println(result);
+	
+		return result;
+	}
+
+}

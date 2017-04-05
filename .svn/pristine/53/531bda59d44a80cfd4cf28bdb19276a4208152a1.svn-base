@@ -1,0 +1,152 @@
+/*
+ * xiaoxiaosu
+ */
+
+
+$(function(){
+	
+	// ini 
+	var isFound = false;
+	
+	/*
+	 * 初始化日期控件
+	 */ 
+	$("#createBegin").pikaday({
+	    firstDay: 1,
+        minDate: new Date('2015-01-01'),
+        maxDate: new Date('2020-12-31'),
+        yearRange: [2015,2020]
+	});
+	$("#createEnd").pikaday({
+	    firstDay: 1,
+        minDate: new Date('2015-01-01'),
+        maxDate: new Date('2020-12-31'),
+        yearRange: [2015,2020]
+	});
+
+});
+
+$("#userInfoFind").click(function(){
+	$.ajax({
+		type:'post',
+		url:'userInfo.find.action',
+		dataType:'json',
+		data:{
+			userCode:$("#userCode").val(),
+			userName:$("#userName").val(),
+			createBegin:$("#createBegin").val(),
+			createEnd:$("#createEnd").val(),
+			dept:$("#dept").val(),
+			handlerCde:$("#handlerCde").val(),
+			handlerNme:$("#handlerNme").val(),
+			page:'1'
+		},
+		success:function(data){
+			$("#userInfoList").html("");
+			var status;
+			$.each(data.dtoList,function(index,item){ 
+				if(item.userStatus=='1')
+					status="有效";
+				else
+					status="失效";
+				$("#userInfoList").append('<tr>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userCde+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.dept+'-'+item.deptNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.handlerCde+'-'+item.handlerNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.crtTime+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+status+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+'<input id="next" class="btn btn-success span1" style="width:70px;" value="修 改 "type="button">'+'<input id="next" class="btn btn-success span1" style="width:70px;" value="删 除" type="button">'+'</td>');
+				$("#userInfoList").append('</tr>');
+			
+			});
+
+				
+			var pageCount = data.totalPages//总页数
+				
+			var options = {
+						totalPages:pageCount,
+						currentPage:1,
+						itemTexts:function(type,page,current){
+							switch(type){
+							case "first":
+								return "首页";
+							case "prev":
+								return "上一页";
+							case "next":
+								return "下一页";
+							case "last":
+								return "末页";
+							case "page":
+								return page;
+							}
+						}
+						};
+				$("#userPaginator").bootstrapPaginator(options);
+				}
+				
+	});
+});
+
+function paging(page){
+	
+	$.ajax({
+		type:'post',
+		url:'userInfo.find.action',
+		dataType:'json',
+		data:{
+			userCode:$("#userCode").val(),
+			userName:$("#userName").val(),
+			createBegin:$("#createBegin").val(),
+			createEnd:$("#createEnd").val(),
+			dept:$("#dept").val(),
+			handlerCde:$("#handlerCde").val(),
+			handlerNme:$("#handlerNme").val(),
+			page:page
+		},
+		success:function(data){
+			$("#userInfoList").html("");
+			var status;
+			$.each(data.dtoList,function(index,item){ 
+				if(item.userStatus=='1')
+					status="有效";
+				else
+					status="失效";
+				$("#userInfoList").append('<tr>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userCde+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.userNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.dept+'-'+item.deptNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.handlerCde+'-'+item.handlerNme+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+item.crtTime+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+status+'</td>');
+				$("#userInfoList").append('<td style="text-align:center">'+'<input id="next" class="btn btn-success span1" style="width:70px;" value="修 改 "type="button">'+'<input id="next" class="btn btn-success span1" style="width:70px;" value="删 除" type="button">'+'</td>');
+				$("#userInfoList").append('</tr>');
+			
+			});
+
+				
+			var pageCount = data.totalPages//总页数
+				
+			var options = {
+						totalPages:pageCount,
+						currentPage:page,
+						itemTexts:function(type,page,current){
+							switch(type){
+							case "first":
+								return "首页";
+							case "prev":
+								return "上一页";
+							case "next":
+								return "下一页";
+							case "last":
+								return "末页";
+							case "page":
+								return page;
+							}
+						}
+						};
+				$("#userPaginator").bootstrapPaginator(options);
+				}
+				
+	});
+}

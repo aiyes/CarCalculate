@@ -1,0 +1,125 @@
+package com.chinalife.sz.carcalculate.service.impl;
+
+import com.chinalife.sz.carcalculate.service.WebService;
+import com.chinalife.sz.carcalculate.utils.ConfigUtils;
+import com.chinalife.sz.carcalculate.utils.LogUtils;
+import com.chinalife.sz.carcalculate.webservice.PoundageCaculateServiceStub;
+import com.chinalife.sz.cc.log.service.LogService;
+import com.chinalife.sz.cc.model.log.LogDTO;
+import com.prs.framework.core.exception.BusinessException;
+import org.apache.log4j.Logger;
+
+import javax.annotation.Resource;
+import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
+/**
+ * Created by tianwei on 2016/12/14.
+ */
+public class poundageCalculateService implements WebService {
+    private PoundageCaculateServiceStub stub;
+    private Logger logger= Logger.getLogger(this.getClass());
+    @Resource
+    private LogService logService;
+    @Override
+    public <T> boolean checkData(T object) {
+        if(object instanceof  PoundageCaculateServiceStub.PoundageCaculateRequest ){
+            PoundageCaculateServiceStub.PoundageCaculateRequest request=(PoundageCaculateServiceStub.PoundageCaculateRequest)object;
+            PoundageCaculateServiceStub.TXInsuranceRequestExtensionEhm extensionEhmC = new PoundageCaculateServiceStub.TXInsuranceRequestExtensionEhm();
+            ConfigUtils.setMainInfo(extensionEhmC, "tXInsuranceRequestExtension");
+            PoundageCaculateServiceStub.TXInsuranceRequestEhm ehmC = new PoundageCaculateServiceStub.TXInsuranceRequestEhm();
+            ConfigUtils.setMainInfo(ehmC, "tXInsuranceRequest");
+
+            request.setTXInsuranceRequest(ehmC);
+            request.setTXInsuranceRequestExtension(extensionEhmC);
+
+            request.setPolicySort(ConfigUtils.getValue("basic.policySort"));
+
+            request.setIsPoundageFlag(ConfigUtils.getValue("poundageCalculateService.main.isPoundageFlag"));
+            request.setDisRate(ConfigUtils.getValue("poundageCalculateService.main.disRate"));
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public <T> T dealData(Object domain, T response) {
+        PoundageCaculateServiceStub.PoundageCaculateRequest request = new PoundageCaculateServiceStub.PoundageCaculateRequest();
+        request.setProvisonalNo(String.valueOf(domain));
+        if(checkData(request)){
+            PoundageCaculateServiceStub.GetBusPoundage getBusPoundage1 = new PoundageCaculateServiceStub.GetBusPoundage();
+            getBusPoundage1.setRequest(request);
+
+            // 写入日志
+            Object reqJson = ConfigUtils.formatJson(request);
+            logger.info("手续费计算--"+request.getProvisonalNo()+"(request):"+reqJson);
+            LogDTO logDTO = new LogDTO();
+            logDTO.setServiceNme("手续费计算");
+            logDTO.setReqTm(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            logDTO.setReqXml(reqJson.toString());
+            try {
+                PoundageCaculateServiceStub.PoundageCaculateResponse poundageCaculateResponse= new PoundageCaculateServiceStub().getBusPoundage(getBusPoundage1).get_return();
+                logDTO.setRespTm(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                if(poundageCaculateResponse!=null){
+                    Object respJson= ConfigUtils.formatJson(poundageCaculateResponse);
+                    logger.info("手续费计算--"+request.getProvisonalNo()+"(response):"+respJson);
+                    logDTO.setRespXml(respJson.toString());
+                }
+
+                PoundageCaculateServiceStub.TransResultEhm  resultC = poundageCaculateResponse.getTXInsuranceResponse().getTransResultEhm();
+
+                    if(response instanceof HashMap){
+                        HashMap  resultMap=(HashMap) response;
+                        resultMap.put("resultCode",resultC.getResultCode());
+                        resultMap.put("message",resultC.getResultInfoDesc());
+                        if("1".equals(resultC.getResultCode())){
+                            logDTO.setLogType("success");
+                            asynWtireLog(logDTO);
+                        }
+                        else {
+                            logDTO.setLogType("fail");
+                            logDTO.setErrMsg(resultC.getResultInfoDesc());
+                            asynWtireLog(logDTO);
+                        }
+                        return  response;
+                    }
+
+
+
+
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+
+
+        return null;
+    }
+
+    @Override
+    public void asynWtireLog(final LogDTO logDTO) {
+        LogUtils.executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    logService.addLog(logDTO);
+                } catch (BusinessException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public PoundageCaculateServiceStub getStub() {
+        return stub;
+    }
+
+    public void setStub(PoundageCaculateServiceStub stub) {
+        this.stub = stub;
+    }
+}

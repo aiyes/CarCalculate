@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl">
+<head>
+    <meta charset="utf-8">
+    <title>simple</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="js/angular.min.js"></script>
+</head>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<input type="text" ng-model="name"    >
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/personal-issue.js"></script>
+<!--Picker-->
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+    var app = angular.module('myApp', []);
+
+    app.controller('myCtrl',function($scope){
+       $scope.name={
+           "username":"tianwei",
+           "password":"456"
+       };
+//     var s=   $scope.name|json;
+        alert(s);
+    });
+</script>
+
+</body>
+</html>

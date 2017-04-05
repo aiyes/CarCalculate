@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>车险报价系统</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+<div id="loginbox">
+    <div class="form-vertical" > </div>
+        <div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" id ="userName" name="userName" placeholder="用户名" />
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" id="passWord" name="passWord" placeholder="密码" />
+                </div>
+            </div>
+        </div>
+        
+         <div class="control-group" id="wrongError">
+            <div class="controls">
+        <div class="main_input_box alert alert-warning" style="width: 409px"  >
+        	<a href="#" class="close" data-dismiss="alert">
+        	&times;
+        	</a>
+        	<strong style="color:red">账号或密码错误！</strong>
+        </div>
+        </div>
+        </div>
+        
+        <div class="control-group" id="emptyError">
+            <div class="controls">
+        <div class="main_input_box alert alert-warning" style="width: 409px" >
+        	<a href="#" class="close" data-dismiss="alert">
+        	&times;
+        	</a>
+        	<strong style="color:red">账号或密码不能为空！</strong>
+        </div>
+        </div>
+        </div>
+        <!-- <div class="control-group">
+        	<div class="controls">
+        		<div class="main_input_box">
+        			<img src="captcha.verifycode.action" align="middle" title="看不清，请点我"
+        			onclick="javascript:refresh(this);" onmouseover="mouseover(this)"/> <input style="width:100px" type="text" name="verifycode" placeholder="验证码">
+        		</div>
+        	</div>
+        
+        </div> -->
+    <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <input type="submit" class="btn btn-success" style="width: 409px;height: 39px" id="btn_submit" value="登  陆" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-actions"></div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/matrix.login.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/angular-1.2.9.js"></script>
+<script src="js/angular-cookies.js"></script>
+<script src="js/plugin/jquery.blockui.js"></script>
+<script src="js/common/LoaderMask.js"></script>
+<script type="text/javascript">
+	/* function refresh(obj){
+		obj.src="captcha.verifycode.action?"+ Math.random();
+	}
+	
+	function mouseover(obj){
+		obj.style.cursor = "pointer";
+	}
+	
+	var loginApp = angular.module('loginApp',['ngCookies']);
+	loginApp.controller("loginController",function($scope,$cookieStore){
+		$scope.init = function(){
+			$scope.status = $cookieStore.get("status");
+			console.log($scope.status );
+		}
+	}); */
+	$(document).ready(function(){
+		$("#wrongError").hide();
+		$('#emptyError').hide();
+		$("#btn_submit").click(function(event){
+			var userName=$("#userName").val();
+			var passWord=$("#passWord").val();
+			if(userName.length<1||passWord.length<1){
+				$('#emptyError').show();
+				event.preventDefault();
+			}else{
+				$('#emptyError').hide();
+				$.LoaderMask.loading({title:"登陆中...",isFlag:true});
+				$.ajax({
+					type:'post',
+					url:'user.login.action',
+					dataType:'json',
+					data:{
+						userName:userName,
+						passWord:passWord
+					},
+					success:function(data){
+						$.LoaderMask.loading({title:"登陆中...",isFlag:false});
+						console.log(data.status);
+						if(data.status==1){
+							$('#emptyError').hide();
+							$("#wrongError").show();
+						}
+						else{
+							location.href="index.html";
+						}
+					},
+					error:function(msg){
+						console.log(msg);
+					}
+					
+				});
+			}
+		});
+		
+		//回车提交表单
+		$("body").keydown(function(){
+			if(event.keyCode == "13"){//13是回车键
+				$("#btn_submit").click();
+			}
+		});
+	});
+</script>
+</body>
+</html>

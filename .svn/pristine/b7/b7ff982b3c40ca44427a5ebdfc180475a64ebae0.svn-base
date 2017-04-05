@@ -1,0 +1,18 @@
+package com.chinalife.sz.cc.model.common;
+
+/**
+ * 
+ * <p>Title: ServiceRequestID</p>
+ * <p>Description: TODO </p>
+ * <p>Company: 紫川软件有限公司</p>
+ * @author sutanwei@purple-river.com
+ * @date 2016年8月16日
+ * @version 1.0
+ */
+public class ServiceRequestID {
+
+	// 用户登录
+	public static final String USER_LOGIN = "user.login";
+	
+
+}

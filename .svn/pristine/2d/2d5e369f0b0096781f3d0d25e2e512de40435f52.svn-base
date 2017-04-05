@@ -1,0 +1,143 @@
+package com.chinalife.sz.cc.domain;
+
+/**
+ * Created by tianwei on 2016/7/22.
+ * 客户信息查询
+ */
+public class CustomerRequest {
+	private String RequestType;
+	private String ComCode;
+	private String OperatorCode;
+	private String CustomerType;
+	private String CustomerCode;
+	private String IdentifyType;
+	private String IdentifyNumber;
+	private String CustomerCName;
+	private String IdvSex;
+	private String LinkAddress;
+	private String PostCode;
+	private String UnitLinkerName;
+    private TXInsuranceRequestEhm tXInsuranceRequestEhm;
+
+	public TXInsuranceRequestEhm getTXInsuranceRequestEhm() {
+		return tXInsuranceRequestEhm;
+	}
+
+	public void setTXInsuranceRequestEhm(TXInsuranceRequestEhm tXInsuranceRequestEhm) {
+		this.tXInsuranceRequestEhm = tXInsuranceRequestEhm;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomerRequest{" +
+				"RequestType='" + RequestType + '\'' +
+				", ComCode='" + ComCode + '\'' +
+				", OperatorCode='" + OperatorCode + '\'' +
+				", CustomerType='" + CustomerType + '\'' +
+				", CustomerCode='" + CustomerCode + '\'' +
+				", IdentifyType='" + IdentifyType + '\'' +
+				", IdentifyNumber='" + IdentifyNumber + '\'' +
+				", CustomerCName='" + CustomerCName + '\'' +
+				", IdvSex='" + IdvSex + '\'' +
+				", LinkAddress='" + LinkAddress + '\'' +
+				", PostCode='" + PostCode + '\'' +
+				", UnitLinkerName='" + UnitLinkerName + '\'' +
+				'}';
+	}
+
+	public String getRequestType() {
+		return RequestType;
+	}
+
+	public void setRequestType(String requestType) {
+		RequestType = requestType;
+	}
+
+	public String getComCode() {
+		return ComCode;
+	}
+
+	public void setComCode(String comCode) {
+		ComCode = comCode;
+	}
+
+	public String getOperatorCode() {
+		return OperatorCode;
+	}
+
+	public void setOperatorCode(String operatorCode) {
+		OperatorCode = operatorCode;
+	}
+
+	public String getCustomerType() {
+		return CustomerType;
+	}
+
+	public void setCustomerType(String customerType) {
+		CustomerType = customerType;
+	}
+
+	public String getCustomerCode() {
+		return CustomerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		CustomerCode = customerCode;
+	}
+
+	public String getIdentifyType() {
+		return IdentifyType;
+	}
+
+	public void setIdentifyType(String identifyType) {
+		IdentifyType = identifyType;
+	}
+
+	public String getIdentifyNumber() {
+		return IdentifyNumber;
+	}
+
+	public void setIdentifyNumber(String identifyNumber) {
+		IdentifyNumber = identifyNumber;
+	}
+
+	public String getCustomerCName() {
+		return CustomerCName;
+	}
+
+	public void setCustomerCName(String customerCName) {
+		CustomerCName = customerCName;
+	}
+
+	public String getIdvSex() {
+		return IdvSex;
+	}
+
+	public void setIdvSex(String idvSex) {
+		IdvSex = idvSex;
+	}
+
+	public String getLinkAddress() {
+		return LinkAddress;
+	}
+
+	public void setLinkAddress(String linkAddress) {
+		LinkAddress = linkAddress;
+	}
+
+	public String getPostCode() {
+		return PostCode;
+	}
+
+	public void setPostCode(String postCode) {
+		PostCode = postCode;
+	}
+
+	public String getUnitLinkerName() {
+		return UnitLinkerName;
+	}
+
+	public void setUnitLinkerName(String unitLinkerName) {
+		UnitLinkerName = unitLinkerName;
+	}
+}

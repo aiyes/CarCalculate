@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>用户信息管理</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="css/bootstrap-datetimepicker.css" rel="stylesheet" />
+</head>
+<body>
+<div id="content">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-content tab-content">
+            <!--用户信息管理-->
+            <div class="widget-box">
+              <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                <h5>用户信息管理</h5>
+              </div>
+              <div class="widget-content nopadding">
+                <form id="form-wizard" class="form-horizontal" method="post" action="personal-issue.html">
+                  <div id="form-wizard-1" class="step">
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">用户代码：</label>
+                      <div class="controls">
+                        <input id="username" type="text" name="username" placeholder="用户代码"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">用户名称：</label>
+                      <div class="controls">
+                        <input id="username" type="text" name="username" placeholder="用户名称"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">用户创建日期区间：</label>
+                      <div class="controls">
+                        <div class="input-append date">
+                          <input class="w180" size="16" id="createBegin" type="text" class="datetimepicker" readonly>
+                          <span class="add-on"><i class="icon-calendar"></i></span>
+                        </div>  至
+                        <div class="input-append date">
+                          <input class="w180" size="16" id="createEnd" type="text" class="datetimepicker" readonly>
+                          <span class="add-on"><i class="icon-calendar"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">报价机构代码：</label>
+                      <div class="controls">
+                        <input id="username" type="text" name="username"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">归属业务员代码：</label>
+                      <div class="controls">
+                        <input id="username" type="text" name="username"/>
+                      </div>
+                    </div>
+                    <div class="control-group control-group-inline">
+                      <label class="control-label">归属业务员名称：</label>
+                      <div class="controls">
+                        <input id="username" type="text" name="username"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <div class="controls">
+                        <input id="back" class="btn btn-success span1" value="重 置" type="reset">
+                        <input id="next" class="btn btn-success span1" value="查 询" type="button">
+                      </div>
+                    </div>
+                    <div class="form-horizontal">
+                      <ul class="nav nav-list"><li class="divider"></li></ul>
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                          <th>用户代码</th>
+                          <th>用户名称</th>
+                          <th>报价机构</th>
+                          <th>归属业务员</th>
+                          <th>用户创建日期</th>
+                          <th>用户状态</th>
+                          <th style="width:100px;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td style="text-align:center">SZ0000000001</td>
+                          <td style="text-align:center">深圳市同兴汽车贸易有限公司</td>
+                          <td style="text-align:center">4403756001-深圳市分公司营业四部车商业务一部</td>
+                          <td style="text-align:center">360104198501041046-龙希希</td>
+                          <td style="text-align:center">2016-07-27</td>
+                          <td style="text-align:center">有效</td>
+                          <td style="text-align:center"><input id="next" class="btn btn-success span1" style="width:80px;" value="查 询" type="button"></td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:center">SZ0000000001</td>
+                          <td style="text-align:center">深圳市同兴汽车贸易有限公司</td>
+                          <td style="text-align:center">4403756001-深圳市分公司营业四部车商业务一部</td>
+                          <td style="text-align:center">360104198501041046-龙希希</td>
+                          <td style="text-align:center">2016-07-27</td>
+                          <td style="text-align:center">有效</td>
+                          <td style="text-align:center"><input id="next" class="btn btn-success span1" style="width:80px;" value="查 询" type="button"></td>
+                        </tr>
+                        <tr>
+                          <td style="text-align:center">SZ0000000001</td>
+                          <td style="text-align:center">深圳市同兴汽车贸易有限公司</td>
+                          <td style="text-align:center">4403756001-深圳市分公司营业四部车商业务一部</td>
+                          <td style="text-align:center">360104198501041046-龙希希</td>
+                          <td style="text-align:center">2016-07-27</td>
+                          <td style="text-align:center">有效</td>
+                          <td style="text-align:center"><input id="next" class="btn btn-success span1" style="width:80px;" value="查 询" type="button"></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix"><div class="dataTables_paginate fg-buttonset ui-buttonset fg-buttonset-multi ui-buttonset-multi paging_full_numbers" id="DataTables_Table_0_paginate"><a tabindex="0" class="first ui-corner-tl ui-corner-bl fg-button ui-button ui-state-default ui-state-disabled" id="DataTables_Table_0_first">首页</a><a tabindex="0" class="previous fg-button ui-button ui-state-default ui-state-disabled" id="DataTables_Table_0_previous">上一页</a><span><a tabindex="0" class="fg-button ui-button ui-state-default ui-state-disabled">1</a><a tabindex="0" class="fg-button ui-button ui-state-default">2</a><a tabindex="0" class="fg-button ui-button ui-state-default">3</a><a tabindex="0" class="fg-button ui-button ui-state-default">4</a><a tabindex="0" class="fg-button ui-button ui-state-default">5</a></span><a tabindex="0" class="next fg-button ui-button ui-state-default" id="DataTables_Table_0_next">下一页</a><a tabindex="0" class="last ui-corner-tr ui-corner-br fg-button ui-button ui-state-default" id="DataTables_Table_0_last">尾页</a></div></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/user-manager.js"></script>
+<!-- pikaday -->
+<link type="text/css" rel="stylesheet" href="css/pikaday.css"/>
+<script type="text/javascript" src="js/pikaday.js"></script>
+<script type="text/javascript" src="js/pikaday.jquery.js"></script>
+</body>
+</html>

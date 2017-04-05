@@ -1,0 +1,29 @@
+package com.chinalife.sz.carcalculate.service.impl;
+
+import com.chinalife.sz.carcalculate.service.WebService;
+import com.chinalife.sz.carcalculate.webservice.SalesAgentInfoQueryServiceStub;
+
+/**
+ * Created by tianwei on 2016/7/31.
+ * 销售人员
+ */
+public class SalesAgentInfoQueryService implements WebService {
+	private SalesAgentInfoQueryServiceStub stub;
+	@Override
+	public <T> boolean checkData(T object) {
+		return false;
+	}
+
+	@Override
+	public <T> T dealData(Object object, T response) {
+		return null;
+	}
+
+	public SalesAgentInfoQueryServiceStub getStub() {
+		return stub;
+	}
+
+	public void setStub(SalesAgentInfoQueryServiceStub stub) {
+		this.stub = stub;
+	}
+}

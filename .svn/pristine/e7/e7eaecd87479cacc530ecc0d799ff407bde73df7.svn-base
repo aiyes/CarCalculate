@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>提示</title>
+</head>
+<body>
+<script type="application/javascript">
+	alert("前方修路...");
+</script>
+</body>
+</html>

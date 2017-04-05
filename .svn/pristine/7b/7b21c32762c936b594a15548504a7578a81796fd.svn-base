@@ -1,0 +1,30 @@
+## test 
+jdbc.driverClassName=oracle.jdbc.driver.OracleDriver
+jdbc.url=jdbc:oracle:thin:@9.236.5.41:1521:tjfxdb
+jdbc.username=clsz_test
+jdbc.password=123456
+
+## 分省备份库 
+#jdbc.driverClassName=oracle.jdbc.driver.OracleDriver
+#jdbc.url=jdbc:oracle:thin:@9.236.5.41:1521:tjfxdb
+#jdbc.username=renshoudata
+#jdbc.password=955194403
+
+##分省库
+#jdbc.driverClassName=oracle.jdbc.driver.OracleDrive
+#jdbc.url=jdbc:oracle:thin:@9.1.64.4:1521:GPICDBTJ
+#jdbc.username=user4403
+#jdbc.password=955194403
+
+single.cert.imageUrl=D:/pictureFile
+single.cert.zipUrl=D:/zipFile
+##druid\u6570\u636e\u6e90\u76f8\u5e94\u5c5e\u6027\u53c2\u6570\u914d\u7f6e\uff0c\u53c2\u6570\u610f\u4e49\u8be6\u89c1 biz-context.xml\u6587\u4ef6\u4e2d\u8bf4\u660e
+druid.initialSize=5
+druid.minIdle=3
+druid.maxActive=50
+
+#BoneCP\u6570\u636e\u6e90\u76f8\u5e94\u5c5e\u6027\u53c2\u6570\u914d\u7f6e\uff0c\u53c2\u6570\u610f\u4e49\u8be6\u89c1 biz-context.xml\u6587\u4ef6\u4e2d\u8bf4\u660e
+bonecp.partitionCount=3
+bonecp.minConnectionsPerPartition=3
+bonecp.maxConnectionsPerPartition=50
+bonecp.acquireIncrement=2

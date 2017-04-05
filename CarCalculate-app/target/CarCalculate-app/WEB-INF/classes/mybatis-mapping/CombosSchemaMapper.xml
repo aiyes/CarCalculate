@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinalife.sz.cc.combos.mapper.CombosSchemaMapper">
+    <!--com.chinalife.sz.cc.user.mapper.OrderInfoMapper.OrderInfoDTO-->
+    <resultMap type="CombosSchemaDTO" id="combosSchemaResult">
+        <id property="id" column="id"/>
+        <result property="combosName" column="combosName"/>
+        <result property="combosInfo" column="combosInfo"/>
+        <result property="itemKindList" column="itemKindList"/>
+        <result property="handlerName" column="handlerName"/>
+        <result property="handlerCode" column="handlerCode"/>
+        <result property="inputDate" column="inputDate"/>
+    </resultMap>
+
+    <insert id="saveCombosSchema" parameterType="CombosSchemaDTO">
+        INSERT INTO  combos_schema (combosName,combosInfo,itemKindList,handlerName,handlerCode,inputDate,create_time)
+        VALUES (#{combosName,jdbcType=VARCHAR},
+        #{combosInfo,jdbcType=VARCHAR},
+        #{itemKindList,jdbcType=VARCHAR},
+        #{handlerName,jdbcType=VARCHAR},
+        #{handlerCode,jdbcType=VARCHAR},
+        #{inputDate,jdbcType=VARCHAR},
+        null)
+    </insert>
+
+    <select id="findCombosSchemas" parameterType="java.lang.String"  resultMap="combosSchemaResult">
+        select id,combosName,combosInfo,itemKindList,inputDate from combos_schema WHERE  handlerCode=#{handlerCode,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateCombosSchema" parameterType="CombosSchemaDTO">
+        UPDATE
+        combos_schema
+        SET combosName=#{combosName,jdbcType=VARCHAR},
+        combosInfo=#{combosInfo,jdbcType=VARCHAR},
+        itemKindList=#{itemKindList,jdbcType=VARCHAR}
+        WHERE id=#{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteCombosSchema" parameterType="long">
+        delete from combos_schema where id = #{id}
+    </delete>
+</mapper>

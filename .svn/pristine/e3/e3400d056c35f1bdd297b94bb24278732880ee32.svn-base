@@ -1,0 +1,13 @@
+package com.chinalife.sz.carcalculate.service;
+
+/**
+ * Created by tianwei on 2016/7/31.
+ */
+public class InteractKernel {
+	public void reqData(){
+
+	}
+	public void resData(){
+
+	}
+}

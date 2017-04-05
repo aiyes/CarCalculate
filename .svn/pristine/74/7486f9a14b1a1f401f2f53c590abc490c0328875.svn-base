@@ -1,0 +1,57 @@
+package com.chinalife.sz.cc.log.action.impl;
+
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.chinalife.sz.cc.log.action.LogAction;
+import com.chinalife.sz.cc.log.service.LogService;
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.common.ResponseCode;
+import com.chinalife.sz.cc.model.log.LogDTO;
+import com.chinalife.sz.cc.user.action.impl.UserInfoActionImpl;
+import com.prs.framework.core.common.model.ServiceRequest;
+import com.prs.framework.core.common.model.ServiceResponse;
+import com.prs.framework.core.exception.BusinessServiceException;
+
+/*
+ * 记录接口的请求、返回及报错的日志
+ */
+public class LogActionImpl  implements LogAction{
+	private static Log logger = LogFactory.getLog(UserInfoActionImpl.class);
+
+	@Resource
+	private LogService logService;
+	
+	/*
+	 * 添加接口日志信息
+	 * @see com.chinalife.sz.carcalculate.log.action.LogAction#addLog(com.prs.framework.core.common.model.ServiceRequest)
+	 */
+	@Override
+	public ServiceResponse addLog(ServiceRequest serviceRequest) throws BusinessServiceException {
+		ServiceResponse serviceResponse = new ServiceResponse();
+		Map<String, Object> model = serviceRequest.getParameters();
+		LogDTO dto = (LogDTO) model.get(Constants.ADD_LOG_MAIN);
+		logger.info("===>dto:" + dto);
+				
+		if (dto == null)
+			throw new BusinessServiceException("日志信息为空，添加日志信息出错");
+
+		try {
+			logService.addLog(dto);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_SUCCESS);
+			serviceResponse.setSuccess(true);
+		} catch (Exception ex) {
+			serviceResponse.setSuccess(false);
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_FAILURE);
+			throw new BusinessServiceException("用户信息为空，添加用户信息出错");
+		}
+		logger.info("===>model:" + model);
+		serviceResponse.setModel(model);
+		return serviceResponse;
+	}
+
+}

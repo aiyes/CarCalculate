@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.chinalife.sz.cc.user.mapper.UserInfoMapper">
+
+	<sql id="userInfoAllColumn">
+		USER_CDE,USER_NME,USER_TYPE,USER_STATUS,PASSWORD,DEPT,DEPT_NME,
+		HANDLER_CDE,HANDLER_NME,BUSINESS_NATURE_CDE,AGENT_CDE,AGENT_NME,
+		PERMIT_NO,AGREEMENT_NO,CRT_MAN,UPD_MAN
+	</sql>
+
+	<sql id="userInfoTableName">VQ_USER_INFO</sql>
+
+	<resultMap type="UserInfoDTO" id="userInfoDTOResult">
+		<id property="userCde" column="USER_CDE" />
+		<result property="userNme" column="USER_NME" />
+		<result property="userType" column="USER_TYPE" />
+		<result property="userStatus" column="USER_STATUS" />
+		<result property="password" column="PASSWORD" />
+		<result property="dept" column="DEPT" />
+		<result property="deptNme" column="DEPT_NME" />
+		<result property="handlerCde" column="HANDLER_CDE" />
+		<result property="handlerNme" column="HANDLER_NME" />
+		<result property="businessNatureCde" column="BUSINESS_NATURE_CDE" />
+		<result property="agentCde" column="AGENT_CDE" />
+		<result property="agentNme" column="AGENT_NME" />
+		<result property="permitNo" column="PERMIT_NO" />
+		<result property="agreementNo" column="AGREEMENT_NO" />
+		<result property="crtMan" column="CRT_MAN" />
+		<result property="updMan" column="UPD_MAN" />
+	</resultMap>
+
+	<!-- 插入车险报价用户表 -->
+	<insert id="addUserInfo"  parameterType="UserInfoDTO">
+		INSERT INTO <include refid="userInfoTableName" /> (
+		<include refid="userInfoAllColumn" />
+		)VALUES (#{userCde,jdbcType=VARCHAR},
+		#{userNme,jdbcType=VARCHAR},
+		#{userType,jdbcType=VARCHAR},
+		#{userStatus,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{dept,jdbcType=VARCHAR},
+		#{deptNme,jdbcType=VARCHAR},
+		#{handlerCde,jdbcType=VARCHAR},
+		#{handlerNme,jdbcType=VARCHAR},
+		#{businessNatureCde,jdbcType=VARCHAR},
+		#{agentCde,jdbcType=VARCHAR},
+		#{agentNme,jdbcType=VARCHAR},
+		#{permitNo,jdbcType=VARCHAR},
+		#{agreementNo,jdbcType=VARCHAR},
+		#{crtMan,jdbcType=VARCHAR},
+		#{updMan,jdbcType=VARCHAR})
+	</insert>
+
+
+	<update id="updateUserInfo" parameterType="UserInfoDTO">
+		UPDATE
+		<include refid="userInfoTableName" />
+		SET USER_NME=#{userNme,jdbcType=VARCHAR},
+		USER_TYPE=#{userType,jdbcType=VARCHAR},
+		PASSWORD=#{password,jdbcType=VARCHAR},
+		DEPT=#{dept,jdbcType=VARCHAR},
+		DEPT_NME=#{deptNme,jdbcType=VARCHAR},
+		HANDLER_CDE=#{handlerCde,jdbcType=VARCHAR},
+		HANDLER_NME=#{handlerNme,jdbcType=VARCHAR},
+		BUSINESS_NATURE_CDE=#{businessNatureCde,jdbcType=VARCHAR},
+		AGENT_CDE=#{agentCde,jdbcType=VARCHAR},
+		AGENT_NME=#{agentNme,jdbcType=VARCHAR},
+		PERMIT_NO=#{permitNo,jdbcType=VARCHAR},
+		AGREEMENT_NO=#{agreementNo,jdbcType=VARCHAR},
+		CRT_MAN=#{crtMan,jdbcType=VARCHAR},
+		UPD_MAN=#{updMan,jdbcType=VARCHAR}
+		WHERE USER_CDE=#{userCde,jdbcType=VARCHAR}
+	</update>
+
+
+	<!--根据客户号，查对应客户信息 -->
+	<select id="findUserInfoByUserCde" resultMap="userInfoDTOResult">
+		SELECT
+		<include refid="userInfoAllColumn" />
+		FROM
+		<include refid="userInfoTableName" />
+		WHERE USER_CDE=#{userCde,jdbcType=VARCHAR} 	 
+	</select>
+	
+	<!-- 用户登陆 -->
+	<select id="userNameLogin" resultMap="userInfoDTOResult">
+		SELECT
+		<include refid="userInfoAllColumn" />
+		FROM
+		<include refid="userInfoTableName" />
+		WHERE USER_CDE=#{userCde,jdbcType=VARCHAR}
+			   AND
+				PASSWORD=#{password,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按用户信息失效(更新用户状态) -->
+	<update id="delUserInfoByUserCde">
+		UPDATE
+		<include refid="userInfoTableName" />
+		SET USER_STATUS='0',
+		UPD_MAN=#{updMan,jdbcType=VARCHAR}
+		WHERE USER_CDE=#{userCde,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

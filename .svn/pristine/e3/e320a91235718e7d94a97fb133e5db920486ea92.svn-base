@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>粤港两地车单证系统</title>
+	<link rel="shortcut icon" href="favicon.ico"/>
+	<link rel="stylesheet" href="css/reset.css"/>
+	<link rel="stylesheet" href="css/site.css"/>
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.min.js?v3.70"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+<div id="header">
+	<div id="logo"></div>
+	<div id="headerBars">
+		<div id="topBar">
+			<div id="userBar">
+				您好，Admin
+			</div>
+			<ul id="topNavMenu">
+				<li class="topNavMenuItem">
+					<a id="aSignout" class="topNavMenuLink" href="#"><i class="icon icon-off"></i> 安全退出</a>
+				</li>
+				<li id="liFullScr" class="topNavMenuItem">
+					<a class="topNavMenuLink" href="#" onclick="Page.doFullScreen(this)"><i
+							class="icon icon-share"></i> 全屏</a>
+				</li>
+				<li class="topNavMenuItem">
+					<a class="topNavMenuLink" href="#" onclick="Page.changePassword()"><i class="icon icon-lock"></i>
+						修改密码</a>
+				</li>
+				<!-- li class="topNavMenuItem">
+					<a class="topNavMenuLink" href="tasks.html" target="mainFrame"><i class="icon icon-envelope"></i>
+						代办任务 <span id="spanTasks" class="label label-important"></span></a>
+				</li -->
+			</ul>
+		</div>
+		<div id="breadcrumb">
+			<i class="iconGray icon-home"></i> <a href="">首页</a>
+			<span id="route"></span>
+		</div>
+	</div>
+</div>
+
+
+<div id="sideBar">
+	<ul id="sysMenu" class="ulMenu-lv1">
+	</ul>
+</div>
+
+<div id="mainSec">
+	<iframe id="mainFrame" name="mainFrame" src="about:blank" frameborder="0"></iframe>
+</div>
+<!-- html :end -->
+</body>
+<!--[if lt IE 8]>
+<script src="js/json2.min.js"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="js/jquery-1.10.2.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script src="js/jquery-2.0.3.min.js"></script>
+<!--<![endif]-->
+<script src="js/fy.min.js"></script>
+<!-- site global config -->
+<script src="js/config.js"></script>
+
+
+
+<script>
+	"use strict";
+
+	fy.server({"sysInfo" :"json/mainMenu.json"});
+
+	$(document).ready(function ($) {
+
+
+		//IE10- don't support full screen api
+		if ($.browser.msie) {
+			if ($.browser.version < 11) $('#liFullScr').hide();
+			if ($.browser.version < 8) alert('您使用的IE版本过低，请使用IE8以上的浏览器，\n\n如果您打开了浏览器的兼容模式，亦请切换关闭之。\n\n如果您使用的是第三方浏览器，诸如：\n搜狗、金山、360、QQ、百度、世界之窗、遨游等，\n推荐使用这些浏览器的“极速模式”');
+		}
+
+
+
+		fy.server.sysInfo.getJSON(function(json){Page.init(json)});
+	});
+
+	var Page = {
+		voidRapidClicks : 0 ,
+		menuBar: $("#sysMenu"),
+		mainFrame: $("#mainFrame"),
+		route: $('#route'),
+		currentLv1Menu: null,
+		currentLv2Menu: null,
+		sidebarHidden: false,
+		addEventListeners: function () {
+			//toggle lv2 subMenu pane
+			Page.menuBar.delegate(".menu-lv1", "click", function (evt) {
+				evt.stopImmediatePropagation();
+				var $li = $(this),  link = $li.data("link") , sub = $li.next(".ulMenu-lv2");
+				if(link){
+					Page.mainFrame.attr("src", link);
+				}
+				if (sub.length) {
+					if (Page.currentLv1Menu) {
+						if (Page.currentLv1Menu[0] === this) {
+							Page.currentLv1Menu.next(".ulMenu-lv2").slideToggle('fast');
+							return;
+						}
+						Page.currentLv1Menu.removeClass("menu-lv1-active").next(".ulMenu-lv2").slideUp('fast');
+					}
+					sub.slideToggle('fast');
+					Page.currentLv1Menu = $li.addClass("menu-lv1-active") ;
+				}
+			});
+
+			//lv2 menu item click
+			Page.menuBar.delegate(".menu-lv2", "click", function (evt) {
+				evt.stopImmediatePropagation();
+				var t = (new Date).getTime() ;
+				//log(Page.voidRapidClicks , t - Page.voidRapidClicks) ;
+				if(t - Page.voidRapidClicks > 500){
+					Page.voidRapidClicks = t ;
+					var $li = $(this) , $p = $li.parents('.ulMenu-lv2').siblings('.menu-lv1');
+					Page.route.html(' > ' + $p.text()) ;// + ' > ' + $li.text()
+					if (Page.currentLv2Menu) Page.currentLv2Menu.removeClass("menu-lv2-active");
+					Page.currentLv2Menu = $li.addClass("menu-lv2-active");
+				}
+				else return false ;
+			});
+
+
+			//sign out function
+			$('#aSignout').click(function(){
+				fy.confirm("<div style='margin: 0 30px 12px 30px;line-height: 22px;'><label><input name='iptSignOut' type='radio' value='logOff'>退出后自动关闭页面</label><br>" +
+						"<label><input name='iptSignOut' type='radio' value='change' checked>重新登录</label></div>" ,
+						function () {
+							if($(':radio[name="iptSignOut"]:checked').val() !== 'change') {
+								try {
+
+									window.opener = null;
+									window.open('' , '_self');
+									window.close() ;
+								}
+								catch(e){
+									window.location.replace("login.html");
+								}
+							}
+							else window.location.replace("login.html");
+						},
+						{
+							title : "<img src='img/assets/shutdown.png' align='absmiddle'> 您确定要退出系统吗？"
+						});
+			});
+		},
+		bindMenu: function (data) {
+			Page.menuBar.bindList({
+				list: data,
+				template: '<li><div class="menu-lv1" data-link="{link}"><i class="icon icon-{icon}"></i> {text}</div></li>',
+				onBound: function (arr) {
+					var l = arr.length , i = 0 , $lists = this.find('li');
+					for (; i < l; i++) {
+						var data = arr[i].children;
+						if (data && data.length) {
+							$('<ul class="ulMenu-lv2"></ul>').appendTo($lists[i]).bindList({
+								list: data,
+								template: '<li class="menu-lv2"><a href="{link}" target="mainFrame">{text}</a></li>'
+							});
+						}
+					}
+				}
+			})
+		},
+		init: function (json) {
+			$('#spanTasks').text(json.tasks) ;
+			this.bindMenu(json.data);
+			this.addEventListeners();
+		},
+		doFullScreen: (function () {
+			var isFull = false;
+			return function (src) {
+				if (isFull) {
+					fy.runPrefixMethod(document, "CancelFullScreen") || fy.runPrefixMethod(document, "ExitFullscreen");
+					isFull = false;
+					$(src).html('<i class="icon icon-share"></i> 全屏');
+				}
+				else {
+					fy.runPrefixMethod(document.documentElement, "RequestFullScreen") || fy.runPrefixMethod(document.documentElement, "RequestFullscreen");
+					isFull = true;
+					$(src).html('<i class="icon icon-share"></i> 还原');
+				}
+			};
+		})() ,
+		changePassword : (function(){
+
+			var form = $('<form style="width: 460px; padding-bottom: 10px;">' +
+							'<label>原有密码： <input name="old_password" type="password" style="width:150px;"/></label><br/><br/>' +
+							'<label>新设密码： <input name="new_password" type="password" style="width:150px;"/></label> <span class="fLightGray"> (密码建议6位以上，字母数字混合)</span><br/><br/>' +
+							'<label>重新输入： <input name="again_password" type="password" style="width:150px;"/></label> <span class="fLightGray"> (再次确认您要修改的密码)</span></form>') ,
+
+					pop = fy.confirm(form , function(){
+						var obj = form.fieldsToJson();
+
+						if (obj.new_password != obj.again_password)
+							sys.warn("新密码两次输入不同！");
+
+						else if (!obj.old_password)
+							sys.warn("原密码不能为空！");
+
+						else if (!obj.new_password)
+							sys.warn("新密码不能为空！");
+
+						else {
+							delete obj.again_password;
+							fy.server.editPassword.post(obj, function(){
+								pop.hide();
+								sys.ok('修改成功');
+							});
+						}
+						return true;
+					} , {
+						title: '修改密码' ,
+						closeable : true ,
+						show : false ,
+						unloadOnHide : false
+					});
+
+			return function(){
+				form[0].reset() ;
+				pop.show();
+			}
+		})()
+	};
+
+</script>
+
+</html>

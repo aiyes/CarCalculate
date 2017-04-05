@@ -1,0 +1,36 @@
+package com.chinalife.sz.cc.model.common;
+
+/**
+ * 
+ * <p>Title: ServiceRequestID</p>
+ * <p>Description: TODO </p>
+ * <p>Company: 紫川软件有限公司</p>
+ * @author sutanwei@purple-river.com
+ * @date 2016年8月16日
+ * @version 1.0
+ */
+public class ServiceRequestID {
+
+	// 用户登录
+	public static final String USER_LOGIN = "user.login";
+	//新增用户
+	public static final String USER_ADD = "user.add";
+	//修改密码
+	public static final String PASSWORD_EDIT = "password_edit";
+	//用户查找
+	public static final String USERINFO_FIND = "userInfo_find";
+	//根据用户Id查找用户信息
+	public static final String USERINFO_FIND_BY_USERCDE = "userInfo_findByUserCde";
+	//更新用户信息
+	public static final String USERINFO_UPDATE = "user.update";
+	public static final String MENU_FIND = "menu.find";
+	//密码重置
+	public static final String PASSWORD_RESET = "password_reset";
+	//shiro 用户登录
+	public static final String LOGIN = "doLogin";
+
+	
+	
+	
+
+}

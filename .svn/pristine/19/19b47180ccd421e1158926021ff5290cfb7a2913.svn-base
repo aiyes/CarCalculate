@@ -1,0 +1,311 @@
+package com.chinalife.sz.cc.domain;
+
+import java.io.Serializable;
+
+/**
+ * Created by tianwei on 2016/7/22.
+ * 组织客户信息
+ */
+public class PrpDcustomerUnitSchemaResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4629812536035083032L;
+	private String CustomerCode;
+	private String CustomerCName;
+	private String CustomerEName;
+	private String AddressCName;
+	private String AddressEName;
+	private String BusinessSource;
+	private String CustomerKind;
+	private String CustomerFlag;
+	private String OrganizeCode;
+	private String LeaderName;
+	private String PhoneNumber;
+	private String FaxNumber;
+	private String Mobile;
+	private String EmailAddress;
+	private String PostAddress;
+	private String PostCode;
+	private String LinkerName;
+	private String BusinessRange;
+	private String NewCustomerCode;
+	private String ValidStatus;
+	private String Flag;
+	private String CustomerShortName;
+	private String ShareHolderFlag;
+	private String RevenueCode;
+	private String HandlerCode;
+	private String Comcode;
+	private String BusiLicense;
+	private String LicenseStartDate;
+	private String LicenseEndDate;
+
+
+	@Override
+	public String toString() {
+		return "PrpDcustomerUnitSchemaResponse{" +
+				"CustomerCode='" + CustomerCode + '\'' +
+				", CustomerCName='" + CustomerCName + '\'' +
+				", CustomerEName='" + CustomerEName + '\'' +
+				", AddressCName='" + AddressCName + '\'' +
+				", AddressEName='" + AddressEName + '\'' +
+				", BusinessSource='" + BusinessSource + '\'' +
+				", CustomerKind='" + CustomerKind + '\'' +
+				", CustomerFlag='" + CustomerFlag + '\'' +
+				", OrganizeCode='" + OrganizeCode + '\'' +
+				", LeaderName='" + LeaderName + '\'' +
+				", PhoneNumber='" + PhoneNumber + '\'' +
+				", FaxNumber='" + FaxNumber + '\'' +
+				", Mobile='" + Mobile + '\'' +
+				", EmailAddress='" + EmailAddress + '\'' +
+				", PostAddress='" + PostAddress + '\'' +
+				", PostCode='" + PostCode + '\'' +
+				", LinkerName='" + LinkerName + '\'' +
+				", BusinessRange='" + BusinessRange + '\'' +
+				", NewCustomerCode='" + NewCustomerCode + '\'' +
+				", ValidStatus='" + ValidStatus + '\'' +
+				", Flag='" + Flag + '\'' +
+				", CustomerShortName='" + CustomerShortName + '\'' +
+				", ShareHolderFlag='" + ShareHolderFlag + '\'' +
+				", RevenueCode='" + RevenueCode + '\'' +
+				", HandlerCode='" + HandlerCode + '\'' +
+				", Comcode='" + Comcode + '\'' +
+				", BusiLicense='" + BusiLicense + '\'' +
+				", LicenseStartDate='" + LicenseStartDate + '\'' +
+				", LicenseEndDate='" + LicenseEndDate + '\'' +
+				'}';
+	}
+
+	public String getCustomerCode() {
+		return CustomerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		CustomerCode = customerCode;
+	}
+
+	public String getCustomerCName() {
+		return CustomerCName;
+	}
+
+	public void setCustomerCName(String customerCName) {
+		CustomerCName = customerCName;
+	}
+
+	public String getCustomerEName() {
+		return CustomerEName;
+	}
+
+	public void setCustomerEName(String customerEName) {
+		CustomerEName = customerEName;
+	}
+
+	public String getAddressCName() {
+		return AddressCName;
+	}
+
+	public void setAddressCName(String addressCName) {
+		AddressCName = addressCName;
+	}
+
+	public String getAddressEName() {
+		return AddressEName;
+	}
+
+	public void setAddressEName(String addressEName) {
+		AddressEName = addressEName;
+	}
+
+	public String getBusinessSource() {
+		return BusinessSource;
+	}
+
+	public void setBusinessSource(String businessSource) {
+		BusinessSource = businessSource;
+	}
+
+	public String getCustomerKind() {
+		return CustomerKind;
+	}
+
+	public void setCustomerKind(String customerKind) {
+		CustomerKind = customerKind;
+	}
+
+	public String getCustomerFlag() {
+		return CustomerFlag;
+	}
+
+	public void setCustomerFlag(String customerFlag) {
+		CustomerFlag = customerFlag;
+	}
+
+	public String getOrganizeCode() {
+		return OrganizeCode;
+	}
+
+	public void setOrganizeCode(String organizeCode) {
+		OrganizeCode = organizeCode;
+	}
+
+	public String getLeaderName() {
+		return LeaderName;
+	}
+
+	public void setLeaderName(String leaderName) {
+		LeaderName = leaderName;
+	}
+
+	public String getPhoneNumber() {
+		return PhoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		PhoneNumber = phoneNumber;
+	}
+
+	public String getFaxNumber() {
+		return FaxNumber;
+	}
+
+	public void setFaxNumber(String faxNumber) {
+		FaxNumber = faxNumber;
+	}
+
+	public String getMobile() {
+		return Mobile;
+	}
+
+	public void setMobile(String mobile) {
+		Mobile = mobile;
+	}
+
+	public String getEmailAddress() {
+		return EmailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		EmailAddress = emailAddress;
+	}
+
+	public String getPostAddress() {
+		return PostAddress;
+	}
+
+	public void setPostAddress(String postAddress) {
+		PostAddress = postAddress;
+	}
+
+	public String getPostCode() {
+		return PostCode;
+	}
+
+	public void setPostCode(String postCode) {
+		PostCode = postCode;
+	}
+
+	public String getLinkerName() {
+		return LinkerName;
+	}
+
+	public void setLinkerName(String linkerName) {
+		LinkerName = linkerName;
+	}
+
+	public String getBusinessRange() {
+		return BusinessRange;
+	}
+
+	public void setBusinessRange(String businessRange) {
+		BusinessRange = businessRange;
+	}
+
+	public String getNewCustomerCode() {
+		return NewCustomerCode;
+	}
+
+	public void setNewCustomerCode(String newCustomerCode) {
+		NewCustomerCode = newCustomerCode;
+	}
+
+	public String getValidStatus() {
+		return ValidStatus;
+	}
+
+	public void setValidStatus(String validStatus) {
+		ValidStatus = validStatus;
+	}
+
+	public String getFlag() {
+		return Flag;
+	}
+
+	public void setFlag(String flag) {
+		Flag = flag;
+	}
+
+	public String getCustomerShortName() {
+		return CustomerShortName;
+	}
+
+	public void setCustomerShortName(String customerShortName) {
+		CustomerShortName = customerShortName;
+	}
+
+	public String getShareHolderFlag() {
+		return ShareHolderFlag;
+	}
+
+	public void setShareHolderFlag(String shareHolderFlag) {
+		ShareHolderFlag = shareHolderFlag;
+	}
+
+	public String getRevenueCode() {
+		return RevenueCode;
+	}
+
+	public void setRevenueCode(String revenueCode) {
+		RevenueCode = revenueCode;
+	}
+
+	public String getHandlerCode() {
+		return HandlerCode;
+	}
+
+	public void setHandlerCode(String handlerCode) {
+		HandlerCode = handlerCode;
+	}
+
+	public String getComcode() {
+		return Comcode;
+	}
+
+	public void setComcode(String comcode) {
+		Comcode = comcode;
+	}
+
+	public String getBusiLicense() {
+		return BusiLicense;
+	}
+
+	public void setBusiLicense(String busiLicense) {
+		BusiLicense = busiLicense;
+	}
+
+	public String getLicenseStartDate() {
+		return LicenseStartDate;
+	}
+
+	public void setLicenseStartDate(String licenseStartDate) {
+		LicenseStartDate = licenseStartDate;
+	}
+
+	public String getLicenseEndDate() {
+		return LicenseEndDate;
+	}
+
+	public void setLicenseEndDate(String licenseEndDate) {
+		LicenseEndDate = licenseEndDate;
+	}
+}

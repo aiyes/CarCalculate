@@ -1,0 +1,82 @@
+
+
+$(function(){
+	/* function refresh(obj){
+	obj.src="captcha.verifycode.action?"+ Math.random();
+	}
+
+	function mouseover(obj){
+		obj.style.cursor = "pointer";
+	}
+	
+	var loginApp = angular.module('loginApp',['ngCookies']);
+	loginApp.controller("loginController",function($scope,$cookieStore){
+		$scope.init = function(){
+			$scope.status = $cookieStore.get("status");
+			console.log($scope.status );
+		}
+	}); */
+	//$("#wrongError").hide();
+	//$('#emptyError').hide();
+	
+	// 登陆
+	$("#btn_submit").click(function(event){
+		var userName=$("#j_userName").val();
+		var passWord=$("#j_passWord").val();
+		if (userName == '') {
+			swal("消息提示","登录名不能为空","error");
+			return ;
+		}
+		if (passWord == '') {
+			swal("消息提示","密码不能为空","error");
+			return ;
+		}
+		$.LoaderMask.loading({title:"登陆中...",isFlag:true});
+		$.ajax({
+			type:'post',
+			url:'user.login.action',
+			dataType:'json',
+			data:{
+				userName:userName,
+				passWord:passWord
+			},
+			success:function(data){
+				$.LoaderMask.loading({title:"登陆中...",isFlag:false});
+				if(data.status==0){
+					location.href="index.html";
+				}
+				else if(data.status==1){
+					swal("消息提示","用户名或者密码有误","error");
+				}
+				else if(data.status==2){
+					swal("消息提示","销售人员信息已过期","error");
+				}
+				else if(data.status==4){
+					swal("消息提示","该用户已失效，如有疑问，请联系销管人员","error");
+				}
+				else{
+					swal("消息提示","系统错误","error");
+				}
+			},
+			error:function(msg){
+				swal("消息提示","系统错误","error");
+			}
+			
+		});
+	});
+	
+	//回车提交表单
+	$("body").keydown(function(event){
+  		// window.event对象IE 兼容 Chrome 全局变量, Firefox 局部变量
+  		if(event.keyCode) {
+			if(event.keyCode == 13){
+				$("#btn_submit").click();
+	  		} else {
+	  			if(event.which == 13){
+	  				$("#btn_submit").click();
+	  			}
+	  		} 			
+  		}
+	});
+	
+});

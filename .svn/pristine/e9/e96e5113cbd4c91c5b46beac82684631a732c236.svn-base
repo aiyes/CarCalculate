@@ -1,0 +1,59 @@
+package com.chinalife.sz.cc.domain;
+
+/**
+ * Created by tianwei on 2016/7/27.
+ */
+public class TXInsuranceRequestEhm {
+	/**
+	 * 		ehm.setTransType();
+	 ehm.setTransExeDate();
+	 ehm.setTransExeTime();
+	 ehm.setTransRefGUID();
+	 ehm.setTransSubType();
+	 * */
+	private String transType;
+	private String transExeDate;
+	private String transExeTime;
+	private String transRefGUID;
+	private String transSubType;
+
+	public String getTransType() {
+		return transType;
+	}
+
+	public void setTransType(String transType) {
+		this.transType = transType;
+	}
+
+	public String getTransExeDate() {
+		return transExeDate;
+	}
+
+	public void setTransExeDate(String transExeDate) {
+		this.transExeDate = transExeDate;
+	}
+
+	public String getTransExeTime() {
+		return transExeTime;
+	}
+
+	public void setTransExeTime(String transExeTime) {
+		this.transExeTime = transExeTime;
+	}
+
+	public String getTransRefGUID() {
+		return transRefGUID;
+	}
+
+	public void setTransRefGUID(String transRefGUID) {
+		this.transRefGUID = transRefGUID;
+	}
+
+	public String getTransSubType() {
+		return transSubType;
+	}
+
+	public void setTransSubType(String transSubType) {
+		this.transSubType = transSubType;
+	}
+}

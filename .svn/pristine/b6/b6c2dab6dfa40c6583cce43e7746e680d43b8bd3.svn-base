@@ -1,0 +1,216 @@
+package com.chinalife.sz.carcalculate.controller;
+
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.mail.Session;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+
+import com.chinalife.sz.cc.model.common.Constants;
+import com.chinalife.sz.cc.model.common.ResponseCode;
+import com.chinalife.sz.cc.model.common.ServiceRequestID;
+import com.chinalife.sz.cc.model.user.UserInfoDTO;
+import com.lowagie.tools.concat_pdf;
+import com.prs.framework.core.exception.WebControllerException;
+import com.prs.framework.core.web.controller.util.WebUtils;
+
+/**
+ * 
+ * <p>Title: MainPageDispatcherController</p>
+ * <p>Description: controller </p>
+ * <p>Company: 紫川软件有限公司</p>
+ * @author sutanwei@purple-river.com
+ * @date 2016年1月16日
+ * @version 1.0
+ */
+@Controller
+public class UserManagerController {
+
+	/**
+	 * 日志管理
+	 */
+	private static Log logger = LogFactory.getLog(UserManagerController.class);
+	
+	/**
+	 * @Title: 登陆页面
+	 * @param request
+	 * @param response
+	 * @author MarsCheng
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="user.login.action", method=RequestMethod.POST)
+	public  ModelAndView userLogin (HttpServletRequest request, HttpServletResponse response) throws WebControllerException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userName = request.getParameter(Constants.USER_NAME);
+		String passWord = request.getParameter(Constants.PASS_WORD);
+//		String verifycode = request.getParameter("verifycode");
+//		logger.info("===============" + verifycode);
+		try {
+//			String validateC = (String) request.getSession().getAttribute("validateCode");
+//			logger.info(verifycode + "=============" + validateC);
+//			if(StringUtils.isNotEmpty(userName) /*&& StringUtils.isNotEmpty(verifycode) */
+//					/*&& validateC.equals(verifycode.toUpperCase())*/) {
+				model.put(Constants.USER_NAME, userName);
+				model.put(Constants.PASS_WORD, passWord);
+				model = WebUtils.getResponseModel(model, ServiceRequestID.USER_LOGIN);	// 登陆返回结果
+				int status = (Integer)model.get(Constants.STATUS);
+//				request.getSession().setAttribute(Constants.STATUS,status);
+				if(status == 0){					// 登陆成功
+					//清空cookie
+					Cookie[] cookies=request.getCookies();
+					if(cookies!=null){
+						for(int i=0;i<cookies.length;i++){
+							Cookie cookie=new Cookie(cookies[i].getName(), null);
+							cookie.setMaxAge(0);
+							response.addCookie(cookie);
+						}
+					}
+						//登陆查询到的信息加入cookie
+						
+					UserInfoDTO dto = (UserInfoDTO)model.get(Constants.PARAM_DTO);
+					Cookie userNme = new Cookie("userName", URLEncoder.encode(dto.getUserNme(), "utf-8"));
+					Cookie userCd = new Cookie("userCode",URLEncoder.encode(dto.getUserCde(), "utf-8"));
+					response.addCookie(userNme);
+					response.addCookie(userCd);
+//					request.getSession().setAttribute(Constants.SESSION_USER_INFO, dto);
+					System.out.println("========登陸成功=========");
+//					return new ModelAndView("/index");
+//					response.sendRedirect(response.encodeURL("main.action"));
+				}
+				else {
+					//清空cookie
+				Cookie[] cookies=request.getCookies();
+				if(cookies!=null){
+					for(int i=0;i<cookies.length;i++){
+						Cookie cookie=new Cookie(cookies[i].getName(), null);
+						cookie.setMaxAge(0);
+						response.addCookie(cookie);
+					}
+				}
+				}
+			/*} else {								// 验证失败
+				logger.info("===============VALIDATE_CODE == " + verifycode + "=============" + validateC);
+
+				response.sendRedirect(response.encodeURL("login.action"));
+			}*/
+		} catch (Exception e) {
+//			System.out.println(e);	
+			throw new WebControllerException();
+ 
+		}
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+		
+	}	
+	/**
+	 * 新增用户
+	 * @param userInfoDTO
+	 * @author MarsCheng
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="user.add.action", method=RequestMethod.POST)
+	public @ResponseBody ModelAndView userAdd(UserInfoDTO userInfoDTO) throws WebControllerException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		try{
+		model.put(Constants.ADD_USER, userInfoDTO);
+		//新增用户返回结果
+		model=WebUtils.getResponseModel(model, ServiceRequestID.USER_ADD);
+		
+		}catch (Exception e) {
+//			System.out.println(e);
+			model.clear();
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.ADD_FAILURE);
+			throw new WebControllerException();
+		}
+		return new ModelAndView(new MappingJacksonJsonView(),model);	
+	
+	}
+	
+	/**
+	 * 修改密码
+	 * @param request
+	 * @param response
+	 * @author MarsCheng
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="passWord.edit.action", method=RequestMethod.POST)
+	public ModelAndView passWordEdit(HttpServletRequest request, HttpServletResponse response) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userCode = request.getParameter(Constants.USER_CODE);
+		String newPassword = request.getParameter(Constants.NEW_PASSWORD);
+		String oldPassword = request.getParameter(Constants.OLD_PASSWORD);
+		
+		try {
+		model.put(Constants.NEW_PASSWORD, newPassword);
+		model.put(Constants.OLD_PASSWORD,oldPassword );
+		model.put(Constants.USER_CODE, userCode);
+		
+		model=WebUtils.getResponseModel(model, ServiceRequestID.PASSWORD_EDIT);
+		
+		
+		} catch (Exception e) {
+			model.clear();
+			model.put(ResponseCode.RESPONSE_CODE, ResponseCode.UPDATE_FAILURE);
+			throw new WebControllerException();
+		}
+		
+//		System.out.println("====new==="+newPassword+"====old===="+oldPassword);
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+	}
+	
+	/**
+	 * 用户信息查询
+	 * @author MarsCheng
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws WebControllerException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value="userInfo.find.action", method=RequestMethod.POST)
+	public ModelAndView userInfoFind(HttpServletRequest request, HttpServletResponse response) throws WebControllerException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		String userCode = request.getParameter(Constants.USER_CODE);
+		String userName = request.getParameter(Constants.USER_NAME);
+		String createBegin = request.getParameter(Constants.CREATE_BEGIN);
+		String createEnd = request.getParameter(Constants.CREATE_END);
+		String dept = request.getParameter(Constants.DEPT);
+		String handlerCde = request.getParameter(Constants.HANDLERCDE);
+		String handlerNme = request.getParameter(Constants.HANDLERNME);
+		int page = Integer.parseInt(request.getParameter(Constants.CURRENT_PAGE));
+		
+		model.put(Constants.USER_CODE, userCode);
+		model.put(Constants.USER_NAME, userName);
+		model.put(Constants.CREATE_BEGIN, createBegin);
+		model.put(Constants.CREATE_END, createEnd);
+		model.put(Constants.DEPT,dept);
+		model.put(Constants.HANDLERCDE,handlerCde );
+		model.put(Constants.HANDLERNME,handlerNme);
+		model.put(Constants.CURRENT_PAGE, page);
+		model=WebUtils.getResponseModel(model, ServiceRequestID.UERTINFO_FIND);
+		
+		
+		return new ModelAndView(new MappingJacksonJsonView(),model);
+	}
+
+	
+}

@@ -1,0 +1,186 @@
+
+/**
+ * PremiumCaculateServiceV3XCallbackHandler.java
+ *
+ * This file was auto-generated from WSDL
+ * by the Apache Axis2 version: 1.6.1  Built on : Aug 31, 2011 (12:22:40 CEST)
+ */
+
+    package com.chinalife.sz.carcalculate.webservice;
+
+    /**
+     *  PremiumCaculateServiceV3XCallbackHandler Callback class, Users can extend this class and implement
+     *  their own receiveResult and receiveError methods.
+     */
+    public abstract class PremiumCaculateServiceV3XCallbackHandler{
+
+
+
+    protected Object clientData;
+
+    /**
+    * User can pass in any object that needs to be accessed once the NonBlocking
+    * Web service call is finished and appropriate method of this CallBack is called.
+    * @param clientData Object mechanism by which the user can pass in user data
+    * that will be avilable at the time this callback is called.
+    */
+    public PremiumCaculateServiceV3XCallbackHandler(Object clientData){
+        this.clientData = clientData;
+    }
+
+    /**
+    * Please use this constructor if you don't want to set any clientData
+    */
+    public PremiumCaculateServiceV3XCallbackHandler(){
+        this.clientData = null;
+    }
+
+    /**
+     * Get the client data
+     */
+
+     public Object getClientData() {
+        return clientData;
+     }
+
+        
+           /**
+            * auto generated Axis2 call back method for carService method
+            * override this method for handling normal response from carService operation
+            */
+           public void receiveResultcarService(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.CarServiceResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from carService operation
+           */
+            public void receiveErrorcarService(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getLogHand method
+            * override this method for handling normal response from getLogHand operation
+            */
+           public void receiveResultgetLogHand(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.GetLogHandResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getLogHand operation
+           */
+            public void receiveErrorgetLogHand(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for premiumCaculate method
+            * override this method for handling normal response from premiumCaculate operation
+            */
+           public void receiveResultpremiumCaculate(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.PremiumCaculateResponseE result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from premiumCaculate operation
+           */
+            public void receiveErrorpremiumCaculate(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getLogger method
+            * override this method for handling normal response from getLogger operation
+            */
+           public void receiveResultgetLogger(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.GetLoggerResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getLogger operation
+           */
+            public void receiveErrorgetLogger(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCommonCheck method
+            * override this method for handling normal response from getCommonCheck operation
+            */
+           public void receiveResultgetCommonCheck(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.GetCommonCheckResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCommonCheck operation
+           */
+            public void receiveErrorgetCommonCheck(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for premiumCaculateDidi method
+            * override this method for handling normal response from premiumCaculateDidi operation
+            */
+           public void receiveResultpremiumCaculateDidi(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.PremiumCaculateDidiResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from premiumCaculateDidi operation
+           */
+            public void receiveErrorpremiumCaculateDidi(java.lang.Exception e) {
+            }
+                
+               // No methods generated for meps other than in-out
+                
+               // No methods generated for meps other than in-out
+                
+               // No methods generated for meps other than in-out
+                
+           /**
+            * auto generated Axis2 call back method for getPremiumCaculateInterface method
+            * override this method for handling normal response from getPremiumCaculateInterface operation
+            */
+           public void receiveResultgetPremiumCaculateInterface(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.GetPremiumCaculateInterfaceResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getPremiumCaculateInterface operation
+           */
+            public void receiveErrorgetPremiumCaculateInterface(java.lang.Exception e) {
+            }
+                
+               // No methods generated for meps other than in-out
+                
+           /**
+            * auto generated Axis2 call back method for premiumCaculateAnt method
+            * override this method for handling normal response from premiumCaculateAnt operation
+            */
+           public void receiveResultpremiumCaculateAnt(
+                    com.chinalife.sz.carcalculate.webservice.PremiumCaculateServiceV3XStub.PremiumCaculateAntResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from premiumCaculateAnt operation
+           */
+            public void receiveErrorpremiumCaculateAnt(java.lang.Exception e) {
+            }
+                
+
+
+    }
+    

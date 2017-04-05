@@ -1,0 +1,434 @@
+package com.chinalife.sz.carcalculate.service.impl;
+
+import com.chinalife.sz.carcalculate.service.WebService;
+import com.chinalife.sz.carcalculate.utils.ConfigUtils;
+import com.chinalife.sz.cc.domain.*;
+import com.chinalife.sz.cc.model.log.LogDTO;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfWriter;
+
+import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.util.HashMap;
+
+/**
+ * 生成pdf
+ * Created by tianwei on 2016/8/23.
+ */
+
+public class GeneratePDFService implements WebService {
+    @Override
+    public <T> boolean checkData(T object) {
+
+        return false;
+    }
+
+    @Override
+    public <T> T dealData(Object domain, T response) {
+        if (domain instanceof PremiumCalculateRequest) {
+            PremiumCalculateRequest mainInfo;
+            Document document;
+            ByteArrayOutputStream bos;
+            try {
+                mainInfo = (PremiumCalculateRequest) domain;
+                document = new Document(PageSize.A4, 50, 50, 50, 50);
+//                document = new Document(, 50, 50, 50, 50);
+                bos = new ByteArrayOutputStream();
+                String demandNo = mainInfo.getMain().getDemandNo();
+
+                PdfWriter writer = PdfWriter.getInstance(document, bos);
+                document.open();
+
+                PdfContentByte content = writer.getDirectContent();
+//                Image image = new Image(ImageDataFactory.create(IMG));
+                URL imageUrl = getClass().getClassLoader().getResource("jpg/logo.png");
+                Image logo = Image.getInstance(imageUrl);
+                logo.setAlignment(Image.ALIGN_CENTER);
+                logo.scaleAbsoluteHeight(10);
+                logo.scaleAbsoluteWidth(10);
+//                logo.scalePercent(38);
+                logo.scalePercent(42);
+                logo.setAbsolutePosition(50, 766);
+                content.addImage(logo);
+
+                BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+                Font FontChinese = new Font(bfChinese, 10, Font.NORMAL);
+                Font titleFontChinese = new Font(bfChinese, 14, Font.NORMAL);
+                Table table = new Table(4);
+                int widths[] = {25, 25, 25, 25};
+                table.setWidths(widths);
+                table.setWidth(100);
+                table.setPadding(2);
+
+
+
+//      car
+                CarInfoRequest carInfo = mainInfo.getCarInfo();
+                if("7".equals(carInfo.getCarOwnerNature())){
+                    Cell cell = new Cell(new Phrase("机动车辆保险报价单(个人)", titleFontChinese));
+                    cell.setUseBorderPadding(true);
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell.setColspan(4);
+                    cell.setBorder(Rectangle.NO_BORDER);
+                    table.addCell(cell);
+                }
+               else {
+                    Cell cell = new Cell(new Phrase("机动车辆保险报价单(法人)", titleFontChinese));
+                    cell.setUseBorderPadding(true);
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    cell.setColspan(4);
+                    cell.setBorder(Rectangle.NO_BORDER);
+                    table.addCell(cell);
+                }
+
+                document.add(table);
+
+                Table carTable = new Table(4);
+
+                carTable.setWidths(widths);
+                carTable.setWidth(100);
+                carTable.setPadding(2);
+                ItemKindDataRequest[] syxItemKindList = mainInfo.getCombosList()[0].getItemKindList();
+                if("7".equals(carInfo.getCarOwnerNature())){
+                    Cell licenseNo = new Cell(new Paragraph("车牌号：" + carInfo.getLicenseNo(), FontChinese));
+                    licenseNo.setColspan(1);
+                    licenseNo.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(licenseNo);
+
+                    Cell owner = new Cell(new Paragraph("行驶证车主：" + carInfo.getCarOwner(), FontChinese));
+                    owner.setColspan(1);
+                    owner.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(owner);
+
+                    if(!(carInfo.getCarOwner().equals(""))&&!(mainInfo.getInsuredList()[1].getInsuredName().equals(""))&&(mainInfo.getInsuredList()[1].getIdentifyType().equals("01"))){
+                        int ownerAge = ConfigUtils.getAge(mainInfo.getInsuredList()[1].getIdentifyNumber());
+                        Cell age = new Cell(new Paragraph("行驶证车主年龄：" + ownerAge + "岁", FontChinese));
+                        age.setColspan(1);
+                        age.setBorder(Rectangle.NO_BORDER);
+                        carTable.addCell(age);
+                        String ownerSex = mainInfo.getInsuredList()[1].getSex().equals("1") ? "男" : "女";
+                        Cell sex = new Cell(new Paragraph("行驶证车主性别：" + ownerSex, FontChinese));
+                        sex.setColspan(1);
+                        sex.setBorder(Rectangle.NO_BORDER);
+                        carTable.addCell(sex);
+
+                    }
+                    else {
+                        Cell age = new Cell(new Paragraph("行驶证车主年龄：" , FontChinese));
+                        age.setColspan(1);
+                        age.setBorder(Rectangle.NO_BORDER);
+                        carTable.addCell(age);
+                        Cell sex = new Cell(new Paragraph("行驶证车主性别：", FontChinese));
+                        sex.setColspan(1);
+                        sex.setBorder(Rectangle.NO_BORDER);
+                        carTable.addCell(sex);
+                    }
+
+
+                    Cell insuredName = new Cell(new Paragraph("被保险人名称：" + mainInfo.getInsuredList()[1].getInsuredName(), FontChinese));
+                    insuredName.setColspan(1);
+                    insuredName.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(insuredName);
+
+                    Cell useNature = new Cell(new Paragraph("使用性质：" + ConfigUtils.getValue(carInfo.getUseNatureCode()), FontChinese));
+                    useNature.setColspan(1);
+                    useNature.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(useNature);
+
+
+                    Cell seatCount = new Cell(new Paragraph("座位：" + carInfo.getSeatCount(), FontChinese));
+                    seatCount.setColspan(1);
+                    seatCount.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(seatCount);
+
+
+                    Cell ton = new Cell(new Paragraph("吨位：" + carInfo.getTonCount(), FontChinese));
+                    ton.setColspan(1);
+                    ton.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(ton);
+
+
+                    Cell firstDay = new Cell(new Paragraph("初次登记日期：" + carInfo.getEnrollDate(), FontChinese));
+                    firstDay.setColspan(1);
+                    firstDay.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(firstDay);
+
+//                Cell ownerNature = new Cell(new Paragraph("所属性质：" + ConfigUtils.getValue(mainInfo.getInsuredList()[0].getInsuredType()), FontChinese));
+//                ownerNature.setColspan(1);
+//                ownerNature.setBorder(Rectangle.NO_BORDER);
+//                carTable.addCell(ownerNature);
+
+                    Cell carkind = new Cell(new Paragraph("厂牌车型：" + carInfo.getPlatmodelname(), FontChinese));
+                    carkind.setColspan(2);
+                    carkind.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(carkind);
+
+
+                    String m1Value = "";
+                    for (int i = 0; i < syxItemKindList.length; i++) {
+                        if ("001".equals(syxItemKindList[i].getKindCode())) {
+                            m1Value = syxItemKindList[i].getM1Value() != null ? syxItemKindList[i].getM1Value() : "";
+                        }
+                    }
+
+                    Cell deductibleAmount = new Cell(new Paragraph("车损险绝对免赔额：" + m1Value + "元", FontChinese));
+                    deductibleAmount.setColspan(1);
+                    deductibleAmount.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(deductibleAmount);
+                }
+                else {
+                    Cell licenseNo = new Cell(new Paragraph("车牌号：" + carInfo.getLicenseNo(), FontChinese));
+                    licenseNo.setColspan(1);
+                    licenseNo.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(licenseNo);
+
+                    Cell owner = new Cell(new Paragraph("行驶证车主：" + carInfo.getCarOwner(), FontChinese));
+                    owner.setColspan(2);
+                    owner.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(owner);
+
+
+
+
+
+                    Cell useNature = new Cell(new Paragraph("使用性质：" + ConfigUtils.getValue(carInfo.getUseNatureCode()), FontChinese));
+                    useNature.setColspan(1);
+                    useNature.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(useNature);
+
+
+                    Cell seatCount = new Cell(new Paragraph("座位：" + carInfo.getSeatCount(), FontChinese));
+                    seatCount.setColspan(1);
+                    seatCount.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(seatCount);
+
+
+                    Cell ton = new Cell(new Paragraph("吨位：" + carInfo.getTonCount(), FontChinese));
+                    ton.setColspan(1);
+                    ton.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(ton);
+
+
+                    Cell firstDay = new Cell(new Paragraph("初次登记日期：" + carInfo.getEnrollDate(), FontChinese));
+                    firstDay.setColspan(2);
+                    firstDay.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(firstDay);
+
+
+
+                    Cell carkind = new Cell(new Paragraph("厂牌车型：" + carInfo.getPlatmodelname(), FontChinese));
+                    carkind.setColspan(2);
+                    carkind.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(carkind);
+
+                    Cell insuredName = new Cell(new Paragraph("被保险人名称：" + mainInfo.getInsuredList()[1].getInsuredName(), FontChinese));
+                    insuredName.setColspan(2);
+                    insuredName.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(insuredName);
+
+                    String m1Value = "";
+                    for (int i = 0; i < syxItemKindList.length; i++) {
+                        if ("001".equals(syxItemKindList[i].getKindCode())) {
+                            m1Value = syxItemKindList[i].getM1Value() != null ? syxItemKindList[i].getM1Value() : "";
+                        }
+                    }
+
+                    Cell deductibleAmount = new Cell(new Paragraph("车损险绝对免赔额：" + m1Value + "元", FontChinese));
+                    deductibleAmount.setColspan(1);
+                    deductibleAmount.setBorder(Rectangle.NO_BORDER);
+                    carTable.addCell(deductibleAmount);
+                }
+
+                document.add(carTable);
+
+                MainRequest main = mainInfo.getMain();
+                Table dateTable = new Table(4);
+
+                dateTable.setWidths(widths);
+                dateTable.setWidth(100);
+                dateTable.setPadding(2);
+                if (main.getStartDate() != null && main.getEndDate() != null) {
+                    String startDate = main.getStartDate();
+                    String[] startDateSplit = startDate.split("-");
+                    String endDate = main.getEndDate();
+                    String[] endDateSplit = endDate.split("-");
+                    Cell syxDate = new Cell(new Paragraph("商业险保险期限：" + startDateSplit[0] + "年" + startDateSplit[1] + "月" + startDateSplit[2] + "日" + "00时至" + endDateSplit[0] + "年" + endDateSplit[1] + "月" + endDateSplit[2] + "日24时", FontChinese));
+                    syxDate.setColspan(4);
+                    syxDate.setBorder(Rectangle.NO_BORDER);
+                    dateTable.addCell(syxDate);
+                }
+
+                if (main.getBzStartDate() != null && main.getBzEndDate() != null && (mainInfo.getCombosList().length == 2)) {
+
+                    String bzStartDate = main.getBzStartDate();
+                    String[] bzStartDateSplit = bzStartDate.split("-");
+                    String bzEndDate = main.getBzEndDate();
+                    String[] bzEndDateSplit = bzEndDate.split("-");
+                    Cell jxqDate = new Cell(new Paragraph("交强险保险期限：" + bzStartDateSplit[0] + "年" + bzStartDateSplit[1] + "月" + bzStartDateSplit[2] + "日" + "00时至" + bzEndDateSplit[0] + "年" + bzEndDateSplit[1] + "月" + bzEndDateSplit[2] + "日24时", FontChinese));
+                    jxqDate.setColspan(4);
+                    jxqDate.setBorder(Rectangle.NO_BORDER);
+                    dateTable.addCell(jxqDate);
+
+                }
+                if (mainInfo.getCombosList().length == 1) {
+                    Cell jxqDate = new Cell(new Paragraph(""));
+                    jxqDate.setColspan(2);
+                    jxqDate.setBorder(Rectangle.NO_BORDER);
+                    dateTable.addCell(jxqDate);
+                }
+
+                document.add(dateTable);
+
+//                Cell insuredName = new Cell(new Paragraph("被保险人名称：" + mainInfo.getInsuredList()[1].getInsuredName(), FontChinese));
+//                insuredName.setColspan(2);
+//                insuredName.setBorder(Rectangle.NO_BORDER);
+//                carTable.addCell(insuredName);
+//
+//                Cell applicantName = new Cell(new Paragraph("投保人名称：" + mainInfo.getApplicant().getAppliName(), FontChinese));
+//                applicantName.setColspan(2);
+//                applicantName.setBorder(Rectangle.NO_BORDER);
+//                carTable.addCell(applicantName);
+
+
+
+                Table kindTable = new Table(4);
+                int kindWidths[] = {40, 15, 15, 30};
+                kindTable.setWidths(kindWidths);
+                kindTable.setWidth(100);
+                kindTable.setPadding(2);
+
+                Cell syxName = new Cell(new Paragraph("商业险", FontChinese));
+                syxName.setColspan(4);
+//      syxName.setBorder(Rectangle.NO_BORDER);
+                syxName.setHorizontalAlignment(Element.ALIGN_CENTER);
+                kindTable.addCell(syxName);
+
+                Cell kindCode = new Cell(new Paragraph("险别", FontChinese));
+                kindCode.setColspan(1);
+//      kindCode.setBorder(Rectangle.NO_BORDER);
+                kindTable.addCell(kindCode);
+
+                Cell amount = new Cell(new Paragraph("保险金额", FontChinese));
+                amount.setColspan(1);
+//      amount.setBorder(Rectangle.NO_BORDER);
+                kindTable.addCell(amount);
+
+                Cell premium = new Cell(new Paragraph("保险费小计", FontChinese));
+                premium.setColspan(1);
+//      premium.setBorder(Rectangle.NO_BORDER);
+                kindTable.addCell(premium);
+
+                Cell note = new Cell(new Paragraph("相关说明", FontChinese));
+                note.setColspan(1);
+//      note.setBorder(Rectangle.NO_BORDER);
+                kindTable.addCell(note);
+
+
+                for (int i = 0; i < syxItemKindList.length; i++) {
+                    if (syxItemKindList[i].getDeductableFlag().equals("1")) {
+                        kindTable.addCell(new Paragraph(syxItemKindList[i].getKindName(), FontChinese));
+                        kindTable.addCell(new Paragraph(syxItemKindList[i].getAmount() + "元", FontChinese));
+                        kindTable.addCell(new Paragraph(syxItemKindList[i].getPremium() + "元", FontChinese));
+                        String deducTableKindCode = ConfigUtils.getValue(syxItemKindList[i].getKindCode());
+                        for (int j = 0; j < syxItemKindList.length; j++) {
+                            if (syxItemKindList[j].getKindCode().equals(deducTableKindCode)) {
+                                kindTable.addCell(new Paragraph("包含不计免赔金额:" + syxItemKindList[j].getPremium() + "元", FontChinese));
+                                break;
+                            }
+                        }
+
+                    }
+                    if (syxItemKindList[i].getDeductableFlag().equals("0") && !(syxItemKindList[i].getKindCode().substring(0, 1).equals("3"))) {
+//                        kindTable.addCell(new Paragraph(syxItemKindList[i].getKindName(), FontChinese));
+                        if ("201".equals(syxItemKindList[i].getKindCode())) {
+                            if ("1".equals(syxItemKindList[i].getModeCode())) {
+                                kindTable.addCell(new Paragraph(syxItemKindList[i].getKindName() + "(国产玻璃)", FontChinese));
+                            }
+                            if ("2".equals(syxItemKindList[i].getModeCode())) {
+                                kindTable.addCell(new Paragraph(syxItemKindList[i].getKindName() + "(进口玻璃)", FontChinese));
+                            }
+                        } else {
+                            kindTable.addCell(new Paragraph(syxItemKindList[i].getKindName(), FontChinese));
+                        }
+                        kindTable.addCell(new Paragraph(syxItemKindList[i].getAmount() + "元", FontChinese));
+                        kindTable.addCell(new Paragraph(syxItemKindList[i].getPremium() + "元", FontChinese));
+                        kindTable.addCell(new Paragraph("", FontChinese));
+                    }
+
+                }
+
+                Cell syxSumPremium = new Cell(new Paragraph("商业险保费合计:" + mainInfo.getCombosList()[0].getSumPremium() + "元", FontChinese));
+                syxSumPremium.setColspan(4);
+//      kindCode.setBorder(Rectangle.NO_BORDER);
+                syxSumPremium.setHorizontalAlignment(Element.ALIGN_CENTER);
+                kindTable.addCell(syxSumPremium);
+
+                if (mainInfo.getCombosList().length == 2) {
+                    Cell jqxSumPremium = new Cell(new Paragraph("交强险保费合计:" + mainInfo.getCombosList()[1].getSumPremium() + "元", FontChinese));
+                    jqxSumPremium.setColspan(4);
+//      kindCode.setBorder(Rectangle.NO_BORDER);
+                    jqxSumPremium.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    kindTable.addCell(jqxSumPremium);
+
+                    Cell cqxPremium = new Cell(new Paragraph("车船税税款合计:" + mainInfo.getCarShipTaxInfo().getSumPayTax() + "元", FontChinese));
+                    cqxPremium.setColspan(4);
+//      kindCode.setBorder(Rectangle.NO_BORDER);
+                    cqxPremium.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    kindTable.addCell(cqxPremium);
+                }
+
+//计算总保费
+                BigDecimal totalPremium = new BigDecimal(0.00);
+                CombosDataRequest[] combosList = mainInfo.getCombosList();
+                for (int i = 0; i < combosList.length; i++) {
+                    totalPremium = new BigDecimal(combosList[i].getSumPremium()).add(totalPremium);
+                }
+                if (combosList.length == 2) {
+                    totalPremium = new BigDecimal(mainInfo.getCarShipTaxInfo().getSumPayTax()).add(totalPremium);
+                }
+
+                Cell sumPremium = new Cell(new Paragraph("您需要支付的保费及税款合计:" + totalPremium + "元", FontChinese));
+                sumPremium.setColspan(4);
+//      kindCode.setBorder(Rectangle.NO_BORDER);
+                sumPremium.setHorizontalAlignment(Element.ALIGN_CENTER);
+                kindTable.addCell(sumPremium);
+
+//                Cell bz = new Cell(new Paragraph("尊敬的客户：", FontChinese));
+//                bz.setColspan(4);
+////      kindCode.setBorder(Rectangle.NO_BORDER);
+//                kindTable.addCell(bz);
+
+                document.add(kindTable);
+                document.close();
+                byte[] bytes = bos.toByteArray();
+
+
+                if (response instanceof HashMap) {
+                    HashMap map = (HashMap) response;
+                    map.put(demandNo, bytes);
+                    return response;
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                return null;
+            } finally {
+
+
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    public void asynWtireLog(LogDTO logDTO) {
+
+    }
+
+
+}

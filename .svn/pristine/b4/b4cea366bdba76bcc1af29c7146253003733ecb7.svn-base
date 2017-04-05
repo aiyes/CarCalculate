@@ -1,0 +1,13 @@
+package com.chinalife.sz.cc.combos.mapper;
+
+
+import com.chinalife.sz.cc.model.combos.CombosSchemaDTO;
+import com.prs.framework.core.biz.mapper.RepositoryMapper;
+
+/**
+ * Created by tianwei on 2016/12/23.
+ */
+@RepositoryMapper
+public interface CombosSchemaMapper {
+    public void saveCombosSchema(CombosSchemaDTO combosScheme);
+}

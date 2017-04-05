@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>投保询价</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/navbar.css">
+    <!-- <link rel="stylesheet" href="css/site.css"/> -->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/sweet-alert.css"/>
+    <script src="js/sweet-alert.min.js"></script>
+    <link rel="stylesheet" href="css/angularjs-datetime-picker.css"/>
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+
+
+</head>
+<body ng-app="myApp" ng-controller="myController">
+<!-- 报价系统，svn上传测试 -->
+<!--<div>-->
+<!--<div class="h30">-->
+<!--<div class="w h30 wrapper-top-buttons wrapper-top-buttons-bg"></div>-->
+<!--<div class="w tac wrapper-top-buttons wrapper-top-buttons-bg">-->
+<!--<ul class="nav navbar-nav inline">-->
+<!--<li  ><a href="#home">报价</a></li>-->
+<!--<li ><a href="#features">转订单</a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<div id="content" >
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title" ng-show="form.showStatus!='3'"><span class="icon"> <i class="icon-list"></i> </span>
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active"><a href="#mainInfo" data-toggle="tab">
+                                报价</a>
+                            </li>
+                            <li ><a href="#applicant" data-toggle="tab">申请投保</a></li>
+
+                        </ul>
+
+                        <!--<ul id="myTab" class="nav nav-tabs">-->
+                            <!--<li class="active">-->
+                                <!--<a ui-sref="home" data-toggle="tab">-->
+                                    <!--报价-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li><a ui-sref="applicant" data-toggle="tab">申请投保</a></li>-->
+
+                        <!--</ul>-->
+                    </div>
+
+                    <div ng-view ></div>
+                    <!--<div ui-view="mainInfo"></div>-->
+                    <!--<div ui-view="applicant"></div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- bottom -->
+<div>
+    <div class="h30">
+        <div class="w h30 wrapper-bottom-buttons wrapper-bottom-buttons-bg"></div>
+        <div class="w tac wrapper-bottom-buttons fs0">
+            <!-- <button class="btn btn-success mt10">保存</button> -->
+            <button type="button" ng-click="baojia()" class="btn btn-success mt10 ml5" ng-show="form.showStatus=='1'">申请报价</button>
+            <a ng-show="mainInfo.main.demandNo&&(form.showStatus=='1')" class="btn btn-success mt10 ml5"
+               ng-click="generatePDF(mainInfo.main.demandNo)">下载报价单</a>
+            <button type="button" ng-click="toOrder()" class="btn btn-success mt10 ml5" ng-show="form.showStatus=='2'">转订单</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.ui.custom.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/personal-issue.js"></script>
+<!-- <script src="js/carModel.js"></script> -->
+<!--Picker-->
+<script src="js/bootstrap-datetimepicker.js"></script>
+<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>
+<!-- pikaday -->
+<link type="text/css" rel="stylesheet" href="css/pikaday.css"/>
+<script type="text/javascript" src="js/pikaday.js"></script>
+<script type="text/javascript" src="js/pikaday.jquery.js"></script>
+<!-- <script src="js/angular-1.2.9.js"></script> -->
+<!--<script src="js/angular-1.2.9.js"></script>-->
+<script src="js/angular.min.js"></script>
+<script src="js/angular-cookies.min.js"></script>
+<script src="js/angular-animate.min.js"></script>
+<script src="js/angular-route.min.js"></script>
+<script src="js/angular-ui-router.js"></script>
+<!-- <script src="js/angularjs-datetime-picker.js"></script> -->
+<!-- <script src="js/ngDialog.js"></script> -->
+<script src="js/ui-bootstrap-tpls.js"></script>
+<script src="js/plugin/jquery.blockui.js"></script>
+<script src="js/common/LoaderMask.js"></script>
+<!--<script src="js/fy.js"></script>
+<script src="js/config.js"></script>-->
+<script src="js/jquery.validate.js"></script>
+<script src="js/jquery.cookie.js"></script>
+
+
+<script src="js/angular-issue-ss.js"></script>
+<script src="js/angular-backtop.min.js"></script>
+<!--<script src="js/angular-jquery.js"></script>-->
+
+</body>
+</html>

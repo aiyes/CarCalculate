@@ -1,0 +1,280 @@
+package com.chinalife.sz.cc.domain;
+
+import java.io.Serializable;
+
+/**
+ * Created by tianwei on 2016/7/20.
+ * 被保险人详细信息
+ */
+public class InsuredDataRequest implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7684711730981307729L;
+	private String InsuredCode;
+	private String InsuredName;
+	private String InsuredNature;
+	private String customerCode;
+	private String customerEName;
+	private String InsuredType;
+	private String InsuredIdentity;
+	private String IdentifyType;
+	private String IdentifyNumber;
+	private String AddressName;
+	private String LinkerName;
+	private String LinkerAddress;
+	private String Bank;
+	private String Account;
+	private String AccountName;
+	private String PostAddress;
+	private String PostCode;
+	private String Phone;
+	private String Mobile;
+	private String Email;
+	private String Sex;
+	private int Age;
+	private String Birthday;
+	private String InsuredKind;
+	private String InsuredFlag;
+	private String isCheck;
+
+	@Override
+	public String toString() {
+		return "InsuredDataRequest{" +
+				"InsuredCode='" + InsuredCode + '\'' +
+				", InsuredName='" + InsuredName + '\'' +
+				", InsuredNature='" + InsuredNature + '\'' +
+				", customerCode='" + customerCode + '\'' +
+				", customerEName='" + customerEName + '\'' +
+				", InsuredType='" + InsuredType + '\'' +
+				", InsuredIdentity='" + InsuredIdentity + '\'' +
+				", IdentifyType='" + IdentifyType + '\'' +
+				", IdentifyNumber='" + IdentifyNumber + '\'' +
+				", AddressName='" + AddressName + '\'' +
+				", LinkerName='" + LinkerName + '\'' +
+				", LinkerAddress='" + LinkerAddress + '\'' +
+				", Bank='" + Bank + '\'' +
+				", Account='" + Account + '\'' +
+				", AccountName='" + AccountName + '\'' +
+				", PostAddress='" + PostAddress + '\'' +
+				", PostCode='" + PostCode + '\'' +
+				", Phone='" + Phone + '\'' +
+				", Mobile='" + Mobile + '\'' +
+				", Email='" + Email + '\'' +
+				", Sex='" + Sex + '\'' +
+				", Age=" + Age +
+				", Birthday='" + Birthday + '\'' +
+				", InsuredKind='" + InsuredKind + '\'' +
+				", InsuredFlag='" + InsuredFlag + '\'' +
+				", isCheck='" + isCheck + '\'' +
+				'}';
+	}
+
+	public String getInsuredCode() {
+		return InsuredCode;
+	}
+
+	public void setInsuredCode(String insuredCode) {
+		InsuredCode = insuredCode;
+	}
+
+	public String getInsuredName() {
+		return InsuredName;
+	}
+
+	public void setInsuredName(String insuredName) {
+		InsuredName = insuredName;
+	}
+
+	public String getInsuredNature() {
+		return InsuredNature;
+	}
+
+	public void setInsuredNature(String insuredNature) {
+		InsuredNature = insuredNature;
+	}
+
+	public String getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(String customerCode) {
+		this.customerCode = customerCode;
+	}
+
+	public String getCustomerEName() {
+		return customerEName;
+	}
+
+	public void setCustomerEName(String customerEName) {
+		this.customerEName = customerEName;
+	}
+
+	public String getInsuredType() {
+		return InsuredType;
+	}
+
+	public void setInsuredType(String insuredType) {
+		InsuredType = insuredType;
+	}
+
+	public String getInsuredIdentity() {
+		return InsuredIdentity;
+	}
+
+	public void setInsuredIdentity(String insuredIdentity) {
+		InsuredIdentity = insuredIdentity;
+	}
+
+	public String getIdentifyType() {
+		return IdentifyType;
+	}
+
+	public void setIdentifyType(String identifyType) {
+		IdentifyType = identifyType;
+	}
+
+	public String getIdentifyNumber() {
+		return IdentifyNumber;
+	}
+
+	public void setIdentifyNumber(String identifyNumber) {
+		IdentifyNumber = identifyNumber;
+	}
+
+	public String getAddressName() {
+		return AddressName;
+	}
+
+	public void setAddressName(String addressName) {
+		AddressName = addressName;
+	}
+
+	public String getLinkerName() {
+		return LinkerName;
+	}
+
+	public void setLinkerName(String linkerName) {
+		LinkerName = linkerName;
+	}
+
+	public String getLinkerAddress() {
+		return LinkerAddress;
+	}
+
+	public void setLinkerAddress(String linkerAddress) {
+		LinkerAddress = linkerAddress;
+	}
+
+	public String getBank() {
+		return Bank;
+	}
+
+	public void setBank(String bank) {
+		Bank = bank;
+	}
+
+	public String getAccount() {
+		return Account;
+	}
+
+	public void setAccount(String account) {
+		Account = account;
+	}
+
+	public String getAccountName() {
+		return AccountName;
+	}
+
+	public void setAccountName(String accountName) {
+		AccountName = accountName;
+	}
+
+	public String getPostAddress() {
+		return PostAddress;
+	}
+
+	public void setPostAddress(String postAddress) {
+		PostAddress = postAddress;
+	}
+
+	public String getPostCode() {
+		return PostCode;
+	}
+
+	public void setPostCode(String postCode) {
+		PostCode = postCode;
+	}
+
+	public String getPhone() {
+		return Phone;
+	}
+
+	public void setPhone(String phone) {
+		Phone = phone;
+	}
+
+	public String getMobile() {
+		return Mobile;
+	}
+
+	public void setMobile(String mobile) {
+		Mobile = mobile;
+	}
+
+	public String getEmail() {
+		return Email;
+	}
+
+	public void setEmail(String email) {
+		Email = email;
+	}
+
+	public String getSex() {
+		return Sex;
+	}
+
+	public void setSex(String sex) {
+		Sex = sex;
+	}
+
+	public int getAge() {
+		return Age;
+	}
+
+	public void setAge(int age) {
+		Age = age;
+	}
+
+	public String getBirthday() {
+		return Birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		Birthday = birthday;
+	}
+
+	public String getInsuredKind() {
+		return InsuredKind;
+	}
+
+	public void setInsuredKind(String insuredKind) {
+		InsuredKind = insuredKind;
+	}
+
+	public String getInsuredFlag() {
+		return InsuredFlag;
+	}
+
+	public void setInsuredFlag(String insuredFlag) {
+		InsuredFlag = insuredFlag;
+	}
+
+	public String getIsCheck() {
+		return isCheck;
+	}
+
+	public void setIsCheck(String isCheck) {
+		this.isCheck = isCheck;
+	}
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinalife.sz.cc.log.mapper.LogMapper">
+
+	<sql id="logAllColumn">
+		LOG_SERIALNO,SERVICE_NME,LOG_TYPE,REQ_TM,RESP_TM,
+		LICENSENO,ENGINENO,FRAMENO,CAROWNER,CRT_USR
+	</sql>
+	
+	<sql id="subLogAllColumn">
+		LOG_SERIALNO,REQ_XML,RESP_XML,ERR_MSG
+	</sql>
+	
+	<sql id="logTableName">VQ_LOG</sql>
+	<sql id="subLogTableName">VQ_SUB_LOG</sql>
+
+	<!-- 插入日志主表 -->
+	<insert id="addLog" parameterType="LogDTO">
+		INSERT INTO <include refid="logTableName" /> (
+			<include refid="logAllColumn" /> 
+		)
+		VALUES (
+			#{logSerialNo,jdbcType=VARCHAR},
+			#{serviceNme,jdbcType=VARCHAR},
+			#{logType,jdbcType=VARCHAR},
+			#{reqTm,jdbcType=VARCHAR},
+			#{respTm,jdbcType=VARCHAR},
+			#{licenseNo,jdbcType=VARCHAR},
+			#{engineNo,jdbcType=VARCHAR},
+			#{frameNo,jdbcType=VARCHAR},
+			#{carOwner,jdbcType=VARCHAR},
+			#{crtUsr,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<!-- 插入日志子表 -->
+	<insert id="addSubLog" parameterType="LogSubDTO">
+		INSERT INTO <include refid="subLogTableName" /> (
+			<include refid="subLogAllColumn" /> 
+		)
+		VALUES (
+			#{logSerialNo,jdbcType=VARCHAR},
+			#{reqXml,jdbcType=CLOB},
+			#{respXml,jdbcType=CLOB},
+			#{errMsg,jdbcType=CLOB}
+		)
+	</insert>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+

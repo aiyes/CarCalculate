@@ -1,0 +1,40 @@
+package com.chinalife.sz.cc.domain;
+
+import java.io.Serializable;
+
+/**
+ * Created by tianwei on 2016/7/20.
+ * 规则引擎返回信息
+ */
+public class ILogResultDtoResponse implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1911682972231930127L;
+	private String ilogStatus;
+	private String 	ilogDesc;
+
+	@Override
+	public String toString() {
+		return "ILogResultDtoResponse{" +
+				"ilogStatus='" + ilogStatus + '\'' +
+				", ilogDesc='" + ilogDesc + '\'' +
+				'}';
+	}
+
+	public String getIlogStatus() {
+		return ilogStatus;
+	}
+
+	public void setIlogStatus(String ilogStatus) {
+		this.ilogStatus = ilogStatus;
+	}
+
+	public String getIlogDesc() {
+		return ilogDesc;
+	}
+
+	public void setIlogDesc(String ilogDesc) {
+		this.ilogDesc = ilogDesc;
+	}
+}

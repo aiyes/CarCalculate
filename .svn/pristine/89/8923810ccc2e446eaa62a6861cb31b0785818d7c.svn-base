@@ -1,0 +1,48 @@
+/**
+ * 新增用户js
+ */
+
+$("#saveUser").click(function(){
+//	console.log($("#userType").val());
+	$.ajax({
+		type:'post',
+		url:'user.add.action',
+		dataType:'json',
+		data:{
+			userCde:$("#userCde").val(),
+			userNme:$("#userNme").val(),
+			userType:$("#userType").val(),
+			userStatus:$("#userStatus").val(),
+			password:$("#password").val(),
+			dept:$("#dept").val(),
+			deptNme:$("#deptNme").val(),
+			handlerCde:$("#handlerCde").val(),
+			handlerNme:$("#handlerNme").val(),
+			businessNatureCde:$("#businessNatureCde").val(),
+			agentCde:$("#agentCde").val(),
+			agentNme:$("#agentNme").val(),
+			permitNo:$("#permitNo").val(),
+			agreementNo:$("#agreementNo").val(),
+			crtMan:$.cookie('userCode')	
+		},
+		success:function(data){
+//			console.log(data.responseCode);
+			if(data.responseCode=="S0001"){
+//				var username = data.carCalculate.add.user.userNme
+				alert("新增用户成功");
+			}else{
+				alert("新增用户失败");
+			}
+			$("#form-wizard")[0].reset();
+			
+		},
+		error:function(msg){
+			alert("error");
+		}
+		
+	});
+});
+
+$("#back").click(function(){
+	$("#form-wizard")[0].reset();
+});

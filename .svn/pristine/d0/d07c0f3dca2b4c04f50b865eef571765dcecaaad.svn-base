@@ -1,0 +1,749 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商业险套餐配置</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/sweetalert2.min.css"/>
+    <script src="js/sweetalert2.min.js"></script>
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <!--<link href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>-->
+</head>
+<body ng-app="myApp" ng-controller="myController">
+<div id="content">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-content tab-content">
+
+                        <script type="text/ng-template" id="addCombos.html">
+                            <div class="modal-header">
+                                <button type="button" class="close"
+                                          ng-click="close()">
+                                    &times;
+                                </button>
+                                <h3 class="modal-title">套餐配置</h3>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" name="facilityForm">
+
+                                    <div class="control-group text-center">
+                                        <div class="controls ">
+                                            <input id="carModel" type="text" name="carModel"
+                                                   ng-model="combos.combosName" placeholder="请输入套餐名称" required/>
+                                            <button type="button" ng-click="saveCombos()"
+                                                    class="btn btn-success" ng-disabled="combos.combosName==null">保存
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--<table class="table table-bordered">-->
+                                    <!--<thead>-->
+                                    <!--<tr class="odd gradeX">-->
+                                    <!--<th>选择</th>-->
+                                    <!--<th>险别名称</th>-->
+                                    <!--<th>保险金额/赔偿限额</th>-->
+                                    <!--<th>是否选择不计免赔</th>-->
+                                    <!--</tr>-->
+                                    <!--</thead>-->
+                                    <!--<tbody>-->
+                                    <!--&lt;!&ndash; ngRepeat: one in facilityList &ndash;&gt;-->
+                                    <!--<tr class="odd gradeX text-right"-->
+                                    <!--ng-repeat="itemKind in itemKindList">-->
+                                    <!--<td class="controls">-->
+                                    <!--<input type="checkbox" ng-model="kind[$index]" ng-true-value="1"-->
+                                    <!--ng-false-value="0"-->
+                                    <!--ng-click="initShowItemKind($index)" ng-disabled="showDisabled($index)">-->
+                                    <!--</td>-->
+                                    <!--<td class="text-center" ng-bind="itemKind.kindName">-->
+                                    <!--</td>-->
+                                    <!--<td class="text-center" ng-show="itemKind.amount!=null">-->
+                                    <!--<select ng-model="itemKind.checkedAmount"-->
+                                    <!--ng-options="x for x in itemKind.amount">-->
+                                    <!--</select>元-->
+                                    <!--</td>-->
+                                    <!--<td class="text-center" ng-show="itemKind.amount==null">-->
+                                    <!--</td>-->
+                                    <!--<td class="text-center">-->
+                                    <!--<input type="checkbox" ng-checked="kind[$index]">-->
+                                    <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                    <!--</table>-->
+
+
+                                    <table id="tabInsSYType" class="table table-bordered">
+                                        <thead>
+                                        <tr class="odd gradeX">
+                                            <th>选择</th>
+                                            <th style="width: 250px;">险别</th>
+                                            <th>保险金额</th>
+                                            <th>不计免赔</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="odd gradeX text-right">
+
+                                            <td><input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                                       ng-model="kind[0]" ng-click="setDeductable(0)"
+                                                    />
+                                            </td>
+                                            <!--<td ng-hide="true"ng-bind="temp[0].itemKindList[0].KindCode" />-->
+                                            <td class="text-center">机动车损失保险</td>
+                                            <td>车损险绝对免赔额
+                                                <select
+                                                        ng-model="temp[0].itemKindList[0].m1Value"
+                                                        >
+                                                    <option value="0">0</option>
+                                                    <option value="300">300</option>
+                                                    <option value="500">500</option>
+                                                    <option value="1000">1000</option>
+                                                    <option value="2000">2000</option>
+                                                </select>&nbsp;元
+                                            </td>
+                                            <td class="text-center"><input type="checkbox"
+                                                                           ng-disabled="!kind[0]"
+                                                                           ng-model="temp[0].itemKindList[0].deductableFlag"
+                                                                           ng-true-value="1"
+                                                                           ng-false-value="0"
+                                                    />
+                                            </td>
+
+                                            <!-- <td class="text-center"><input type="text" class="w70"
+                                                                           ng-model="temp[0].itemKindList[0].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class="even gradeC">
+                                            <td><input type="checkbox" value="002" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[1]"
+                                                       ng-click="setDeductable(1)"
+                                                    />
+                                            </td>
+                                            <td>机动车第三者责任保险</td>
+                                            <td>赔偿限额(万)<select
+                                                    ng-model="temp[0].itemKindList[1].amount"
+                                                   >
+                                                <option value="50000">5</option>
+                                                <option value="100000">10</option>
+                                                <option value="150000">15</option>
+                                                <option value="200000">20</option>
+                                                <option value="300000">30</option>
+                                                <option value="500000">50</option>
+                                                <option value="1000000">100</option>
+                                                <option ng-value="1000001">100+</option>
+                                                <!--<option>5</option>-->
+                                            </select>
+                                                <input type="text" class="w70" id="thirdAmount"
+                                                       name="thirdAmount" ng-model="thirdAmount"
+                                                       ng-show="temp[0].itemKindList[1].amount*1>1000000"
+                                                       ng-blur="setThirdAmount(thirdAmount)"/>
+
+                                            </td>
+                                            <td class="center"><input type="checkbox" ng-disabled="!kind[1]"
+                                                                      ng-model="temp[0].itemKindList[1].deductableFlag"
+                                                                      ng-true-value="1" ng-false-value="0"/>
+                                            </td>
+                                            <!-- <td class="center"><input type="text"
+                                                                      ng-model="temp[0].itemKindList[1].rateFactor"
+                                                                      class="w70"/></td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class="odd gradeA">
+                                            <td><input type="checkbox" value="007" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[2]"
+                                                       ng-click="setDeductable(2)"
+
+                                                    />
+                                            </td>
+                                            <td class="text-center">机动车全车盗抢保险</td>
+                                            <td>
+                                            </td>
+                                            <td class="center"><input type="checkbox" ng-disabled="!kind[2]"
+                                                                      ng-model="temp[0].itemKindList[2].deductableFlag"
+                                                                      ng-true-value="1" ng-false-value="0"/>
+                                            </td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[2].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class="even gradeA">
+                                            <td><input type="checkbox" value="003" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[3]"
+                                                       ng-click="setDeductable(3)"
+
+                                                    />
+                                            </td>
+                                            <td>机动车车上人员责任保险(司机)</td>
+                                            <td>
+                                                <select ng-model="temp[0].itemKindList[3].amount"
+                                                        style="width:220px;height:30px;margin:-2px;"
+                                                        >
+                                                    <option value="10000">1万</option>
+                                                    <option value="20000">2万</option>
+                                                    <option value="50000">5万</option>
+                                                    <option value="100000">10万</option>
+                                                    <option value="200000">20万</option>
+                                                    <option value="250000">25万</option>
+                                                    <option value="300000">30万</option>
+                                                </select>
+                                                <input type="text" name="inputSelect" id="inputSelect"
+                                                       ng-model="temp[0].itemKindList[3].amount"
+                                                       style="position:relative;margin-left:-220px;width:180px;height:20px;"/>
+                                                <span style="margin:20px">元</span>
+                                            </td>
+                                            <td class="center"><input type="checkbox" ng-disabled="!kind[3]"
+                                                                      ng-model="temp[0].itemKindList[3].deductableFlag"
+                                                                      ng-true-value="1" ng-false-value="0"/>
+                                            </td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[3].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class="even gradeA">
+                                            <td><input type="checkbox" value="006" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[4]"
+                                                       ng-click="setDeductable(4)"
+
+                                                    />
+                                            </td>
+                                            <td>机动车车上人员责任保险(乘客)
+                                            </td>
+                                            <td>
+                                                <select id="passengerPer"
+                                                        ng-model="temp[0].itemKindList[4].unitAmount"
+                                                        style="width:220px;height:30px;margin:-2px;"
+                                                        >
+                                                    <option value="10000">1万</option>
+                                                    <option value="20000">2万</option>
+                                                    <option value="50000">5万</option>
+                                                    <option value="100000">10万</option>
+                                                    <option value="200000">20万</option>
+                                                    <option value="250000">25万</option>
+                                                    <option value="300000">30万</option>
+                                                </select>
+                                                <input type="text" name="inputUnitAmount"
+                                                       ng-model="temp[0].itemKindList[4].unitAmount"
+
+                                                       style="position:relative;margin-left:-220px;width:180px"
+                                                        />
+                                                <span style="margin:40px">元/座</span>
+                                                <!-- <input type="text" id="passengerAmount"
+                                                           ng-model="temp[0].itemKindList[4].amount"  ng-value="temp[0].itemKindList[4].quantity*temp[0].itemKindList[4].unitAmount">   元-->
+                                            </td>
+                                            <td class="center"><input type="checkbox" ng-disabled="!kind[4]"
+                                                                      ng-model="temp[0].itemKindList[4].deductableFlag"
+                                                                      ng-true-value="1" ng-false-value="0"/>
+                                            </td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[4].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+
+                                        <tr class=" " ng-show="kind[0]=='1'">
+                                            <td><input type="checkbox" value="205" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[5]"
+                                                       ng-click="setDeductable(5)"
+
+                                                    />
+                                            </td>
+                                            <td>机动车划痕损失险</td>
+                                            <td>
+                                                <select class="disabled"
+                                                        ng-model="temp[0].itemKindList[5].amount"
+                                                        >
+                                                    <option value="2000">2000</option>
+                                                    <option value="5000">5000</option>
+                                                    <option value="10000">10000</option>
+                                                    <option value="20000">20000</option>
+                                                </select>&nbsp;元
+                                            </td>
+                                            <td class="center"><input type="checkbox" ng-disabled="!kind[5]"
+                                                                      ng-model="temp[0].itemKindList[5].deductableFlag"
+                                                                      ng-true-value="1" ng-false-value="0"/>
+                                            </td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[5].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class=" " ng-show="kind[0]=='1'">
+                                            <td><input type="checkbox" value="205" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[6]"
+
+                                                    />
+                                            </td>
+                                            <!--<td>玻璃单独破碎险-->
+                                            <!--<select style="width: 100px;font-size: small"-->
+                                            <!--id="glassModeCode"-->
+                                            <!--ng-model="temp[0].itemKindList[6].modeCode"-->
+                                            <!--/>-->
+                                            <!--<option value="1">1</option>-->
+                                            <!--<option value="2">2</option>-->
+                                            <!--</select>-->
+
+                                            <!--</td>-->
+                                            <td>玻璃单独破碎险
+                                            </select></td>
+
+                                            <td>
+
+                                            </td>
+                                            <!--<td class="center"><input type="checkbox" ng-checked="kind[6]" ng-disabled="!kind[6]"-->
+                                            <!--ng-model="temp[0].itemKindList[6].deductableFlag"-->
+                                            <!--ng-true-value="1" ng-false-value="0"/>-->
+                                            <!--</td>-->
+                                            <td></td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[5].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class="" ng-show="kind[0]=='1'">
+                                            <td><input type="checkbox" value="202" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[7]"
+                                                       ng-click="setDeductable(7)"
+
+                                                    />
+                                            </td>
+                                            <td>自燃损失险</td>
+                                            <td>
+                                            </td>
+                                            <td class="center"><input type="checkbox" ng-disabled="!kind[7]"
+                                                                      ng-model="temp[0].itemKindList[7].deductableFlag"
+                                                                      ng-true-value="1" ng-false-value="0"/>
+                                            </td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[6].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class=" " ng-show="kind[0]=='1'">
+                                            <td><input type="checkbox" value="206" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[8]"
+                                                       ng-click="setDeductable(8)"
+
+                                                    />
+                                            </td>
+                                            <td>发动机涉水损失险</td>
+                                            <td></td>
+                                            <td class="center"><input type="checkbox" ng-disabled="!kind[8]"
+                                                                      ng-model="temp[0].itemKindList[8].deductableFlag"
+                                                                      ng-true-value="1" ng-false="0"/>
+                                            </td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[7].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        <tr class=" " ng-show="kind[0]=='1'">
+                                            <td><input type="checkbox" value="210" ng-true-value="1"
+                                                       ng-false-value="0" ng-model="kind[9]"/>
+                                            </td>
+                                            <td>机动车损失保险无法找到第三方特约险</td>
+                                            <td></td>
+                                            <td class="center"></td>
+                                            <!-- <td class="center"><input type="text" class="w70"
+                                                                      ng-model="temp[0].itemKindList[8].rateFactor"/>
+                                            </td>
+                                            <td class="text-center"><input type="text" class="w70"/></td> -->
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </form>
+                            </div>
+
+                        </script>
+
+                        <!--商业险套餐-->
+                        <div class="widget-box">
+                            <div class="widget-title"><span class="icon"> <i class="icon-list"></i> </span>
+                                <h5>商业险套餐配置</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                                <div class="form-horizontal">
+                                    <table id="tabInsSYType" class="table table-bordered">
+                                        <thead>
+                                        <tr class="odd gradeX">
+                                            <th>选择</th>
+                                            <th style="width: 250px;">套餐名称</th>
+                                            <th>套餐摘要</th>
+                                            <th>更新时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="odd gradeX text-right"
+                                            ng-repeat="combos in combosSchemas">
+                                            <td><input type="checkbox" ng-true-value="1" ng-false-value="0"
+                                                       ng-model="kind[0]"
+                                                    />
+                                            </td>
+                                            <td class="text-center" ng-bind="combos.combosName"></td>
+                                            <td class="text-center" ng-bind="combos.combosInfo"></td>
+                                            <td class="text-center" ng-bind="combos.inputDate"></td>
+
+                                            <td class="text-center">
+                                                <button type="button"
+                                                        class="btn btn-success mt10 ml5 "
+                                                        ng-click="updateCombos(combos)">修改
+                                                </button>
+                                                <button type="button" ng-click="deleteCombos(combos)"
+                                                        class="btn btn-success mt10 ml5 ">删除
+                                                </button>
+                                            </td>
+
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div>
+                            <div class="h20 text-center">
+                                <button type="button" ng-click="addCombos()" class="btn btn-success mt10 ml5 ">新增套餐
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!--<script src="js/personal-issue.js"></script>-->
+<!--Picker-->
+<!--<script src="js/bootstrap-datetimepicker.js"></script>-->
+<!--<script src="js/bootstrap-datetimepicker.zh-CN.js"></script>-->
+<script src="js/jquery.cookie.js"></script>
+<!--<script src="js/jquery.validate.js"></script>-->
+<!--<script src="js/jquery.ui.custom.js"></script>-->
+<!--<script src="js/sweet-alert.min.js"></script>-->
+<script src="js/plugin/jquery.blockui.js"></script>
+<script src="js/common/LoaderMask.js"></script>
+<script src="js/user-info.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/angular-cookies.min.js"></script>
+<script src="js/ui-bootstrap-tpls.js"></script>
+<script>
+    var app = angular.module('myApp', ['ui.bootstrap', 'ngCookies']);
+    app.controller('myController', function ($scope, $modal, $http, $log) {
+        var userCode = $.cookie('userCode');
+        $scope.autoRefreshCombos=function(userCode){
+            $http.post('combos/getCombos', JSON.stringify(userCode))
+                    .success(function (data, status) {
+                        $scope.combosSchemas = data;
+
+                    })
+                    .error(function (data, status) {
+                        swal("系统提示", "获取商业险套餐信息失败", "error");
+                    })
+        }
+        $scope.autoRefreshCombos(userCode);
+
+//        修改套餐
+        $scope.updateCombos = function (combos) {
+            $scope.selectedCombos = combos;
+            var modalInstance = $modal.open({
+                templateUrl: 'addCombos.html',  //指向上面创建的视图
+                controller: 'UpdateCombosCtrl',// 初始化模态范围
+                size: 16,//大小配置
+                resolve: {
+                    selectedCombos: function () {
+                        return $scope.selectedCombos;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                selectedItem.handlerName = $.cookie('userName');
+                selectedItem.handlerCode = $.cookie('userCode');
+                $http.post("combos/updateCombos", selectedItem)
+                        .success(function (data, status) {
+                            $scope.autoRefreshCombos(userCode);
+                        })
+                        .error(function (data, status) {
+                           swal("系统提示","更新商业险套餐失败","error");
+                        })
+            }, function () {
+
+            });
+
+        }
+        //        新增套餐
+        $scope.addCombos = function () {
+           if($scope.combosSchemas.length>=3)
+           {
+               swal("系统提示","商业险套餐最多只允许配置三个","warning");
+               return;
+           }
+            var modalInstance = $modal.open({
+                templateUrl: 'addCombos.html',  //指向上面创建的视图
+                controller: 'CombosCtrl',// 初始化模态范围
+                size: 16 //大小配置
+
+            });
+            modalInstance.result.then(function (selectedItem) {
+//                $scope.selecteditemKindList = selectedItem;
+
+                selectedItem.handlerName = $.cookie('userName');
+                selectedItem.handlerCode = $.cookie('userCode');
+//                console.log(selectedItem);
+//                return;
+                $http.post("combos/saveCombos", selectedItem)
+                        .success(function (data, status) {
+                            $scope.autoRefreshCombos(userCode);
+                        })
+                        .error(function (data, status) {
+                           swal("系统提示","商业险套餐添加失败","error");
+                        })
+
+            }, function () {
+//                $scope.carDeviceList = angular.fromJson(initialCarDeviceList);
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+
+        }
+
+//        删除套餐
+        $scope.deleteCombos=function(combos){
+
+
+            swal({
+                title: '系统提示',
+                text: "确定删除!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                cancelButtonClass: 'btn btn-danger',
+                closeOnConfirm: true
+            }).then(function () {
+                var url="combos/deleteCombos/"+userCode+"/"+combos.id;
+                $http.delete(url, '')
+                        .success(function(data, status){
+                            $scope.autoRefreshCombos(userCode);
+                        })
+                        .error(function(data, status){
+                            swal("系统提示","删除商业险套餐失败","error");
+                        });
+            }, function (dismiss) {
+
+            })
+
+
+
+
+        }
+    });
+
+    //    修改险种控制器
+    angular.module('myApp').controller('UpdateCombosCtrl', function ($scope, $modalInstance, selectedCombos) { //依赖于modalInstance
+        $scope.selectedCombos= selectedCombos;
+         $scope.itemKindList=eval("("+ $scope.selectedCombos.itemKindList+")");
+//        $scope.itemKindList=$scope.selectedCombos.itemkIndList;
+
+        $scope.combos = {};
+        $scope.combos.combosName=$scope.selectedCombos.combosName;
+        $scope.combos.id=$scope.selectedCombos.id;
+        $scope.kind=[];
+        //基本险种
+        $scope.temp = [
+            {
+                "itemKindList": [
+                    {"kindCode": "001", "kindName": "机动车损失保险", "deductableFlag": "0"},
+                    {"kindCode": "002", "kindName": "机动车第三者责任保险", "deductableFlag": "0"},
+                    {"kindCode": "007", "kindName": "机动车全车盗抢保险", "deductableFlag": "0"},
+                    {"kindCode": "003", "kindName": "机动车车上人员责任保险（司机）", "deductableFlag": "0"},
+                    {"kindCode": "006", "kindName": "机动车车上人员责任保险（乘客）", "deductableFlag": "0"},
+                    {"kindCode": "205", "kindName": "机动车划痕损失险", "deductableFlag": "0"},
+                    {"kindCode": "201", "kindName": "玻璃单独破碎险", "deductableFlag": "0"},
+                    {"kindCode": "202", "kindName": "自燃损失险", "deductableFlag": "0"},
+                    {"kindCode": "206", "kindName": "发动机涉水损失险", "deductableFlag": "0"},
+                    {"kindCode": "210", "kindName": "机动车损失保险无法找到第三方特约险", "deductableFlag": "0"},
+                    {"kindCode": "211", "kindName": "指定修理厂险", "deductableFlag": "0"},
+                    {"kindCode": "203", "kindName": "新增设备损失保险", "deductableFlag": "0"},
+                    {"kindCode": "208", "kindName": "车上货物责任险", "deductableFlag": "0"},
+                    {"kindCode": "215", "kindName": "精神损害抚慰金责任险", "deductableFlag": "0"},
+                    {"kindCode": "207", "kindName": "修理期间费用补偿险", "deductableFlag": "0"}
+
+                ]
+            }
+        ];
+        for (var i = 0; i < $scope.temp[0].itemKindList.length; i++) {
+            for(var j=0;j<$scope.itemKindList.length;j++){
+                if($scope.temp[0].itemKindList[i].kindCode== $scope.itemKindList[j].kindCode){
+                    $scope.kind[i]=1;
+//                    $scope.temp[0].itemKindList[i].deductableFlag=$scope.itemKindList[j].deductableFlag;
+                    if($scope.itemKindList[j].deductableFlag=="1"){
+                        $scope.temp[0].itemKindList[i].deductableFlag=1;
+                    }
+                    $scope.temp[0].itemKindList[i].amount=$scope.itemKindList[j].amount;
+                    $scope.temp[0].itemKindList[i].m1Value=$scope.itemKindList[j].m1Value;
+                    $scope.temp[0].itemKindList[i].unitAmount=$scope.itemKindList[j].unitAmount;
+                }
+            }
+//             $scope.temp[0].itemKindList[1].amount = thirdAmount * 10000 + "";
+            if($scope.temp[0].itemKindList[1].amount){
+                $scope.thirdAmount=$scope.temp[0].itemKindList[1].amount*1/10000;
+            }
+        }
+
+
+        $scope.close = function () {
+            $modalInstance.dismiss('cancel'); // 退出
+        }
+//        三者责任险大于100万是，计算赔偿限额
+        $scope.setThirdAmount = function (thirdAmount) {
+            $scope.temp[0].itemKindList[1].amount = thirdAmount * 10000 + "";
+
+        }
+
+        //        设置不计免赔
+        $scope.setDeductable = function (i) {
+            if ($scope.kind[i] == 1) {
+                $scope.temp[0].itemKindList[i].deductableFlag = 1;
+            }
+            if ($scope.kind[i] == 0) {
+                $scope.temp[0].itemKindList[i].deductableFlag = 0;
+                if (i == 0) {
+                    $scope.kind[5] = 0;
+                    $scope.kind[6] = 0;
+                    $scope.kind[7] = 0;
+                    $scope.kind[8] = 0;
+                    $scope.kind[9] = 0;
+                    $scope.temp[0].itemKindList[5].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[6].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[7].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[8].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[9].deductableFlag = 0;
+                }
+            }
+        }
+
+        $scope.saveCombos = function () {
+            $scope.selected = [];
+            for (var flag = 0; flag < $scope.temp[0].itemKindList.length; flag = flag + 1) {
+                if ($scope.kind[flag] == "1") {
+                    $scope.selected.push($scope.temp[0].itemKindList[flag]);
+                }
+
+            }
+            $scope.combos.itemKindList = $scope.selected;
+//            console.log( $scope.selected);
+            $modalInstance.close($scope.combos); //关闭并返回当前选项
+        }
+    });
+
+
+    //    新增险种控制器
+    angular.module('myApp').controller('CombosCtrl', function ($scope, $modalInstance) { //依赖于modalInstance
+
+        $scope.combos = {};
+//        $scope.selected = [];
+//        $scope.selected = {
+//            item : $scope.items[0]
+//        };
+
+        //基本险种
+        $scope.temp = [
+            {
+                "itemKindList": [
+                    {"kindCode": "001", "kindName": "机动车损失保险", "deductableFlag": "0"},
+                    {"kindCode": "002", "kindName": "机动车第三者责任保险", "deductableFlag": "0"},
+                    {"kindCode": "007", "kindName": "机动车全车盗抢保险", "deductableFlag": "0"},
+                    {"kindCode": "003", "kindName": "机动车车上人员责任保险（司机）", "deductableFlag": "0"},
+                    {"kindCode": "006", "kindName": "机动车车上人员责任保险（乘客）", "deductableFlag": "0"},
+                    {"kindCode": "205", "kindName": "机动车划痕损失险", "deductableFlag": "0"},
+                    {"kindCode": "201", "kindName": "玻璃单独破碎险", "deductableFlag": "0"},
+                    {"kindCode": "202", "kindName": "自燃损失险", "deductableFlag": "0"},
+                    {"kindCode": "206", "kindName": "发动机涉水损失险", "deductableFlag": "0"},
+                    {"kindCode": "210", "kindName": "机动车损失保险无法找到第三方特约险", "deductableFlag": "0"},
+                    {"kindCode": "211", "kindName": "指定修理厂险", "deductableFlag": "0"},
+                    {"kindCode": "203", "kindName": "新增设备损失保险", "deductableFlag": "0"},
+                    {"kindCode": "208", "kindName": "车上货物责任险", "deductableFlag": "0"},
+                    {"kindCode": "215", "kindName": "精神损害抚慰金责任险", "deductableFlag": "0"},
+                    {"kindCode": "207", "kindName": "修理期间费用补偿险", "deductableFlag": "0"}
+
+                ]
+            }
+        ];
+
+
+        $scope.ok = function () {
+            $modalInstance.close($scope.selected); //关闭并返回当前选项
+
+        };
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel'); // 退出
+        }
+        $scope.close = function () {
+            $modalInstance.dismiss('cancel'); // 退出
+        }
+        $scope.initShowItemKind = function (index) {
+            if (index == '0') {
+            }
+        }
+//        三者责任险大于100万是，计算赔偿限额
+        $scope.setThirdAmount = function (thirdAmount) {
+            $scope.temp[0].itemKindList[1].amount = thirdAmount * 10000 + "";
+
+        }
+        //        设置不计免赔
+        $scope.setDeductable = function (i) {
+            if ($scope.kind[i] == 1) {
+                $scope.temp[0].itemKindList[i].deductableFlag = 1;
+            }
+            if ($scope.kind[i] == 0) {
+                $scope.temp[0].itemKindList[i].deductableFlag = 0;
+                if (i == 0) {
+                    $scope.kind[5] = 0;
+                    $scope.kind[6] = 0;
+                    $scope.kind[7] = 0;
+                    $scope.kind[8] = 0;
+                    $scope.kind[9] = 0;
+                    $scope.temp[0].itemKindList[5].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[6].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[7].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[8].deductableFlag = 0;
+                    $scope.temp[0].itemKindList[9].deductableFlag = 0;
+                }
+            }
+        }
+
+        $scope.saveCombos = function () {
+            $scope.selected = [];
+            for (var flag = 0; flag < $scope.temp[0].itemKindList.length; flag = flag + 1) {
+                if ($scope.kind[flag] == "1") {
+                    $scope.selected.push($scope.temp[0].itemKindList[flag]);
+                }
+
+            }
+            $scope.combos.itemKindList = $scope.selected;
+//            console.log( $scope.selected);
+            $modalInstance.close($scope.combos); //关闭并返回当前选项
+        }
+    });
+
+
+</script>
+</body>
+</html>

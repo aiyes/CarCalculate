@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "text": "投保管理",
+      "link": "",
+      "icon": "list",
+      "children": [
+        {
+          "text": "投保询价",
+          "link": "sspersonal-issue.html"
+        },
+        {
+          "text": "新车询价",
+          "link": "newCar.html"
+        },
+        {
+          "text": "订单查询",
+          "link": "order-info.html"
+        }
+      ]
+    },
+    {
+			"text": "系统信息",
+			"link": "" ,
+			"icon": "asterisk",
+			"children": [
+				{
+					"text": "用户信息",
+					"link": "user-info.html"
+				},
+              {
+                "text": "商业险套餐配置",
+                "link": "combos-info.html"
+              }
+			]
+		}
+  ],
+  "tasks": 23
+}
